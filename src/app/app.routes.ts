@@ -60,6 +60,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./views/charts/routes').then((m) => m.routes),
       },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./views/categories/list-categories/routes').then((m) => m.routes),
+      },
 
       {
         path: '**',
