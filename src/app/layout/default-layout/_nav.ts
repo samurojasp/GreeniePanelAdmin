@@ -187,7 +187,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Categorias',
-    iconComponent: { name: 'cil-chart' },
+    iconComponent: { name: 'cil-spreadsheet' },
     url: '/categories',
     children: [
       {
