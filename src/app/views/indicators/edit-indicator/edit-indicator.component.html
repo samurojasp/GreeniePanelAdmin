@@ -17,10 +17,11 @@
         />
       </div>
       <div>
-        <label cLabel for="exampleFormControlInput1">index</label>
+        <label cLabel for="exampleFormControlInput1">Indice</label>
         <input cFormControl
                id="exampleFormControlInput1"
                type="number"
+               min="1"
                [ngModelOptions]="{standalone: true}"
                [(ngModel)]="index"
                value="{{ index }}"
@@ -28,13 +29,13 @@
       </div>
       <div>
         <label cLabel for="exampleFormControlInput1">Descripción</label>
-        <input cFormControl
+        <textarea cFormControl
                id="exampleFormControlInput1"
                type="text"
                [ngModelOptions]="{standalone: true}"
                [(ngModel)]="description"
                value="{{ description }}"
-        />
+        ></textarea>
       </div>
       
       <a cButton (click)="editIndicator()" routerLink="/indicators" routerLinkActive="active" color="success" class="text-white ms-md-2 mb-3">
