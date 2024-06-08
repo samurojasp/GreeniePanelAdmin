@@ -32,10 +32,14 @@ import { CommonModule } from '@angular/common';
 
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 
-interface categorie {
+export interface Categorie {
   id: number;
   name: string;
-  indicatorID: number;
+  indicator: {
+    id: number;
+    name: string;
+  };
+  description: string;
 }
 
 @Component({
@@ -80,7 +84,7 @@ export class CategoriesComponent {
     private categoriesService: CategoriesService
   ) { }
 
-  public categories: categorie[] = []
+  public categories: Categorie[] = []
 
   currentId = 0;
   public visible = false;
@@ -106,6 +110,10 @@ export class CategoriesComponent {
         console.log(error);
       },
     });
+  }
+
+  redirectToEdit(id: number): void {
+    this.router.navigate([`editcategories/${id}`]);
   }
 
   toggleLiveDemo(id: number) {

@@ -8,7 +8,7 @@
            
             <a
             cButton
-            routerLink="/addIndicators"
+            routerLink="/addcategories"
             routerLinkActive="active"
             color="success"
             class="text-white ms-md-2 mb-3"
@@ -39,13 +39,13 @@
                       {{ ctg.name }}
                   </td>
                   <td class="text-center">
-                      {{ctg.indicatorID}}
+                      {{ctg.indicator.name}}
                   </td>
                   <td class="text-center">
                     <div class="fw-semibold text-nowrap">
                       <a
                         cButton
-                        
+                        (click)="redirectToEdit(ctg.id)"
                         color="warning"
                         variant="outline"
                         class="mx-1"
