@@ -22,7 +22,7 @@ export class CategoriesService {
 
   getCategorieById(id: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(`${this.apiUrl}/categories/${id}`, {
+    return this.http.get(`${this.apiUrl}categories/${id}`, {
       headers,
     });
   }
@@ -44,6 +44,19 @@ export class CategoriesService {
   addCategorie(body: CategorieBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.apiUrl}categories`,body, {
+      headers,
+    });
+  }
+  getAllIndicators(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.apiUrl}indicators`, {
+      headers,
+    });
+  }
+
+  getAllCriteria(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.apiUrl}criteria`, {
       headers,
     });
   }

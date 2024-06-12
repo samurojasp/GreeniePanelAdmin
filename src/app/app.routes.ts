@@ -65,7 +65,16 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./views/categories/list-categories/routes').then((m) => m.routes),
       },
-
+      {
+        path: 'addcategories',
+        loadChildren: () =>
+          import('./views/categories/add-categorie/routes').then((m) => m.routes),
+      },
+      {
+        path: 'editcategories/:id',
+        loadChildren: () =>
+          import('./views/categories/edit-categorie/routes').then((m) => m.routes),
+      },
       {
         path: '**',
         loadChildren: () =>

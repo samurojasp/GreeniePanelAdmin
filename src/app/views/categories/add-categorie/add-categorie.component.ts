@@ -62,6 +62,7 @@ export class AddCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
+  criteriaID = 0;
   categories: Categorie[] = [];
   indicators: Indicator[] = [];
   criteria: Criteria[] = [];
@@ -76,15 +77,26 @@ export class AddCategorieComponent {
     });
   }
 
+  getCriteria(): void {
+    this.categoriesService.getAllCriteria().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.criteria = response.data;
+      },
+      error: (error) => console.error('Error al realizar la solicitud:', error),
+    });
+  }
+
   createCategorie(): void {
     this.categoriesService.addCategorie({ 
       id : this.id,
       name : this.name,
       description : this.description,
-      indicatorID : this.indicatorID
+      indicatorID : this.indicatorID,
+      criteriaID : this.criteriaID
     }).subscribe({
       next: (response) => {
-          this.router.navigate([`users`]); 
+          this.router.navigate([`categories`]); 
       },
       error: (error) => {
         console.log(error);
@@ -94,6 +106,7 @@ export class AddCategorieComponent {
 
   ngOnInit(): void {
     this.getIndicators();
+    this.getCriteria();
   }
 }
 

@@ -197,7 +197,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Agregar Categorias',
-        url: '/#',
+        url: '/addcategories',
         icon: 'nav-icon-bullet'
       },
     ]

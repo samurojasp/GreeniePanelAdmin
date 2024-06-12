@@ -63,6 +63,7 @@ export class EditCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
+  criteriaID = 0;
   currentId = 0;
 
   indicators: Indicator[] = [];
@@ -71,6 +72,11 @@ export class EditCategorieComponent {
   getCategorieById(id: number): void {
     this.categoriesService.getCategorieById(id).subscribe({
       next: (response) => {
+        this.id = response.id;
+        this.name = response.name;
+        this.description = response.description;
+        this.indicatorID = response.indicatorID;
+        this.criteriaID = response.criteriaID;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
     });
@@ -86,11 +92,22 @@ export class EditCategorieComponent {
     });
   }
 
-  editUser(): void {
+  getCriteria(): void {
+    this.categoriesService.getAllCriteria().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.criteria = response.data;
+      },
+      error: (error) => console.error('Error al realizar la solicitud:', error),
+    });
+  }
+
+
+  editCategorie(): void {
     this.categoriesService.editCategorie( this.currentId,
-       { id: this.id, name: this.name, description: this.description, indicatorID: this.indicatorID }).subscribe({
+       { id: this.id, name: this.name, description: this.description, indicatorID: this.indicatorID, criteriaID: this.criteriaID }).subscribe({
      next: (response) => {
-        this.router.navigate([`users`]); 
+        this.router.navigate([`categories`]); 
      },
      error: (error) => {
       console.log(error);
@@ -100,6 +117,7 @@ export class EditCategorieComponent {
 
  ngOnInit(): void {
   this.getIndicators();
+  this.getCriteria();
   this.route.params.subscribe((params) => {
     this.currentId = params['id'];
 
