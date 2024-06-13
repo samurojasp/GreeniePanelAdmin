@@ -1,0 +1,68 @@
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-body>
+        <form cForm>
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="card-title" id="users">Crear aporte de información</h4>
+          </div>
+          <div class="form-container">
+            <div class="two-inputs-container">
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Resumen</label>
+                <input
+                  cFormControl
+                  id="name"
+                  placeholder="Nombre del departamento"
+                  type="text"
+                  name="name"
+                  [(ngModel)]="name"
+                  value="{{ name }}"
+                />
+              </div>
+
+              <div class="two-inputs-container">
+                <div class="input-container">
+                  <label cLabel for="exampleFormControlInput1">Indicador</label>
+                  <select
+                    aria-label="department select"
+                    name="departmentId"
+                    cSelect
+                  >
+                    <option>Hola</option>
+                  </select>
+                </div>
+              </div>
+              <div class="two-inputs-container">
+                <div class="input-container">
+                  <label cLabel for="exampleFormControlInput1">Categoría</label>
+                  <select
+                    aria-label="department select"
+                    name="departmentId"
+                    cSelect
+                  >
+                    <option>Hola</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="two-inputs-container">
+                <label cLabel>Archivos</label>
+                <div>
+                  <div className="file-image">
+                    <img src="https://img.imageboss.me/fourwinds/width/425/dpr:2/shop/products/blackmonukka.jpg?v=1538780984"/>
+                  </div>
+                  <textarea cFormControl></textarea>
+                  <button (click)="createDepartment()" cButton>Guardar</button>
+                </div>
+              </div>
+            </div>
+            <div class="button-container">
+              <button (click)="createDepartment()" cButton>Guardar</button>
+            </div>
+          </div>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

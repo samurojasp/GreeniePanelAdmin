@@ -90,6 +90,21 @@ export const routes: Routes = [
           import('./views/departments/edit/routes').then((m) => m.routes),
       },
       {
+        path: 'departments',
+        loadChildren: () =>
+          import('./views/departments/list/routes').then((m) => m.routes),
+      },
+      {
+        path: 'create-contribution',
+        loadChildren: () =>
+          import('./views/contributions/create/routes').then((m) => m.routes),
+      },
+      {
+        path: 'edit-contribution/:id',
+        loadChildren: () =>
+          import('./views/departments/edit/routes').then((m) => m.routes),
+      },
+      {
         path: '**',
         loadChildren: () =>
           import('./views/pages/page404/routes').then((m) => m.routes),
