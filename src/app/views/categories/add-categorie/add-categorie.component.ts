@@ -20,6 +20,8 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { Categorie } from '../list-categories/categories.component';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { Indicator, Criteria } from '../types';
@@ -27,8 +29,7 @@ import { Indicator, Criteria } from '../types';
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [
-    ButtonDirective,
+  imports: [ ButtonDirective,
     ButtonGroupComponent,
     ButtonCloseDirective,
     CardBodyComponent,
@@ -38,8 +39,8 @@ import { Indicator, Criteria } from '../types';
     FormLabelDirective,
     FormSelectDirective,
     FormsModule,
-    IconDirective,
     ReactiveFormsModule,
+    IconDirective,
     ProgressBarComponent,
     ProgressBarDirective,
     ProgressComponent,
@@ -47,7 +48,9 @@ import { Indicator, Criteria } from '../types';
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToasterComponent
+    ToasterComponent,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   templateUrl: './add-categorie.component.html',
   styleUrl: './add-categorie.component.scss'
