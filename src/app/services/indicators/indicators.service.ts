@@ -4,21 +4,19 @@ import { Observable } from 'rxjs';
 import { IndicatorBody } from './types';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IndicatorsService {
+
   private apiUrl = 'http://localhost:3000/api/v1/';
 
   constructor(private http: HttpClient) {}
 
-  getPaginatedIndicator(page: number, take: number): Observable<any> {
+  getPaginatedIndicator(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(
-      `${this.apiUrl}indicators?order=ASC&page=${page}&take=${take}`,
-      {
-        headers,
-      }
-    );
+    return this.http.get(`${this.apiUrl}indicators`, {
+      headers,
+    });
   }
 
   getIndicatorById(id: number): Observable<any> {
@@ -30,7 +28,7 @@ export class IndicatorsService {
 
   editIndicator(id: number, body: IndicatorBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.patch(`${this.apiUrl}indicators/${id}`, body, {
+    return this.http.patch(`${this.apiUrl}indicators/${id}`,body, {
       headers,
     });
   }
@@ -44,8 +42,10 @@ export class IndicatorsService {
 
   addIndicator(body: IndicatorBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}indicators`, body, {
+    return this.http.post(`${this.apiUrl}indicators`,body, {
       headers,
     });
   }
+
 }
+
