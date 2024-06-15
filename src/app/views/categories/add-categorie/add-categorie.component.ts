@@ -66,6 +66,7 @@ export class AddCategorieComponent {
   description = '';
   indicatorID = 0;
   criteriaID = 0;
+  criteriaIDs: number[] = [];
   categories: Categorie[] = [];
   indicators: Indicator[] = [];
   criteria: Criteria[] = [];
@@ -96,12 +97,13 @@ export class AddCategorieComponent {
       name : this.name,
       description : this.description,
       indicatorID : this.indicatorID,
-      criteriaID : this.criteriaID
+      criteriaIDs : this.criteriaIDs
     }).subscribe({
       next: (response) => {
           this.router.navigate([`categories`]); 
       },
       error: (error) => {
+        console.log(this.id, this.name, this.description, this.indicatorID, this.criteriaIDs);
         console.log(error);
       },
     });

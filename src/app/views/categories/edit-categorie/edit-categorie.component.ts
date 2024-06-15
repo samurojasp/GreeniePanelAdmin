@@ -64,6 +64,7 @@ export class EditCategorieComponent {
   description = '';
   indicatorID = 0;
   criteriaID = 0;
+  criteriaIDs: number[] = [];
   currentId = 0;
 
   indicators: Indicator[] = [];
@@ -76,7 +77,7 @@ export class EditCategorieComponent {
         this.name = response.name;
         this.description = response.description;
         this.indicatorID = response.indicatorID;
-        this.criteriaID = response.criteriaID;
+        this.criteriaIDs = response.criteriaIDs;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
     });
@@ -105,7 +106,7 @@ export class EditCategorieComponent {
 
   editCategorie(): void {
     this.categoriesService.editCategorie( this.currentId,
-       { id: this.id, name: this.name, description: this.description, indicatorID: this.indicatorID, criteriaID: this.criteriaID }).subscribe({
+       { id: this.id, name: this.name, description: this.description, indicatorID: this.indicatorID, criteriaIDs: this.criteriaIDs }).subscribe({
      next: (response) => {
         this.router.navigate([`categories`]); 
      },
