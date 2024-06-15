@@ -26,7 +26,6 @@ import {
   ProgressComponent,
   RowComponent,
   TableDirective,
-  TextColorDirective,
   ThemeDirective,
 } from '@coreui/angular';
 
@@ -35,6 +34,7 @@ import { IconDirective } from '@coreui/icons-angular';
 import { CriteriaService } from '../../../services/criteria/get-paginated-criteria.service';
 import { DeleteCriterionService } from '../../../services/criteria/delete-criterion.service';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   templateUrl: 'criteria.component.html',
@@ -67,7 +67,7 @@ import { Router } from '@angular/router';
     ModalFooterComponent,
     PageItemDirective,
     PageLinkDirective,
-    PaginationComponent,
+    NgxPaginationModule,
     RouterLink,
   ],
 })
@@ -97,6 +97,7 @@ export class CriteriaComponent implements OnInit {
     this.criteriaService.getPaginatedCriteria(page, take).subscribe({
       next: (response) => {
         this.criteria = response.data;
+        this.pagination = response.meta;
       },
       error: (error) => console.error(error),
     });
@@ -120,7 +121,7 @@ export class CriteriaComponent implements OnInit {
   deleteCriterion(): void {
     this.deleteCriterionService.deleteCriterion(this.currentId).subscribe({
       next: () => {
-        this.getPaginatedCriteria(this.pagination.page, 10);
+        this.getPaginatedCriteria(this.pagination.page, this.pagination.take);
         this.visible = !this.visible;
       },
       error: (error) => {
@@ -130,10 +131,10 @@ export class CriteriaComponent implements OnInit {
   }
 
   setPage(page: number): void {
-    if (page < 1 || page > this.pagination.pageCount) return;
     this.pagination.page = page;
+    this.getPaginatedCriteria(this.pagination.page, this.pagination.take);
   }
   ngOnInit(): void {
-    this.getPaginatedCriteria(this.pagination.page, 10);
+    this.getPaginatedCriteria(this.pagination.page, this.pagination.take);
   }
 }
