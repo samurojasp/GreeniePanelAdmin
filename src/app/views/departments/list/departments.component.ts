@@ -21,6 +21,7 @@ import {
   ModalTitleDirective,
   PageItemDirective,
   PageLinkDirective,
+  PaginationComponent,
   ProgressBarDirective,
   ProgressComponent,
   RowComponent,
@@ -39,7 +40,6 @@ import { DeleteDepartmentService } from '../../../services/departments/delete-de
 import { Router } from '@angular/router';
 
 import { Department } from '../../../types';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   templateUrl: 'departments.component.html',
@@ -76,9 +76,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ModalFooterComponent,
     PageItemDirective,
     PageLinkDirective,
+    PaginationComponent,
     RouterLink,
     NgIf,
-    NgxPaginationModule,
   ],
 })
 export class DepartmentsComponent implements OnInit {
@@ -87,7 +87,7 @@ export class DepartmentsComponent implements OnInit {
 
   pagination = {
     page: 1,
-    take: 10,
+    take: 1,
     itemCount: 0,
     pageCount: 0,
     hasPreviousPage: false,
@@ -124,10 +124,7 @@ export class DepartmentsComponent implements OnInit {
   deleteDepartment(): void {
     this.deleteDepartmentService.deleteDepartment(this.currentId).subscribe({
       next: () => {
-        this.getPaginatedDepartments(
-          this.pagination.page,
-          this.pagination.take
-        );
+        this.getPaginatedDepartments(this.pagination.page, 10);
         this.visible = !this.visible;
       },
       error: (error) => {
@@ -137,7 +134,12 @@ export class DepartmentsComponent implements OnInit {
   }
 
   setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
     this.pagination.page = page;
+
+    console.log(this.pagination.page);
     this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
   }
 
