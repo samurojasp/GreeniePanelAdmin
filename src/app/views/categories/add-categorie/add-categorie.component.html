@@ -36,9 +36,9 @@
             <mat-select class="text-white"
              cSelect
              aria-label="department select"
-            [(ngModel)]="criteriaIDs"
-            [ngModelOptions]="{standalone: true}"
-            multiple
+             [(ngModel)]="criteriaIDs"
+             [ngModelOptions]="{standalone: true}"
+             multiple
             >
               @for (crite of criteria; track crite.id) {
                 <mat-option value="{{ crite.id }}">
@@ -46,7 +46,7 @@
                 </mat-option>
               }
             </mat-select>
-          </div> 
+          </div>
           <div>
             <label cLabel for="exampleFormControlInput1">Descripción</label>
             <textarea cFormControl
