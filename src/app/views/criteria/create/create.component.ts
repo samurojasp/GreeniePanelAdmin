@@ -146,7 +146,6 @@ export class CreateComponent {
   }
 
   ngOnInit(): void {
-    this.getIndicators();
   }
 
 
