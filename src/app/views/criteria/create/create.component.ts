@@ -82,13 +82,20 @@ export class CreateComponent {
 
   pages = this.pagination.pageCount;
 
+  constructor(
+    private createCriterionService: CreateCriterionService,
+    private getIndicatorsService: GetAllIndicatorsService,
+    private router: Router
+  ) {}
+
   getIndicators(): void {
     this.getIndicatorsService.getAllIndicators().subscribe({
       next: (response) => {
         this.toggleToast('Criterio creado exitosamente', true);
+        this.indicators = response.data;
         setTimeout(() => {
           this.router.navigate([`criteria`]);
-        }, 1500);
+        }, 15000);
       },
       error: (error) => {
         this.toggleToast('Error al crear criterio', false);
@@ -96,13 +103,6 @@ export class CreateComponent {
       },
     });
   }
-  
-
-  constructor(
-    private createCriterionService: CreateCriterionService,
-    private getIndicatorsService: GetAllIndicatorsService,
-    private router: Router
-  ) {}
 
   createCriterion(): void {
     this.createCriterionService
@@ -144,5 +144,10 @@ export class CreateComponent {
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }
+
+  ngOnInit(): void {
+    this.getIndicators();
+  }
+
 
 }
