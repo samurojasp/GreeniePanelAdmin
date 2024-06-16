@@ -95,7 +95,7 @@ export class CreateComponent {
         this.indicators = response.data;
         setTimeout(() => {
           this.router.navigate([`criteria`]);
-        }, 15000);
+        }, 1500);
       },
       error: (error) => {
         this.toggleToast('Error al crear criterio', false);
