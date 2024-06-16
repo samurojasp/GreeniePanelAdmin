@@ -13,7 +13,14 @@ import {
   FormLabelDirective,
   FormSelectDirective,
   RowComponent,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
   TextColorDirective,
+  ProgressBarComponent,
+  ProgressBarDirective,
+  ProgressComponent
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +42,13 @@ import { Indicator } from 'src/app/types';
     TextColorDirective,
     FormSelectDirective,
     FormsModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
@@ -48,6 +62,14 @@ export class CreateComponent {
   indicators: Indicator[] = [];
 
   currentId = 0;
+  departmentId = 0;
+  role = ""; 
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
+
 
   pagination = {
     page: 1,
@@ -63,11 +85,18 @@ export class CreateComponent {
   getIndicators(): void {
     this.getIndicatorsService.getAllIndicators().subscribe({
       next: (response) => {
-        this.indicators = response.data;
+        this.toggleToast('Criterio creado exitosamente', true);
+        setTimeout(() => {
+          this.router.navigate([`criteria`]);
+        }, 1500);
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        this.toggleToast('Error al crear criterio', false);
+        console.log(error);
+      },
     });
   }
+  
 
   constructor(
     private createCriterionService: CreateCriterionService,
@@ -93,7 +122,27 @@ export class CreateComponent {
       });
   }
 
-  ngOnInit(): void {
-    this.getIndicators();
+
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
   }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
+
 }

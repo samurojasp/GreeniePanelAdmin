@@ -8,7 +8,16 @@ import { CardBodyComponent,
        FormControlDirective,
        ButtonDirective,
        ButtonGroupComponent,
-       ButtonCloseDirective } from '@coreui/angular';
+       ButtonCloseDirective,
+       CardHeaderComponent,
+       TextColorDirective,
+       ProgressBarComponent,
+       ProgressBarDirective,
+       ProgressComponent,
+       ToastBodyComponent,
+       ToastComponent,
+       ToastHeaderComponent,
+       ToasterComponent } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
 
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
@@ -19,14 +28,26 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
   imports: [CardBodyComponent,
     CardComponent,
     FormsModule,
-      FormDirective,
-       FormLabelDirective,
-        FormControlDirective,
-         FormSelectDirective,
-        ButtonDirective,
-       ButtonGroupComponent,
-      ButtonCloseDirective,
-    RouterLink],
+    FormDirective,
+    FormLabelDirective,
+    FormControlDirective,
+    FormSelectDirective,
+    ButtonDirective,
+    ButtonGroupComponent,
+    ButtonCloseDirective,
+    RouterLink,
+    FormControlDirective,
+    FormDirective,
+    FormLabelDirective,
+    FormSelectDirective,
+    TextColorDirective,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent],
   templateUrl: './edit-indicator.component.html',
   styleUrl: './edit-indicator.component.scss'
 })
@@ -34,6 +55,13 @@ export class EditIndicatorComponent {
 
   currentId = 0;
   currentName = '';
+  departmentId= 0;
+  role= "";
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
 
   name= "";
   index = 1;
@@ -59,10 +87,14 @@ export class EditIndicatorComponent {
     this.indicatorsService.editIndicator( this.currentId,
        { name: this.name, index: this.index, description: this.description }).subscribe({
      next: (response) => {
-       console.log(response);
+      this.toggleToast('Usuario editado exitosamente', true);
+      setTimeout(() => {
+        this.router.navigate([`indicators`]); 
+      },1500)
      },
      error: (error) => {
-       console.log(error);
+      this.toggleToast('Error al editar usuario', false); 
+      console.log(error);
      },
    });
  }
@@ -75,6 +107,25 @@ export class EditIndicatorComponent {
 
   this.getIndicatorById(this.currentId);
 }
+toggleToast(message: string, success: boolean): void {
+  this.visible = true;
+  this.percentage = 100;
+  if (success) {
+    this.toastMessage = message;
+    this.toastClass = 'toast-success';
+  } else {
+    this.toastMessage = message;
+    this.toastClass = 'toast-error';
+  }
+}
 
+onVisibleChange($event: boolean) {
+  this.visible = $event;
+  this.percentage = !this.visible ? 0 : this.percentage;
+}
+
+onTimerChange($event: number) {
+  this.percentage = $event * 100;
+}
 
 }

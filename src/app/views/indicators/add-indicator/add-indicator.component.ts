@@ -8,9 +8,20 @@ import { CardBodyComponent,
          FormControlDirective,
          ButtonDirective,
          ButtonGroupComponent,
-         ButtonCloseDirective } from '@coreui/angular';
+         ButtonCloseDirective,
+         RowComponent,
+         ToastBodyComponent,
+           ToastComponent,
+           ToastHeaderComponent,
+           ToasterComponent,
+         TextColorDirective,
+         ProgressBarComponent,
+         ProgressBarDirective,
+  CardHeaderComponent,
+  ColComponent,
+         ProgressComponent } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
-
+import { Router } from '@angular/router';
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 
 @Component({
@@ -26,21 +37,43 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
         ButtonDirective,
        ButtonGroupComponent,
       ButtonCloseDirective,
-    RouterLink],
+    RouterLink,
+    CardComponent,
+    CardBodyComponent,
+    RowComponent,
+    ButtonDirective,
+    FormDirective,
+    FormLabelDirective,
+    FormControlDirective,
+    TextColorDirective,
+    FormSelectDirective,
+    FormsModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ProgressBarComponent,
+  ProgressBarDirective,
+  ProgressComponent],
   templateUrl: './add-indicator.component.html',
   styleUrl: './add-indicator.component.scss'
 })
 export class AddIndicatorComponent {
   constructor(
-    private indicatorsService: IndicatorsService
+    private indicatorsService: IndicatorsService,
+    private router: Router
   ) {}
 
   addIndicator(): void {
      this.indicatorsService.addIndicator({ name: this.name, index: this.index, description: this.description }).subscribe({
       next: (response) => {
-        console.log(response);
+        this.toggleToast('el indicador se ha creado exitosamente', true); 
+        setTimeout(() => {
+          this.router.navigate([`indicators`]); 
+        },1500)
       },
       error: (error) => {
+        this.toggleToast('Error al crear el indicador', false); 
         console.log(error);
       },
     });
@@ -49,4 +82,30 @@ export class AddIndicatorComponent {
   name = '';
   index = 1;
   description = '';
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
 }
