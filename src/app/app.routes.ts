@@ -75,6 +75,11 @@ export const routes: Routes = [
           import('./views/users/edit-user/routes').then((m) => m.routes),
       },
       {
+        path: 'contributions',
+        loadChildren: () =>
+          import('./views/contributions/list/routes').then((m) => m.routes),
+      },
+      {
         path: 'departments',
         loadChildren: () =>
           import('./views/departments/list/routes').then((m) => m.routes),
@@ -103,11 +108,6 @@ export const routes: Routes = [
         path: 'edit-criterion/:id',
         loadChildren: () =>
           import('./views/criteria/edit/routes').then((m) => m.routes),
-      },
-      {
-        path: '**',
-        loadChildren: () =>
-          import('./views/pages/page404/routes').then((m) => m.routes),
       },
       {
         path: 'indicators',
