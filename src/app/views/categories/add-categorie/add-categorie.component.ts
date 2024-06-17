@@ -65,8 +65,7 @@ export class AddCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
-  criteriaID = 0;
-  criteriaIDs: number[] = [];
+  criteriaID: number[] = [];
   categories: Categorie[] = [];
   indicators: Indicator[] = [];
   criteria: Criteria[] = [];
@@ -74,7 +73,6 @@ export class AddCategorieComponent {
   getIndicators(): void {
     this.categoriesService.getAllIndicators().subscribe({
       next: (response) => {
-        console.log(response);
         this.indicators = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -84,7 +82,6 @@ export class AddCategorieComponent {
   getCriteria(): void {
     this.categoriesService.getAllCriteria().subscribe({
       next: (response) => {
-        console.log(response);
         this.criteria = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -97,13 +94,13 @@ export class AddCategorieComponent {
       name : this.name,
       description : this.description,
       indicatorID : this.indicatorID,
-      criteriaIDs : this.criteriaIDs
+      criteriaID : this.criteriaID
     }).subscribe({
-      next: (response) => {
-          this.router.navigate([`categories`]); 
+      next: () => {
+          this.router.navigate([`categories`]);
       },
       error: (error) => {
-        console.log(this.id, this.name, this.description, this.indicatorID, this.criteriaIDs);
+        console.log(this.id, this.name, this.description, this.indicatorID, this.criteriaID);
         console.log(error);
       },
     });

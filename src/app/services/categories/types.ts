@@ -3,5 +3,5 @@ export interface CategorieBody{
     name: string,
     description: string,
     indicatorID: number,
-    criteriaIDs: number[]
+    criteriaID: number[]
 }
