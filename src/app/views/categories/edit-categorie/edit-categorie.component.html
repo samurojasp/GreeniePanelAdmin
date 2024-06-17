@@ -33,19 +33,18 @@
         </div>
         <div class="input-container">
           <label cLabel for="exampleFormControlInput1">Criterios</label>
-          <select
-            aria-label="department select"
-            [ngModelOptions]="{standalone: true}"
-            [(ngModel)]="criteriaID"
-            value="{{ criteriaID }}"
-            cSelect
+          <mat-select class="text-white"
+           cSelect
+           [(ngModel)]="criteriaID"
+           [ngModelOptions]="{standalone: true}"
+           multiple
           >
             @for (crite of criteria; track crite.id) {
-            <option value="{{ crite.id }}">
-              {{ crite.id }} {{ crite.name }}
-            </option>
+              <mat-option value="{{ crite.id }}">
+                {{ crite.id }} - {{ crite.name }}
+              </mat-option>
             }
-          </select>
+          </mat-select>
         </div>
         <div>
           <label cLabel for="exampleFormControlInput1">Descripción</label>

@@ -19,6 +19,8 @@ import {
   ToasterComponent
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { Categorie } from '../list-categories/categories.component';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { Indicator, Criteria } from '../types';
@@ -45,7 +47,9 @@ import { Indicator, Criteria } from '../types';
     ToasterComponent, 
     ToastComponent, 
     ToastHeaderComponent,
-    ToastBodyComponent
+    ToastBodyComponent,
+    MatSelectModule,
+    MatFormFieldModule
   ],
   templateUrl: './edit-categorie.component.html',
   styleUrl: './edit-categorie.component.scss'
@@ -104,12 +108,18 @@ export class EditCategorieComponent {
 
 
   editCategorie(): void {
+
+    const criteriaIdNumber = this.criteriaID.map((criterionId) =>
+      Number(criterionId)
+    );
+
     this.categoriesService.editCategorie( this.currentId,
-       { id: this.id, name: this.name, description: this.description, indicatorID: this.indicatorID, criteriaID: this.criteriaID }).subscribe({
+       { id: this.id, name: this.name, description: this.description, indicatorID: Number(this.indicatorID), criteriaID: criteriaIdNumber, }).subscribe({
      next: (response) => {
         this.router.navigate([`categories`]); 
      },
      error: (error) => {
+      console.log(this.id, this.name, this.indicatorID, this.criteriaID)
       console.log(error);
      },
    });

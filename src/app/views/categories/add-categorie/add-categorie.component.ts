@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
-import { 
+import {
   ButtonDirective,
   ButtonGroupComponent,
   ButtonCloseDirective,
@@ -16,7 +16,7 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
@@ -29,7 +29,8 @@ import { Indicator, Criteria } from '../types';
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [ ButtonDirective,
+  imports: [
+    ButtonDirective,
     ButtonGroupComponent,
     ButtonCloseDirective,
     CardBodyComponent,
@@ -50,10 +51,10 @@ import { Indicator, Criteria } from '../types';
     ToastHeaderComponent,
     ToasterComponent,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   templateUrl: './add-categorie.component.html',
-  styleUrl: './add-categorie.component.scss'
+  styleUrl: './add-categorie.component.scss',
 })
 export class AddCategorieComponent {
   constructor(
@@ -89,21 +90,26 @@ export class AddCategorieComponent {
   }
 
   createCategorie(): void {
-    this.categoriesService.addCategorie({ 
-      id : this.id,
-      name : this.name,
-      description : this.description,
-      indicatorID : this.indicatorID,
-      criteriaID : this.criteriaID
-    }).subscribe({
-      next: () => {
+    const criteriaIdNumber = this.criteriaID.map((criterionId) =>
+      Number(criterionId)
+    );
+
+    this.categoriesService
+      .addCategorie({
+        id: this.id,
+        name: this.name,
+        description: this.description,  
+        indicatorID: Number(this.indicatorID),
+        criteriaID: criteriaIdNumber,
+      })
+      .subscribe({
+        next: () => {
           this.router.navigate([`categories`]);
-      },
-      error: (error) => {
-        console.log(this.id, this.name, this.description, this.indicatorID, this.criteriaID);
-        console.log(error);
-      },
-    });
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   ngOnInit(): void {
@@ -111,4 +117,3 @@ export class AddCategorieComponent {
     this.getCriteria();
   }
 }
-
