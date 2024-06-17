@@ -83,14 +83,7 @@ export class EditComponent {
   getIndicators(): void {
     this.getIndicatorsService.getAllIndicators().subscribe({
       next:  (response) => {
-        this.toggleToast('Usuario editado exitosamente', true);
-        setTimeout(() => {
-          this.router.navigate([`criteria`]); 
-        },1500)
-       },
-       error: (error) => {
-        this.toggleToast('Error al editar usuario', false); 
-        console.log(error);
+        this.indicators = response.data;
        },
     });
   }
@@ -116,10 +109,14 @@ export class EditComponent {
         index: this.index,
       })
       .subscribe({
-        next: () => {
-          this.router.navigate(['/criteria']);
+        next: (response) => {
+          this.toggleToast('se ha editado el criterio correctamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`criteria`]); 
+          },1500)
         },
         error: (error) => {
+          this.toggleToast('Error al editar el criterio', false); 
           console.log(error);
         },
       });
@@ -148,5 +145,11 @@ export class EditComponent {
     this.percentage = $event * 100;
   }
   
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+    });
+    this.getIndicators();
+  }
 
 }

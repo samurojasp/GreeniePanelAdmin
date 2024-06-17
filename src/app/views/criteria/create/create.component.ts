@@ -91,14 +91,9 @@ export class CreateComponent {
   getIndicators(): void {
     this.getIndicatorsService.getAllIndicators().subscribe({
       next: (response) => {
-        this.toggleToast('Criterio creado exitosamente', true);
         this.indicators = response.data;
-        setTimeout(() => {
-          this.router.navigate([`criteria`]);
-        }, 1500);
       },
       error: (error) => {
-        this.toggleToast('Error al crear criterio', false);
         console.log(error);
       },
     });
@@ -113,10 +108,14 @@ export class CreateComponent {
         indicatorID: this.indicatorID,
       })
       .subscribe({
-        next: () => {
-          this.router.navigate(['/criteria']);
+        next: (response) => {
+          this.toggleToast('El criterio se ha creado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`criteria`]); 
+          },1500)
         },
         error: (error) => {
+          this.toggleToast('Error al crear criterio', false); 
           console.log(error);
         },
       });
@@ -146,6 +145,7 @@ export class CreateComponent {
   }
 
   ngOnInit(): void {
+    this.getIndicators();
   }
 
 
