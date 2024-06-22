@@ -17,6 +17,7 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
+import { ContributionFile, ContributionLink } from 'src/app/types';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -40,21 +41,42 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './create.component.scss',
 })
 export class CreateComponent {
-  name = '';
+  uuid: string = '';
+  description: string = '';
+  categoryId: number = 0;
+  indicatorId: number = 0;
+  links: ContributionLink[] = [];
+  files: ContributionFile[] = [];
 
   constructor(
     private createDepartmentService: CreateDepartmentService,
     private router: Router
   ) {}
 
+  addFile(): void {
+    const newFile = { name: '', description: '' };
+    this.files.push(newFile);
+  }
+
+  addLink(): void {
+    const newLink = { URL: '', description: '' };
+    this.links.push(newLink);
+  }
+
+  deleteFile(index: number): void {
+    console.log(index);
+    this.files.splice(index, 1);
+    console.log(this.files);
+  }
+
   createDepartment(): void {
-    this.createDepartmentService.postDepartment({ name: this.name }).subscribe({
-      next: (response) => {
+    /*this.createDepartmentService.postDepartment({ name: this.name }).subscribe({
+      next: () => {
         this.router.navigate(['/departments']);
       },
       error: (error) => {
         console.log(error);
       },
-    });
+    });*/
   }
 }

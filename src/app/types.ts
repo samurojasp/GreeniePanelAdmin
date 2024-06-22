@@ -19,3 +19,22 @@ export interface Criterion {
   description: string;
   indicator: Indicator;
 }
+
+export interface ContributionLink {
+  URL: string;
+  description: string;
+}
+
+export interface ContributionFile {
+  name: string;
+  description: string;
+}
+
+export interface Contribution {
+  uuid: string;
+  description: string;
+  categoryId: number;
+  indicatorId: number;
+  links: ContributionLink[];
+  files: ContributionFile[];
+}

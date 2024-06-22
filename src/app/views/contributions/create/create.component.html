@@ -16,8 +16,6 @@
                   placeholder="Nombre del departamento"
                   type="text"
                   name="name"
-                  [(ngModel)]="name"
-                  value="{{ name }}"
                 />
               </div>
 
@@ -47,9 +45,14 @@
               </div>
 
               <label cLabel>Archivos</label>
+
               <div class="files-container">
+                @if (files.length === 0) {
+                <h6>No se han agregado archivos todavía.</h6>
+                } @for (file of files; track $index) {
                 <div class="file-container">
-                  <div class="image-container">
+                  <button cButton class="image-container">
+                    <input cFormControl type="file" />
                     <img
                       cImg
                       fluid
@@ -58,7 +61,7 @@
                       class="image"
                       src="https://img.imageboss.me/fourwinds/width/425/dpr:2/shop/products/blackmonukka.jpg?v=1538780984"
                     />
-                  </div>
+                  </button>
 
                   <textarea
                     placeholder="Descripción"
@@ -66,50 +69,40 @@
                     class="textarea"
                   ></textarea>
                 </div>
-                <div class="file-container">
-                  <div class="image-container">
-                    <img
-                      cImg
-                      fluid
-                      height="100px"
-                      width="100px"
-                      class="image"
-                      src="https://img.imageboss.me/fourwinds/width/425/dpr:2/shop/products/blackmonukka.jpg?v=1538780984"
-                    />
-                  </div>
-
-                  <textarea
-                    placeholder="Descripción"
-                    cFormControl
-                    className="textarea"
-                  ></textarea>
+                }
+                <div class="new-file-button-container">
+                  <button class="" (click)="addFile()" cButton>
+                    Agregar otro archivo
+                  </button>
                 </div>
-                <div class="file-container">
-                  <div class="image-container">
-                    <img
-                      cImg
-                      fluid
-                      height="100px"
-                      width="100px"
-                      class="image"
-                      src="https://img.imageboss.me/fourwinds/width/425/dpr:2/shop/products/blackmonukka.jpg?v=1538780984"
-                    />
-                  </div>
-
-                  <textarea
-                    placeholder="Descripción"
-                    cFormControl
-                    className="textarea"
-                  ></textarea>
-                </div>
-
-                <button class="" (click)="createDepartment()" cButton>
-                  Agregar otro archivo
-                </button>
               </div>
-            </div>
-            <div class="button-container">
-              <button (click)="createDepartment()" cButton>Guardar</button>
+
+              <label cLabel>Links</label>
+
+              <div class="links-container">
+                @if (links.length === 0) {
+                <h6>No se han agregado archivos todavía.</h6>
+                } @for (link of links; track $index) {
+                <div class="link-container">
+                  <input cFormControl placeholder="URL" />
+
+                  <textarea
+                    placeholder="Descripción"
+                    cFormControl
+                    class="textarea"
+                  ></textarea>
+                </div>
+                }
+                <div class="new-link-button-container">
+                  <button class="" (click)="addLink()" cButton>
+                    Agregar otro link
+                  </button>
+                </div>
+              </div>
+
+              <div class="button-container">
+                <button (click)="createDepartment()" cButton>Guardar</button>
+              </div>
             </div>
           </div>
         </form>
