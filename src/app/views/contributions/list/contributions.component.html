@@ -49,19 +49,19 @@
               </tr>
             </thead>
             <tbody>
-              
+              @for (contribution of contributions; track contribution.id; let i = $index) {
               <tr>
                 <td class="text-center">
-                  1
+                  {{contribution.user.department.name}}
                 </td>
                 <td class="text-center">              
-                   2
+                   {{contribution.category.indicator.name}}
                 </td>
                 <td class="text-center">
-                    3
+                    {{contribution.category.name}}
                 </td>
                 <td class="text-center">
-                    4
+                    {{contribution.createAt}}
                 </td>
                 <td class="text-center">
                   <div class="fw-semibold text-nowrap">
@@ -85,6 +85,7 @@
                   </div>
                 </td>
               </tr>
+            }
             </tbody>
           </table>
   

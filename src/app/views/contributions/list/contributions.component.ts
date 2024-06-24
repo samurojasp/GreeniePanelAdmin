@@ -39,7 +39,28 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
-import { routes } from '../../auth/login/routes';
+import { ContributionsService } from 'src/app/services/contributions/contributions.service';
+
+
+export interface contribution {
+  id: number;
+  user: {
+    department: {
+      name: string;
+      id: number;
+    }
+  }
+  category: {
+    indicator: {
+      id: number;
+      name: string;
+    }
+    name: string;
+    id: number;
+  };
+  
+  createAt: Date;
+}
 
 @Component({
   selector: 'app-contributions',
@@ -90,8 +111,11 @@ import { routes } from '../../auth/login/routes';
 export class ContributionsComponent {
 
   constructor(
+    private contributionsService: ContributionsService,
     private router: Router
   ) {}
+
+  contributions: contribution[] = [];
 
   currentId = 0;
   position = 'top-end';
@@ -100,6 +124,29 @@ export class ContributionsComponent {
   toastClass = '';
   visibleModal = false;
   visible = false;
+
+  getPaginatedContributions(): void {
+    this.contributionsService.getPaginatedContributions().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.contributions = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+  deleteContribution():void{
+    this.contributionsService.deleteContribution(this.currentId).subscribe({
+      next: () => {
+        alert('Contribución eliminada exitosamente');
+        this.getPaginatedContributions();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  };
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
@@ -129,6 +176,10 @@ export class ContributionsComponent {
 
   onTimerChange($event: number) {
     this.percentage = $event * 34;
+  }
+
+  ngOnInit(): void {
+    this.getPaginatedContributions();
   }
 
 }
