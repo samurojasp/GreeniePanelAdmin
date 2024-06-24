@@ -76,6 +76,7 @@
                     <button
                       cButton
                       [cModalToggle]="staticBackdropModal.id"
+                      (click)="toggleLiveDemo(contribution.id)"
                       color="danger"
                       variant="outline"
                       class="mx-1"
@@ -130,6 +131,7 @@
       </button>
       <button
       cButton
+      (click)="deleteContribution()"
       [cModalToggle]="staticBackdropModal.id"
       color="primary"
       >
