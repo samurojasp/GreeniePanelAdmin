@@ -193,14 +193,14 @@ export const navItems: INavData[] = [
       {
         name: 'Listado',
         url: '/indicators',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
       {
-        name: 'Agregar Indicadores',
+        name: 'Añadir',
         url: '/addIndicators',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
-    ]
+    ],
   },
   {
     name: 'Usuarios',
@@ -210,14 +210,14 @@ export const navItems: INavData[] = [
       {
         name: 'Listado',
         url: '/users',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
       {
         name: 'Añadir',
         url: '/addusers',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
-    ]
+    ],
   },
   {
     name: 'Icons',
@@ -323,12 +323,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'Lista de Departamentos',
+        name: 'Listado',
         url: '/departments',
         icon: 'nav-icon-bullet',
       },
       {
-        name: 'Crear departamentos',
+        name: 'Añadir',
         url: '/create-department',
         icon: 'nav-icon-bullet',
       },
@@ -340,12 +340,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'Lista de Criterios',
+        name: 'Listado',
         url: '/criteria',
         icon: 'nav-icon-bullet',
       },
       {
-        name: 'Crear criterios',
+        name: 'Añadir',
         url: '/create-criterion',
         icon: 'nav-icon-bullet',
       },
