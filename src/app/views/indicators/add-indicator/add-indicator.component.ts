@@ -11,14 +11,14 @@ import { CardBodyComponent,
          ButtonCloseDirective,
          RowComponent,
          ToastBodyComponent,
-           ToastComponent,
-           ToastHeaderComponent,
-           ToasterComponent,
+         ToastComponent,
+         ToastHeaderComponent,
+         ToasterComponent,
          TextColorDirective,
          ProgressBarComponent,
          ProgressBarDirective,
-  CardHeaderComponent,
-  ColComponent,
+         CardHeaderComponent,
+         ColComponent,
          ProgressComponent } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -53,8 +53,8 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
     ToastHeaderComponent,
     ToasterComponent,
     ProgressBarComponent,
-  ProgressBarDirective,
-  ProgressComponent],
+    ProgressBarDirective,
+    ProgressComponent],
   templateUrl: './add-indicator.component.html',
   styleUrl: './add-indicator.component.scss'
 })
@@ -64,21 +64,6 @@ export class AddIndicatorComponent {
     private router: Router
   ) {}
 
-  addIndicator(): void {
-     this.indicatorsService.addIndicator({ name: this.name, index: this.index, description: this.description }).subscribe({
-      next: (response) => {
-        this.toggleToast('el indicador se ha creado exitosamente', true); 
-        setTimeout(() => {
-          this.router.navigate([`indicators`]); 
-        },1500)
-      },
-      error: (error) => {
-        this.toggleToast('Error al crear el indicador', false); 
-        console.log(error);
-      },
-    });
-  }
-
   name = '';
   index = 1;
   description = '';
@@ -87,6 +72,22 @@ export class AddIndicatorComponent {
   percentage = 0;
   toastMessage = ''; 
   toastClass: string = ''; 
+
+
+  addIndicator(): void {
+    this.indicatorsService.addIndicator({ name: this.name, index: this.index, description: this.description }).subscribe({
+     next: () => {
+       this.toggleToast('El indicador se ha creado exitosamente', true); 
+       setTimeout(() => {
+         this.router.navigate([`indicators`]); 
+       },1500)
+     },
+     error: (error) => {
+       this.toggleToast(error.message, false); 
+       console.log(error);
+     },
+   });
+ }
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;

@@ -113,11 +113,11 @@ export class IndicatorsComponent {
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
 
   getPaginatedIndicator(): void {
@@ -138,7 +138,7 @@ export class IndicatorsComponent {
         this.toggleToast('El indicador se ha eliminado exitosamente', true); 
       },
       error: (error) => {
-        this.toggleToast('Error al eliminar el indicador', false); 
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });

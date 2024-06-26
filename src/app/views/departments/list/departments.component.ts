@@ -120,12 +120,12 @@ export class DepartmentsComponent implements OnInit {
 
 
   toggleModal(id: number) {
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
     this.currentId = id;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
 
   getPaginatedDepartments(page: number, take: number): void {
@@ -142,11 +142,11 @@ export class DepartmentsComponent implements OnInit {
     this.deleteDepartmentService.deleteDepartment(this.currentId).subscribe({
       next:  () => {
         this.getPaginatedDepartments(this.pagination.page, 10);
-        this.visible = false;
+        this.visibleModal = false;
         this.toggleToast('El departamento se ha eliminado exitosamente', true); 
       },
       error: (error) => {
-        this.toggleToast('Error al eliminar Departamento', false); 
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });

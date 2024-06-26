@@ -72,14 +72,14 @@ export class CreateComponent {
 
   createDepartment(): void {
     this.createDepartmentService.postDepartment({ name: this.name }).subscribe({
-      next: (response) => {
+      next: () => {
         this.toggleToast('Departamento creado exitosamente', true); // Mostrar toast de éxito
         setTimeout(() => {
           this.router.navigate([`departments`]); 
         },1500)
       },
       error: (error) => {
-        this.toggleToast('Error al crear departamento', false); 
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });

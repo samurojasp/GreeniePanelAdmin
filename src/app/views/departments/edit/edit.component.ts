@@ -85,13 +85,13 @@ export class EditComponent {
       .patchDepartment(this.currentId, { name: this.name })
       .subscribe({
         next: (response) => {
-          this.toggleToast('Usuario editado exitosamente', true);
+          this.toggleToast('Departamento editado exitosamente', true);
           setTimeout(() => {
             this.router.navigate([`departments`]); 
           },1500)
          },
          error: (error) => {
-          this.toggleToast('Error al editar usuario', false); 
+          this.toggleToast(error.message, false); 
           console.log(error);
          },
       });

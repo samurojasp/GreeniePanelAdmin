@@ -109,14 +109,14 @@ export class EditComponent {
         index: this.index,
       })
       .subscribe({
-        next: (response) => {
-          this.toggleToast('se ha editado el criterio correctamente', true); // Mostrar toast de éxito
+        next: () => {
+          this.toggleToast('Se ha editado el criterio correctamente', true); // Mostrar toast de éxito
           setTimeout(() => {
             this.router.navigate([`criteria`]); 
           },1500)
         },
         error: (error) => {
-          this.toggleToast('Error al editar el criterio', false); 
+          this.toggleToast(error.message, false); 
           console.log(error);
         },
       });

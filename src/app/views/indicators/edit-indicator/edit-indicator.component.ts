@@ -86,14 +86,14 @@ export class EditIndicatorComponent {
   editIndicator(): void {
     this.indicatorsService.editIndicator( this.currentId,
        { name: this.name, index: this.index, description: this.description }).subscribe({
-     next: (response) => {
-      this.toggleToast('Usuario editado exitosamente', true);
+     next: () => {
+      this.toggleToast('Indicador editado exitosamente', true);
       setTimeout(() => {
         this.router.navigate([`indicators`]); 
       },1500)
      },
      error: (error) => {
-      this.toggleToast('Error al editar usuario', false); 
+      this.toggleToast(error.message, false); 
       console.log(error);
      },
    });

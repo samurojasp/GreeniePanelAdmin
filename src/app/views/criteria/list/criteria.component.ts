@@ -126,23 +126,23 @@ export class CriteriaComponent implements OnInit {
 
 
   toggleModal(id: number) {
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
     this.currentId = id;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
 
   deleteCriterion(): void {
     this.deleteCriterionService.deleteCriterion(this.currentId).subscribe({
       next:  () => {
         this.getPaginatedCriteria(this.pagination.page, 10);
-        this.visible = false;
+        this.visibleModal = false;
         this.toggleToast('El Criterio se ha eliminado exitosamente', true); 
       },
       error: (error) => {
-        this.toggleToast('Error al eliminar Criterio', false); 
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });

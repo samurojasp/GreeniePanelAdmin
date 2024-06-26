@@ -105,17 +105,17 @@ export class CreateComponent {
         name: this.name,
         description: this.description,
         index: this.index,
-        indicatorID: this.indicatorID,
+        indicatorID: Number(this.indicatorID), 
       })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.toggleToast('El criterio se ha creado exitosamente', true); // Mostrar toast de éxito
           setTimeout(() => {
             this.router.navigate([`criteria`]); 
           },1500)
         },
         error: (error) => {
-          this.toggleToast('Error al crear criterio', false); 
+          this.toggleToast(error.message, false); 
           console.log(error);
         },
       });
