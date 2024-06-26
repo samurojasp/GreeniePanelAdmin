@@ -13,10 +13,12 @@ import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch()),
+    importProvidersFrom(NgxSpinnerModule.forRoot()),
     provideRouter(
       routes,
       withRouterConfig({

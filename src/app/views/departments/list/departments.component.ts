@@ -2,6 +2,9 @@ import { NgIf, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerModule } from "ngx-spinner";
+
 import {
   AvatarComponent,
   ButtonCloseDirective,
@@ -79,6 +82,7 @@ import { Department } from '../../../types';
     PaginationComponent,
     RouterLink,
     NgIf,
+    NgxSpinnerModule
   ],
 })
 export class DepartmentsComponent implements OnInit {
@@ -97,7 +101,8 @@ export class DepartmentsComponent implements OnInit {
   constructor(
     private departmentsService: DepartmentsService,
     private deleteDepartmentService: DeleteDepartmentService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {}
 
   public visible = false;
@@ -149,5 +154,10 @@ export class DepartmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
+    this.spinner.show();
+
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 5000);
   }
 }
