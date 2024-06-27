@@ -39,28 +39,8 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
+import { contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
-
-
-export interface contribution {
-  id: number;
-  user: {
-    department: {
-      name: string;
-      id: number;
-    }
-  }
-  category: {
-    indicator: {
-      id: number;
-      name: string;
-    }
-    name: string;
-    id: number;
-  };
-  
-  createAt: Date;
-}
 
 @Component({
   selector: 'app-contributions',
