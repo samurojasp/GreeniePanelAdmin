@@ -28,6 +28,7 @@ export interface ContributionLink {
 export interface ContributionFile {
   name: string;
   description: string;
+  file: File | null;
 }
 
 export interface Contribution {

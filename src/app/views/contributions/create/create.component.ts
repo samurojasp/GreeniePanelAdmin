@@ -54,7 +54,7 @@ export class CreateComponent {
   ) {}
 
   addFile(): void {
-    const newFile = { name: '', description: '' };
+    const newFile = { name: '', description: '', file: null };
     this.files.push(newFile);
   }
 
