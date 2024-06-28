@@ -86,16 +86,24 @@ import { ContributionsService } from 'src/app/services/contributions/contributio
     RouterLink,
   ],
   templateUrl: './contributions.component.html',
-  styleUrl: './contributions.component.scss'
+  styleUrl: './contributions.component.scss',
 })
 export class ContributionsComponent {
-
   constructor(
     private contributionsService: ContributionsService,
     private router: Router
   ) {}
 
   contributions: contribution[] = [];
+
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
 
   currentId = 0;
   position = 'top-end';
@@ -105,18 +113,31 @@ export class ContributionsComponent {
   visibleModal = false;
   visible = false;
 
-  getPaginatedContributions(): void {
-    this.contributionsService.getPaginatedContributions().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.contributions = response.data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+  categoryFilter = 0;
+
+  transformDate(dateString: string): string {
+    const formattedDate = new Date(dateString);
+    return formattedDate.toLocaleDateString('es-ES', { timeZone: 'UTC' });
   }
-  deleteContribution():void{
+
+  getPaginatedContributions(): void {
+    this.contributionsService
+      .getPaginatedContributions(
+        this.pagination.page,
+        this.pagination.take,
+        this.categoryFilter
+      )
+      .subscribe({
+        next: (response) => {
+          this.contributions = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+  deleteContribution(): void {
     this.contributionsService.deleteContribution(this.currentId).subscribe({
       next: () => {
         alert('Contribución eliminada exitosamente');
@@ -126,7 +147,7 @@ export class ContributionsComponent {
         console.log(error);
       },
     });
-  };
+  }
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
@@ -149,6 +170,11 @@ export class ContributionsComponent {
     }
   }
 
+  setCategoryFilter(categoryId: number): void {
+    this.categoryFilter = categoryId;
+    this.getPaginatedContributions();
+  }
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
@@ -161,5 +187,4 @@ export class ContributionsComponent {
   ngOnInit(): void {
     this.getPaginatedContributions();
   }
-
 }

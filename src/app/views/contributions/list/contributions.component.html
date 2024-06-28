@@ -1,157 +1,180 @@
 <c-row>
-    <c-col xs>
-      <c-card class="mb-4">
-        <c-card-body>
-          <h4 class="card-title text-center" id="users">Aportes de Información</h4>
-          <div class="d-flex justify-content-between align-items-center">
-            <input type="text" class="form-control w-25  ms-md-2 mb-3" placeholder="Buscar...">
-            <c-dropdown>
-              <button cButton cDropdownToggle class="form-control  ms-md-2 mb-3" color="dark">Filtrado por departamento</button>
-              <ul cDropdownMenu dark>
-                <li><button cDropdownItem>Departamento 1</button></li>
-                <li><button cDropdownItem>Departamento 2</button></li>
-                <li><button cDropdownItem>Departamento 3</button></li>
-              </ul>
-            </c-dropdown>
-            <c-dropdown>
-              <button cButton cDropdownToggle class="form-control  ms-md-2 mb-3" color="dark">Filtrado por Categoría</button>
-              <ul cDropdownMenu dark>
-                <li><button cDropdownItem>C 1</button></li>
-                <li><button cDropdownItem>C 2</button></li>
-                <li><button cDropdownItem>C 3</button></li>
-              </ul>
-            </c-dropdown>
-            <a
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-body>
+        <h4 class="card-title text-center" id="users">
+          Aportes de Información
+        </h4>
+        <div class="d-flex justify-content-between align-items-center">
+          <input
+            type="text"
+            class="form-control w-25 ms-md-2 mb-3"
+            placeholder="Buscar..."
+          />
+          <c-dropdown>
+            <button
               cButton
-              
-              routerLinkActive="active"
-              color="success"
-              class="text-white ms-md-2 mb-3"
+              cDropdownToggle
+              class="form-control ms-md-2 mb-3"
+              color="dark"
             >
-              Agregar
-            </a>
-          </div>
-          <table
-            [hover]="true"
-            [responsive]="true"
-            [striped]="true"
-            align="middle"
-            cTable
-            class="mb-0 border"
+              Filtrado por departamento
+            </button>
+            <ul cDropdownMenu dark>
+              <li><button cDropdownItem>Departamento 1</button></li>
+              <li><button cDropdownItem>Departamento 2</button></li>
+              <li><button cDropdownItem>Departamento 3</button></li>
+            </ul>
+          </c-dropdown>
+          <c-dropdown>
+            <button
+              cButton
+              cDropdownToggle
+              class="form-control ms-md-2 mb-3"
+              color="dark"
+            >
+              Filtrado por Categoría
+            </button>
+            <ul cDropdownMenu dark>
+              <li>
+                <button (click)="setCategoryFilter(1)" cDropdownItem>
+                  C 1
+                </button>
+              </li>
+              <li>
+                <button (click)="setCategoryFilter(2)" cDropdownItem>
+                  C 2
+                </button>
+              </li>
+              <li><button cDropdownItem>C 3</button></li>
+            </ul>
+          </c-dropdown>
+          <a
+            cButton
+            routerLinkActive="active"
+            color="success"
+            class="text-white ms-md-2 mb-3"
           >
-            <thead class="text-nowrap text-truncate">
-              <tr>
-                <th class="bg-body-tertiary text-center">Departamento</th>
-                <th class="bg-body-tertiary text-center">Indicador</th>
-                <th class="bg-body-tertiary text-center">Categoría</th>
-                <th class="bg-body-tertiary text-center">Fecha</th>
-                <th class="bg-body-tertiary text-center">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (contribution of contributions; track contribution.id; let i = $index) {
-              <tr>
-                <td class="text-center">
-                  {{contribution.user.department.name}}
-                </td>
-                <td class="text-center">              
-                   {{contribution.category.indicator.name}}
-                </td>
-                <td class="text-center">
-                    {{contribution.category.name}}
-                </td>
-                <td class="text-center">
-                    {{contribution.createAt}}
-                </td>
-                <td class="text-center">
-                  <div class="fw-semibold text-nowrap">
-                    <a
-                      cButton
-                      color="warning"
-                      variant="outline"
-                      class="mx-1"
-                    >
-                      <svg cIcon class="icon icon-lg" name="cilPencil"></svg>
-                    </a>
-                    <button
-                      cButton
-                      [cModalToggle]="staticBackdropModal.id"
-                      (click)="toggleLiveDemo(contribution.id)"
-                      color="danger"
-                      variant="outline"
-                      class="mx-1"
-                    >
-                      <svg cIcon class="icon icon-lg" name="cilTrash"></svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+            Agregar
+          </a>
+        </div>
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          align="middle"
+          cTable
+          class="mb-0 border"
+        >
+          <thead class="text-nowrap text-truncate">
+            <tr>
+              <th class="bg-body-tertiary text-center">Departamento</th>
+              <th class="bg-body-tertiary text-center">Indicador</th>
+              <th class="bg-body-tertiary text-center">Categoría</th>
+              <th class="bg-body-tertiary text-center">Fecha</th>
+              <th class="bg-body-tertiary text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (contribution of contributions; track contribution.id; let i =
+            $index) {
+            <tr>
+              <td class="text-center">
+                {{ contribution.user.department.name }}
+              </td>
+              <td class="text-center">
+                {{ contribution.category.indicator.name }}
+              </td>
+              <td class="text-center">
+                {{ contribution.category.name }}
+              </td>
+              <td class="text-center">
+                {{ transformDate(contribution.createAt) }}
+              </td>
+              <td class="text-center">
+                <div class="fw-semibold text-nowrap">
+                  <a cButton color="warning" variant="outline" class="mx-1">
+                    <svg cIcon class="icon icon-lg" name="cilPencil"></svg>
+                  </a>
+                  <button
+                    cButton
+                    [cModalToggle]="staticBackdropModal.id"
+                    (click)="toggleLiveDemo(contribution.id)"
+                    color="danger"
+                    variant="outline"
+                    class="mx-1"
+                  >
+                    <svg cIcon class="icon icon-lg" name="cilTrash"></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
             }
-            </tbody>
-          </table>
-  
-          <c-pagination aria-label="Pagination" class="ms-md-2">
-            <li cPageItem>
-              <a cPageLink>Previous</a>
-            </li>
-            <li cPageItem>
-              <a cPageLink>1</a>
-            </li>
-            <li cPageItem>
-              <a cPageLink>2</a>
-            </li>
-            <li cPageItem>
-              <a cPageLink>3</a>
-            </li>
-            <li cPageItem>
-              <a cPageLink>Next</a>
-            </li>
-          </c-pagination>
-        </c-card-body>
-      </c-card>
-    </c-col>
-  </c-row>
-  
-  <c-modal
-    #staticBackdropModal
-    backdrop="static"
-    id="staticBackdropModal"
-    alignment="center"
-  >
-    <c-modal-header>
-      <h5 cModalTitle class="float-center">
-        ¿Estás seguro de eliminar este usuario?
-      </h5>
-      <button [cModalToggle]="staticBackdropModal.id" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
-    <c-modal-footer>
-      <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
-        Cerrar
-      </button>
-      <button
+          </tbody>
+        </table>
+
+        <c-pagination aria-label="Pagination" class="ms-md-2">
+          <li cPageItem>
+            <a cPageLink>Previous</a>
+          </li>
+          <li cPageItem>
+            <a cPageLink>1</a>
+          </li>
+          <li cPageItem>
+            <a cPageLink>2</a>
+          </li>
+          <li cPageItem>
+            <a cPageLink>3</a>
+          </li>
+          <li cPageItem>
+            <a cPageLink>Next</a>
+          </li>
+        </c-pagination>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-modal
+  #staticBackdropModal
+  backdrop="static"
+  id="staticBackdropModal"
+  alignment="center"
+>
+  <c-modal-header>
+    <h5 cModalTitle class="float-center">
+      ¿Estás seguro de eliminar este usuario?
+    </h5>
+    <button [cModalToggle]="staticBackdropModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+      Cerrar
+    </button>
+    <button
       cButton
       (click)="deleteContribution()"
       [cModalToggle]="staticBackdropModal.id"
       color="primary"
-      >
-        Aceptar
-      </button>
-  
-    </c-modal-footer>
-  </c-modal>
-  
-  <c-toaster [placement]="position" class="p-3" position="fixed">
-    <c-toast
-      (timer)="onTimerChange($event)"
-      (visibleChange)="onVisibleChange($event)"
-      [visible]="visible"
-      [class]="toastClass">
-      <c-toast-body>
-        <p>{{ toastMessage }}</p>
-        <c-progress thin>
-          <c-progress-bar [value]="percentage"></c-progress-bar>
-        </c-progress>
-      </c-toast-body>
-    </c-toast>
-  </c-toaster>
+    >
+      Aceptar
+    </button>
+  </c-modal-footer>
+</c-modal>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
