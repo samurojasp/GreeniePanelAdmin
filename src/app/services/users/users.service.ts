@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AddUserBody, EditUserBody, CreateUserBody } from './types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
   private apiUrl = 'http://localhost:3000/api/v1';
@@ -26,16 +26,16 @@ export class UsersService {
     });
   }
 
-  getPaginatedUser(): Observable<any> {
+  getPaginatedUser(page: number, take: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(`${this.apiUrl}/users`, {
+    return this.http.get(`${this.apiUrl}/users?page=${page}&take=${take}`, {
       headers,
     });
   }
 
   editUser(id: number, body: EditUserBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.patch(`${this.apiUrl}/users/${id}`,body, {
+    return this.http.patch(`${this.apiUrl}/users/${id}`, body, {
       headers,
     });
   }
@@ -49,7 +49,7 @@ export class UsersService {
 
   createUser(body: CreateUserBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}/users`,body, {
+    return this.http.post(`${this.apiUrl}/users`, body, {
       headers,
     });
   }

@@ -31,7 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (criterion of criteria; track criterion.id; let i = $index) {
+            @for (criterion of criteria | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page, totalItems:
+            pagination.itemCount}; track criterion.id; let i = $index) {
             <tr>
               <td class="text-center">
                 {{ criterion.name }}
@@ -70,19 +72,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <button cPageLink (click)="setPage(pagination.page - 1)">
-              Previous
-            </button>
-          </li>
-
-          <li cPageItem>
-            <button cPageLink (click)="setPage(pagination.page + 1)">
-              Next
-            </button>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+            [maxSize]="pagination.pageCount"
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>

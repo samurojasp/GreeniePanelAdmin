@@ -31,7 +31,7 @@ import {
 } from '@coreui/angular';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { WidgetsBrandComponent } from '../../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../../widgets/widgets-dropdown/widgets-dropdown.component';
 
@@ -79,6 +79,7 @@ import { Department } from '../../../types';
     PaginationComponent,
     RouterLink,
     NgIf,
+    NgxPaginationModule,
   ],
 })
 export class DepartmentsComponent implements OnInit {
@@ -87,7 +88,7 @@ export class DepartmentsComponent implements OnInit {
 
   pagination = {
     page: 1,
-    take: 1,
+    take: 10,
     itemCount: 0,
     pageCount: 0,
     hasPreviousPage: false,
@@ -124,7 +125,10 @@ export class DepartmentsComponent implements OnInit {
   deleteDepartment(): void {
     this.deleteDepartmentService.deleteDepartment(this.currentId).subscribe({
       next: () => {
-        this.getPaginatedDepartments(this.pagination.page, 10);
+        this.getPaginatedDepartments(
+          this.pagination.page,
+          this.pagination.take
+        );
         this.visible = !this.visible;
       },
       error: (error) => {
@@ -138,8 +142,6 @@ export class DepartmentsComponent implements OnInit {
       return;
     }
     this.pagination.page = page;
-
-    console.log(this.pagination.page);
     this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
   }
 

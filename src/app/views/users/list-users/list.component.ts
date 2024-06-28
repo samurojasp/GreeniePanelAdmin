@@ -36,7 +36,7 @@ import {
   ToasterComponent,
   ModalModule,
 } from '@coreui/angular';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -96,6 +96,7 @@ export interface User {
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
+    NgxPaginationModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -109,12 +110,18 @@ export class ListComponent implements OnInit {
   visibleModal = false;
   visible = false;
 
-  constructor(
-    private usersService: UsersService,
-    private router: Router
-  ) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
   public users: User[] = [];
+
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
@@ -126,13 +133,16 @@ export class ListComponent implements OnInit {
   }
 
   getPaginatedUser(): void {
-    this.usersService.getPaginatedUser().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.users = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+    this.usersService
+      .getPaginatedUser(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.users = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) =>
+          console.error('Error al realizar la solicitud:', error),
+      });
   }
 
   deleteUser(): void {
@@ -148,7 +158,6 @@ export class ListComponent implements OnInit {
       },
     });
   }
-  
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
@@ -173,6 +182,14 @@ export class ListComponent implements OnInit {
 
   onTimerChange($event: number) {
     this.percentage = $event * 34;
+  }
+
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
+    this.getPaginatedUser();
   }
 
   ngOnInit(): void {
