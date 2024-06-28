@@ -186,40 +186,6 @@ export const navItems: INavData[] = [
     url: '/charts',
   },
   {
-    name: 'Indicadores',
-    iconComponent: { name: 'cil-chart' },
-    url: '/indicators',
-    children: [
-      {
-        name: 'Listado',
-        url: '/indicators',
-        icon: 'nav-icon-bullet',
-      },
-      {
-        name: 'Añadir',
-        url: '/addIndicators',
-        icon: 'nav-icon-bullet',
-      },
-    ],
-  },
-  {
-    name: 'Usuarios',
-    iconComponent: { name: 'cilPeople' },
-    url: '/users',
-    children: [
-      {
-        name: 'Listado',
-        url: '/users',
-        icon: 'nav-icon-bullet',
-      },
-      {
-        name: 'Añadir',
-        url: '/addusers',
-        icon: 'nav-icon-bullet',
-      },
-    ],
-  },
-  {
     name: 'Icons',
     iconComponent: { name: 'cil-star' },
     url: '/icons',
@@ -347,6 +313,40 @@ export const navItems: INavData[] = [
       {
         name: 'Añadir',
         url: '/create-criterion',
+        icon: 'nav-icon-bullet',
+      },
+    ],
+  },
+  {
+    name: 'Usuarios',
+    iconComponent: { name: 'cilPeople' },
+    url: '/users',
+    children: [
+      {
+        name: 'Listado',
+        url: '/users',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/addusers',
+        icon: 'nav-icon-bullet',
+      },
+    ],
+  },
+  {
+    name: 'Indicadores',
+    iconComponent: { name: 'cil-chart' },
+    url: '/indicators',
+    children: [
+      {
+        name: 'Listado',
+        url: '/indicators',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/addIndicators',
         icon: 'nav-icon-bullet',
       },
     ],
