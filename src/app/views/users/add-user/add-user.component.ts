@@ -95,10 +95,10 @@ export class AddUserComponent implements OnInit {
       email: this.email, 
       password: this.password, 
       birthdate: this.birthdate, 
-      departmentId: this.departmentId, 
+      departmentId: Number(this.departmentId), 
       role: this.role 
     }).subscribe({
-      next: (response) => {
+      next: () => {
         this.toggleToast('Usuario creado exitosamente', true); // Mostrar toast de éxito
         setTimeout(() => {
           this.router.navigate([`users`]); 

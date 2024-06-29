@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { IconSetService } from '@coreui/icons-angular';
@@ -9,7 +10,7 @@ import { iconSubset } from './icons/icon-subset';
   selector: 'app-root',
   template: '<router-outlet />',
   standalone: true,
-  imports: [RouterOutlet, NgxSpinnerModule]
+  imports: [RouterOutlet, HttpClientModule, NgxSpinnerModule]
 })
 export class AppComponent implements OnInit {
   title = 'CoreUI Angular Admin Template';
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private iconSetService: IconSetService,
+    private iconSetService: IconSetService
   ) {
     this.titleService.setTitle(this.title);
     // iconSet singleton

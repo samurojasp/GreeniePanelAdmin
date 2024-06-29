@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import {
   ButtonDirective,
@@ -34,13 +35,13 @@ import {
   ToastComponent,
   ToastHeaderComponent,
   ToasterComponent,
-  ModalModule,
+  ModalModule
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
 import { UsersService } from 'src/app/services/users/users.service';
-
+import { SpinnerService } from '../../../services/spinner/spinner.service';
 export interface User {
   id: number;
   name: string;
@@ -96,6 +97,7 @@ export interface User {
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
+    NgxSpinnerModule
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -128,7 +130,6 @@ export class ListComponent implements OnInit {
   getPaginatedUser(): void {
     this.usersService.getPaginatedUser().subscribe({
       next: (response) => {
-        console.log(response);
         this.users = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),

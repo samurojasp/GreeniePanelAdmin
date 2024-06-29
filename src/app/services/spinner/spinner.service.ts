@@ -10,10 +10,12 @@ export class SpinnerService {
 
   public show() {
     this.spinnerService.show();
+    console.log('Buenas tardes...');
   }
 
   public hide() { 
     this.spinnerService.hide();
+    console.log('Hasta luego...');
   }
 
 }
