@@ -12,10 +12,12 @@
                 <label cLabel for="exampleFormControlInput1">Resumen</label>
                 <input
                   cFormControl
-                  id="name"
+                  id="description"
                   placeholder="Resumen"
                   type="text"
-                  name="name"
+                  name="description"
+                  [(ngModel)]="description"
+                  value="{{ description }}"
                 />
               </div>
 
@@ -24,10 +26,14 @@
                   <label cLabel for="exampleFormControlInput1">Indicador</label>
                   <select
                     aria-label="department select"
-                    name="departmentId"
+                    name="indicatorId"
                     cSelect
                   >
-                    <option>Hola</option>
+                    @for (indicator of indicatorOptions; track indicator.id) {
+                    <option value="{{ indicator.id }}">
+                      {{ indicator.index }} {{ indicator.name }}
+                    </option>
+                    }
                   </select>
                 </div>
               </div>
@@ -101,7 +107,7 @@
               </div>
 
               <div class="button-container">
-                <button (click)="createDepartment()" cButton>Guardar</button>
+                <button (click)="editContribution()" cButton>Guardar</button>
               </div>
             </div>
           </div>

@@ -39,3 +39,14 @@ export interface Contribution {
   links: ContributionLink[];
   files: ContributionFile[];
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  description: string;
+  createAt: string;
+  updateAt: string;
+  deleteAt: string;
+  indicator: Indicator;
+  criteria: Criterion[];
+}

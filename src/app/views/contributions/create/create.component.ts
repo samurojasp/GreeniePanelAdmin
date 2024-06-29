@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateDepartmentService } from '../../../services/departments/create-department.service';
+import { ContributionsService } from '../../../services/contributions/contributions.service';
 import { Router } from '@angular/router';
 import {
   ButtonDirective,
@@ -17,7 +17,12 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
-import { ContributionFile, ContributionLink } from 'src/app/types';
+import {
+  Category,
+  ContributionFile,
+  ContributionLink,
+  Indicator,
+} from 'src/app/types';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -48,8 +53,12 @@ export class CreateComponent {
   links: ContributionLink[] = [];
   files: ContributionFile[] = [];
 
+  categoryOptions: Category[] = [];
+  indicatorOptions: Indicator[] = [];
+
   constructor(
-    private createDepartmentService: CreateDepartmentService,
+    private contributionsService: ContributionsService,
+
     private router: Router
   ) {}
 
@@ -69,14 +78,23 @@ export class CreateComponent {
     console.log(this.files);
   }
 
-  createDepartment(): void {
-    /*this.createDepartmentService.postDepartment({ name: this.name }).subscribe({
-      next: () => {
-        this.router.navigate(['/departments']);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });*/
+  editContribution(): void {
+    this.contributionsService
+      .putContribution({
+        uuid: this.uuid,
+        description: this.description,
+        categoryId: this.categoryId,
+        indicatorID: this.indicatorId,
+        links: this.links,
+        file: this.files,
+      })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/contributions']);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }

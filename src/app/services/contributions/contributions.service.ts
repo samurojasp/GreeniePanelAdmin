@@ -9,6 +9,7 @@ import { ContributionBody } from './types';
 export class ContributionsService {
   apiUrl: any;
   constructor(private http: HttpClient) {}
+  token = localStorage.getItem('token');
 
   transformBodyToFormData(body: ContributionBody): FormData {
     const postContributionFormData = new FormData();
@@ -32,8 +33,11 @@ export class ContributionsService {
     return postContributionFormData;
   }
 
-  postContribution(body: ContributionBody): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  putContribution(body: ContributionBody): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
     return this.http.put(`${this.apiUrl}contributions`, body, {
       headers,
     });
