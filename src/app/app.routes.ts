@@ -60,6 +60,21 @@ export const routes: Routes = [
           import('./views/charts/routes').then((m) => m.routes),
       },
       {
+        path: 'categories',
+        loadChildren: () =>
+          import('./views/categories/list-categories/routes').then((m) => m.routes),
+      },
+      {
+        path: 'addcategories',
+        loadChildren: () =>
+          import('./views/categories/add-categorie/routes').then((m) => m.routes),
+      },
+      {
+        path: 'editcategories/:id',
+        loadChildren: () =>
+          import('./views/categories/edit-categorie/routes').then((m) => m.routes),
+      },
+      {
         path: 'users',
         loadChildren: () =>
           import('./views/users/list-users/routes').then((m) => m.routes),
@@ -103,11 +118,6 @@ export const routes: Routes = [
         path: 'edit-criterion/:id',
         loadChildren: () =>
           import('./views/criteria/edit/routes').then((m) => m.routes),
-      },
-      {
-        path: '**',
-        loadChildren: () =>
-          import('./views/pages/page404/routes').then((m) => m.routes),
       },
       {
         path: 'indicators',

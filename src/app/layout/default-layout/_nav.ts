@@ -220,6 +220,23 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Categorias',
+    iconComponent: { name: 'cil-spreadsheet' },
+    url: '/categories',
+    children: [
+      {
+        name: 'Listado',
+        url: '/categories',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Agregar Categorias',
+        url: '/addcategories',
+        icon: 'nav-icon-bullet'
+      },
+    ]
+  },
+  {
     name: 'Icons',
     iconComponent: { name: 'cil-star' },
     url: '/icons',
