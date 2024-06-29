@@ -42,4 +42,26 @@ export class ContributionsService {
       headers,
     });
   }
+
+  getPaginatedContributions(
+    page: number,
+    take: number,
+    categoryFilter: number
+  ): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
+    if (categoryFilter !== 0 && categoryFilter) {
+      URL = URL.concat(`&categoryId=${categoryFilter}`);
+    }
+    return this.http.get(URL, {
+      headers,
+    });
+  }
+
+  deleteContribution(id: number): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(`${this.apiUrl}/contributions/${id}`, {
+      headers,
+    });
+  }
 }

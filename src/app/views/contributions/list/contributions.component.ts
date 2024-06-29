@@ -38,27 +38,14 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
-import { NgStyle, CommonModule } from '@angular/common';
-import { UsersService } from 'src/app/services/users/users.service';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  birthdate: string;
-  role: string;
-  department: {
-    id: number;
-    name: string;
-  };
-}
+import { NgStyle } from '@angular/common';
+import { contribution } from 'src/app/types';
+import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-contributions',
   standalone: true,
   imports: [
-    CommonModule,
     TextColorDirective,
     DropdownComponent,
     DropdownItemDirective,
@@ -98,10 +85,26 @@ export interface User {
     ToasterComponent,
     RouterLink,
   ],
-  templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
+  templateUrl: './contributions.component.html',
+  styleUrl: './contributions.component.scss',
 })
-export class ListComponent implements OnInit {
+export class ContributionsComponent {
+  constructor(
+    private contributionsService: ContributionsService,
+    private router: Router
+  ) {}
+
+  contributions: contribution[] = [];
+
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
+
   currentId = 0;
   position = 'top-end';
   percentage = 0;
@@ -110,12 +113,41 @@ export class ListComponent implements OnInit {
   visibleModal = false;
   visible = false;
 
-  constructor(
-    private usersService: UsersService,
-    private router: Router
-  ) {}
+  categoryFilter = 0;
 
-  public users: User[] = [];
+  transformDate(dateString: string): string {
+    const formattedDate = new Date(dateString);
+    return formattedDate.toLocaleDateString('es-ES', { timeZone: 'UTC' });
+  }
+
+  getPaginatedContributions(): void {
+    this.contributionsService
+      .getPaginatedContributions(
+        this.pagination.page,
+        this.pagination.take,
+        this.categoryFilter
+      )
+      .subscribe({
+        next: (response) => {
+          this.contributions = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+  deleteContribution(): void {
+    this.contributionsService.deleteContribution(this.currentId).subscribe({
+      next: () => {
+        alert('Contribución eliminada exitosamente');
+        this.getPaginatedContributions();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
@@ -125,31 +157,6 @@ export class ListComponent implements OnInit {
   handleLiveDemoChange(event: any) {
     this.visible = event;
   }
-
-  getPaginatedUser(): void {
-    this.usersService.getPaginatedUser().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.users = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
-  }
-
-  deleteUser(): void {
-    this.usersService.deleteUser(this.currentId).subscribe({
-      next: () => {
-        this.getPaginatedUser();
-        this.visible = false;
-        this.toggleToast('Usuario eliminado exitosamente', true); // Mostrar toast de éxito después de eliminar
-      },
-      error: (error) => {
-        this.toggleToast('Error al eliminar usuario', false); // Mostrar toast de error
-        console.log(error);
-      },
-    });
-  }
-  
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
@@ -163,8 +170,9 @@ export class ListComponent implements OnInit {
     }
   }
 
-  redirectToEdit(id: number): void {
-    this.router.navigate([`editusers/${id}`]);
+  setCategoryFilter(categoryId: number): void {
+    this.categoryFilter = categoryId;
+    this.getPaginatedContributions();
   }
 
   onVisibleChange($event: boolean) {
@@ -177,6 +185,6 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPaginatedUser();
+    this.getPaginatedContributions();
   }
 }
