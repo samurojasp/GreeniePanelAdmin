@@ -23,6 +23,7 @@ import {
   ContributionLink,
   Indicator,
 } from 'src/app/types';
+import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -58,9 +59,20 @@ export class CreateComponent {
 
   constructor(
     private contributionsService: ContributionsService,
-
+    private indicatorsService: IndicatorsService,
     private router: Router
   ) {}
+
+  getIndicators(): void {
+    this.indicatorsService.getAllIndicators().subscribe({
+      next: (response) => {
+        this.indicatorOptions= response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   addFile(): void {
     const newFile = { name: '', description: '', file: null };
@@ -96,5 +108,9 @@ export class CreateComponent {
           console.log(error);
         },
       });
+  }
+
+  ngOnInit(): void {
+    this.getIndicators();
   }
 }
