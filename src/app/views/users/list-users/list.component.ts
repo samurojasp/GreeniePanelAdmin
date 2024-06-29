@@ -41,7 +41,7 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
 import { UsersService } from 'src/app/services/users/users.service';
-import { SpinnerService } from '../../../services/spinner/spinner.service';
+
 export interface User {
   id: number;
   name: string;
