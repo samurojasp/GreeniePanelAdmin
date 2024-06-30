@@ -62,7 +62,6 @@ export class AddCategorieComponent {
     private router: Router
   ) {}
 
-  id = 0;
   name = '';
   description = '';
   indicatorID = 0;
@@ -96,7 +95,6 @@ export class AddCategorieComponent {
 
     this.categoriesService
       .addCategorie({
-        id: this.id,
         name: this.name,
         description: this.description,  
         indicatorID: Number(this.indicatorID),

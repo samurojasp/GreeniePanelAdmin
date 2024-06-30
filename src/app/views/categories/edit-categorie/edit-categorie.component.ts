@@ -114,7 +114,7 @@ export class EditCategorieComponent {
     );
 
     this.categoriesService.editCategorie( this.currentId,
-       { id: this.id, name: this.name, description: this.description, indicatorID: Number(this.indicatorID), criteriaID: criteriaIdNumber, }).subscribe({
+       {name: this.name, description: this.description, indicatorID: Number(this.indicatorID), criteriaID: criteriaIdNumber, }).subscribe({
      next: (response) => {
         this.router.navigate([`categories`]); 
      },
