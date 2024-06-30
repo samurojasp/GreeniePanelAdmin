@@ -23,9 +23,14 @@ import {
   RowComponent,
   TableDirective,
   TextColorDirective,
+  ProgressBarComponent,
+  ToastBodyComponent,
+  ToastComponent,
+  PageItemDirective,
   PageLinkDirective,
   PaginationComponent,
-  PageItemDirective
+  ToastHeaderComponent,
+  ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
@@ -60,17 +65,23 @@ interface indicator {
           ButtonCloseDirective,
           ButtonDirective,
           ModalModule,
+          PageItemDirective,
+          PageLinkDirective,
+          PaginationComponent,
           ModalBodyComponent,
           ModalComponent,
           ModalFooterComponent,
           ModalHeaderComponent,
           ModalTitleDirective,
           ThemeDirective,
-          PageItemDirective,
-          PageLinkDirective,
-          PaginationComponent,
           IconDirective,
-          RouterLink],
+          RouterLink,
+          ToastBodyComponent,
+          ToastComponent,
+          ToastHeaderComponent,
+          ToasterComponent,
+          ModalModule,
+          ProgressBarComponent],
   templateUrl: './indicators.component.html',
   styleUrl: './indicators.component.scss'
 })
@@ -82,17 +93,31 @@ export class IndicatorsComponent {
     ) { }
 
   currentId = 0;
-  public visible = false;
+  position = 'top-end';
+  percentage = 0;
+  toastMessage = '';
+  toastClass = '';
+  visibleModal = false;
+  visible = false;
+
+  pagination = {
+    page: 1,
+    take: 1,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
 
   public indicators: indicator[] = []
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
 
   getPaginatedIndicator(): void {
@@ -107,11 +132,13 @@ export class IndicatorsComponent {
 
   deleteIndicator(): void {
     this.indicatorsService.deleteIndicator(this.currentId).subscribe({
-      next: () => {
+      next:  () => {
         this.getPaginatedIndicator();
-        this.visible = !this.visible;
+        this.visible = false;
+        this.toggleToast('El indicador se ha eliminado exitosamente', true); 
       },
       error: (error) => {
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });
@@ -125,5 +152,27 @@ export class IndicatorsComponent {
   ngOnInit(): void {
      this.getPaginatedIndicator();
  }
+
+
+toggleToast(message: string, success: boolean): void {
+  this.visible = true;
+  this.percentage = 100;
+  if (success) {
+    this.toastMessage = message;
+    this.toastClass = 'toast-success';
+  } else {
+    this.toastMessage = message;
+    this.toastClass = 'toast-error';
+  }
+}
+
+onVisibleChange($event: boolean) {
+  this.visible = $event;
+  this.percentage = !this.visible ? 0 : this.percentage;
+}
+
+onTimerChange($event: number) {
+  this.percentage = $event * 34;
+}
 
 }

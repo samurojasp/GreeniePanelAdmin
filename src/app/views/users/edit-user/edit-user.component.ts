@@ -106,7 +106,7 @@ export class EditUserComponent implements OnInit {
       },1500)
      },
      error: (error) => {
-      this.toggleToast('Error al editar usuario', false); 
+      this.toggleToast(error.message, false); 
       console.log(error);
      },
    });
