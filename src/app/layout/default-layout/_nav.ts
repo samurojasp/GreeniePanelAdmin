@@ -220,6 +220,11 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Aportes',
+    iconComponent: { name: 'cil-star' },
+    url: '/contributions'
+  },  
+  {
     name: 'Categorias',
     iconComponent: { name: 'cil-spreadsheet' },
     url: '/categories',

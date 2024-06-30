@@ -38,7 +38,7 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
-import { NgStyle } from '@angular/common';
+import { NgStyle, CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/services/users/users.service';
 
 export interface User {
@@ -58,6 +58,7 @@ export interface User {
   selector: 'app-users',
   standalone: true,
   imports: [
+    CommonModule,
     TextColorDirective,
     DropdownComponent,
     DropdownItemDirective,
