@@ -6,21 +6,22 @@
           Aportes de Información
         </h4>
         <div class="d-flex justify-content-between align-items-center">
-          <input
+          <!-- <input
             type="text"
             class="form-control w-25 ms-md-2 mb-3"
             placeholder="Buscar..."
-          />
+          /> -->
           <c-dropdown>
             <button
               cButton
               cDropdownToggle
-              class="form-control ms-md-2 mb-3"
-              color="dark"
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
             >
               Filtrado por departamento
             </button>
-            <ul cDropdownMenu dark>
+            <ul cDropdownMenu auto>
               @for (department of departments; track department.id){
               <li>
                 <button (click)="setDepartmentFilter(department.id)" cDropdownItem>
@@ -34,16 +35,58 @@
             <button
               cButton
               cDropdownToggle
-              class="form-control ms-md-2 mb-3"
-              color="dark"
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
             >
               Filtrado por Categoría
             </button>
-            <ul cDropdownMenu dark>
+            <ul cDropdownMenu auto>
               @for (ctg of categories; track ctg.id){
               <li>
                 <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
                   {{ ctg.id }} - {{ ctg.name }}
+                </button >
+              </li>
+            }
+            </ul>
+          </c-dropdown>
+          <c-dropdown>
+            <button
+              cButton
+              cDropdownToggle
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
+            >
+              Filtrado por Indicadores
+            </button>
+            <ul cDropdownMenu auto>
+              @for (ind of indicators; track ind.id){
+              <li>
+                <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
+                  {{ ind.id }} - {{ ind.name }}
+                </button >
+              </li>
+            }
+            </ul>
+          </c-dropdown>
+          
+          <c-dropdown>
+            <button
+              cButton
+              cDropdownToggle
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
+            >
+              Filtrado por Fecha
+            </button>
+            <ul cDropdownMenu auto>
+              @for (contribution of contributions; track contribution.id){
+              <li>
+                <button (click)="setDateFilter(contribution.createAt)" cDropdownItem>
+                  {{ contribution.createAt }}
                 </button >
               </li>
             }

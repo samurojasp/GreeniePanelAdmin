@@ -39,9 +39,10 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
-import { Categorie, Department, contribution } from 'src/app/types';
+import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
 
 @Component({
   selector: 'app-contributions',
@@ -93,12 +94,14 @@ export class ContributionsComponent {
   constructor(
     private contributionsService: ContributionsService,
     private categoriesService: CategoriesService,
+    private getAllIndicatorsService: GetAllIndicatorsService,
     private router: Router
   ) {}
 
   contributions: contribution[] = [];
   categories: Categorie[] = [];
   departments: Department[] = [];
+  indicators: Indicator[] = [];
 
   pagination = {
     page: 1,
@@ -119,6 +122,8 @@ export class ContributionsComponent {
 
   categoryFilter = 0;
   departmentFilter = 0;
+  indicatorFilter = 0;
+  createDateFilter = '';
 
   transformDate(dateString: string): string {
     const formattedDate = new Date(dateString);
@@ -131,7 +136,9 @@ export class ContributionsComponent {
         this.pagination.page,
         this.pagination.take,
         this.categoryFilter,
-        this.departmentFilter
+        this.departmentFilter,
+        this.indicatorFilter,
+        this.createDateFilter
       )
       .subscribe({
         next: (response) => {
@@ -159,6 +166,17 @@ export class ContributionsComponent {
     this.contributionsService.getAllDepartment().subscribe({
       next: (response) => {
         this.departments = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  getAllIndicators(): void {
+    this.getAllIndicatorsService.getAllIndicators().subscribe({
+      next: (response) => {
+        this.indicators = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -209,6 +227,16 @@ export class ContributionsComponent {
     this.getPaginatedContributions();
   }
 
+  setIndicatorFilter(indicatorId: number): void {
+    this.indicatorFilter = indicatorId;
+    this.getPaginatedContributions();
+  }
+
+  setDateFilter(createDate: string): void {
+    this.createDateFilter = createDate;
+    this.getPaginatedContributions();
+  }
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
@@ -222,5 +250,6 @@ export class ContributionsComponent {
     this.getPaginatedContributions();
     this.getAllCategories();
     this.getAllDepartments();
+    this.getAllIndicators();
   }
 }
