@@ -39,8 +39,9 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
-import { Categorie, Department, Indicator, contribution } from 'src/app/types';
+import { Categorie, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
+import { MycontributionsService } from 'src/app/services/mycontributions/mycontributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
 
@@ -93,6 +94,7 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
 export class ContributionsComponent {
   constructor(
     private contributionsService: ContributionsService,
+    private mycontributionsService: MycontributionsService,
     private categoriesService: CategoriesService,
     private getAllIndicatorsService: GetAllIndicatorsService,
     private router: Router
@@ -100,7 +102,6 @@ export class ContributionsComponent {
 
   contributions: contribution[] = [];
   categories: Categorie[] = [];
-  departments: Department[] = [];
   indicators: Indicator[] = [];
 
   pagination = {
@@ -130,12 +131,11 @@ export class ContributionsComponent {
   }
 
   getPaginatedContributions(): void {
-    this.contributionsService
+    this.mycontributionsService
       .getPaginatedContributions(
         this.pagination.page,
         this.pagination.take,
         this.categoryFilter,
-        this.departmentFilter,
         this.indicatorFilter
       )
       .subscribe({
@@ -160,17 +160,6 @@ export class ContributionsComponent {
     });
   }
 
-  getAllDepartments(): void {
-    this.contributionsService.getAllDepartment().subscribe({
-      next: (response) => {
-        this.departments = response.data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
   getAllIndicators(): void {
     this.getAllIndicatorsService.getAllIndicators().subscribe({
       next: (response) => {
@@ -183,7 +172,7 @@ export class ContributionsComponent {
   }
 
   deleteContribution(): void {
-    this.contributionsService.deleteContribution(this.currentId).subscribe({
+    this.mycontributionsService.deleteContribution(this.currentId).subscribe({
       next: () => {
         alert('Contribución eliminada exitosamente');
         this.getPaginatedContributions();
@@ -220,11 +209,6 @@ export class ContributionsComponent {
     this.getPaginatedContributions();
   }
 
-  setDepartmentFilter(departmentId: number): void {
-    this.departmentFilter = departmentId;
-    this.getPaginatedContributions();
-  }
-
   setIndicatorFilter(indicatorId: number): void {
     this.indicatorFilter = indicatorId;
     this.getPaginatedContributions();
@@ -242,7 +226,6 @@ export class ContributionsComponent {
   ngOnInit(): void {
     this.getPaginatedContributions();
     this.getAllCategories();
-    this.getAllDepartments();
     this.getAllIndicators();
   }
 }

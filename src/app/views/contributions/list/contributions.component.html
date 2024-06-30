@@ -3,7 +3,7 @@
     <c-card class="mb-4">
       <c-card-body>
         <h4 class="card-title text-center" id="users">
-          Aportes de Información
+          Mis Aportes de Información
         </h4>
         <div class="d-flex justify-content-between align-items-center">
           <!-- <input
@@ -11,66 +11,48 @@
             class="form-control w-25 ms-md-2 mb-3"
             placeholder="Buscar..."
           /> -->
-          <c-dropdown>
-            <button
-              cButton
-              cDropdownToggle
-              class="form-control ms-md-2 mb-3 text-center"
-              color="auto"
-              size="sm"
-            >
-              Filtrado por departamento
-            </button>
-            <ul cDropdownMenu auto>
-              @for (department of departments; track department.id){
-              <li>
-                <button (click)="setDepartmentFilter(department.id)" cDropdownItem>
-                  {{ department.id }} - {{ department.name }}
-                </button >
-              </li>
-            }
-            </ul>
-          </c-dropdown>
-          <c-dropdown>
-            <button
-              cButton
-              cDropdownToggle
-              class="form-control ms-md-2 mb-3 text-center"
-              color="auto"
-              size="sm"
-            >
-              Filtrado por Categoría
-            </button>
-            <ul cDropdownMenu auto>
-              @for (ctg of categories; track ctg.id){
-              <li>
-                <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
-                  {{ ctg.id }} - {{ ctg.name }}
-                </button >
-              </li>
-            }
-            </ul>
-          </c-dropdown>
-          <c-dropdown>
-            <button
-              cButton
-              cDropdownToggle
-              class="form-control ms-md-2 mb-3 text-center"
-              color="auto"
-              size="sm"
-            >
-              Filtrado por Indicadores
-            </button>
-            <ul cDropdownMenu auto>
-              @for (ind of indicators; track ind.id){
-              <li>
-                <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
-                  {{ ind.id }} - {{ ind.name }}
-                </button >
-              </li>
-            }
-            </ul>
-          </c-dropdown>       
+          <div class="d-flex justify-content-center">
+            <c-dropdown>
+              <button
+                cButton
+                cDropdownToggle
+                class="form-control ms-md-2 mb-3 text-center"
+                color="auto"
+                size="sm"
+              >
+                Filtrado por Categoría
+              </button>
+              <ul cDropdownMenu auto>
+                @for (ctg of categories; track ctg.id){
+                <li>
+                  <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
+                    {{ ctg.id }} - {{ ctg.name }}
+                  </button >
+                </li>
+              }
+              </ul>
+            </c-dropdown>
+            <c-dropdown>
+              <button
+                cButton
+                cDropdownToggle
+                class="form-control ms-md-2 mb-3 text-center"
+                color="auto"
+                size="sm"
+              >
+                Filtrado por Indicadores
+              </button>
+              <ul cDropdownMenu auto>
+                @for (ind of indicators; track ind.id){
+                <li>
+                  <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
+                    {{ ind.id }} - {{ ind.name }}
+                  </button >
+                </li>
+              }
+              </ul>
+            </c-dropdown>   
+          </div>    
           <a
             cButton
             routerLinkActive="active"
@@ -90,7 +72,6 @@
         >
           <thead class="text-nowrap text-truncate">
             <tr>
-              <th class="bg-body-tertiary text-center">Departamento</th>
               <th class="bg-body-tertiary text-center">Indicador</th>
               <th class="bg-body-tertiary text-center">Categoría</th>
               <th class="bg-body-tertiary text-center">Fecha</th>
@@ -101,9 +82,6 @@
             @for (contribution of contributions; track contribution.id; let i =
             $index) {
             <tr>
-              <td class="text-center">
-                {{ contribution.user.department.name }}
-              </td>
               <td class="text-center">
                 {{ contribution.category.indicator.name }}
               </td>
