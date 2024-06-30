@@ -143,7 +143,7 @@ export class ListComponent implements OnInit {
         this.toggleToast('Usuario eliminado exitosamente', true); // Mostrar toast de éxito después de eliminar
       },
       error: (error) => {
-        this.toggleToast('Error al eliminar usuario', false); // Mostrar toast de error
+        this.toggleToast(error.message, false); // Mostrar toast de error
         console.log(error);
       },
     });
