@@ -15,8 +15,7 @@ export class ContributionsService {
     take: number,
     categoryFilter: number,
     departmentFilter: number,
-    indicatorFilter: number,
-    createDateFilter: string
+    indicatorFilter: number
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
@@ -28,9 +27,6 @@ export class ContributionsService {
     }
     if (indicatorFilter !== 0 && indicatorFilter) {
       URL = URL.concat(`&indicatorId=${indicatorFilter}`);
-    }
-    if (createDateFilter !== "" && createDateFilter) {
-      URL = URL.concat(`&createAt=${createDateFilter}`);
     }
     return this.http.get(URL, {
       headers,

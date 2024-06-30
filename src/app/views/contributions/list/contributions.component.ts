@@ -123,7 +123,6 @@ export class ContributionsComponent {
   categoryFilter = 0;
   departmentFilter = 0;
   indicatorFilter = 0;
-  createDateFilter = '';
 
   transformDate(dateString: string): string {
     const formattedDate = new Date(dateString);
@@ -137,8 +136,7 @@ export class ContributionsComponent {
         this.pagination.take,
         this.categoryFilter,
         this.departmentFilter,
-        this.indicatorFilter,
-        this.createDateFilter
+        this.indicatorFilter
       )
       .subscribe({
         next: (response) => {
@@ -229,11 +227,6 @@ export class ContributionsComponent {
 
   setIndicatorFilter(indicatorId: number): void {
     this.indicatorFilter = indicatorId;
-    this.getPaginatedContributions();
-  }
-
-  setDateFilter(createDate: string): void {
-    this.createDateFilter = createDate;
     this.getPaginatedContributions();
   }
 

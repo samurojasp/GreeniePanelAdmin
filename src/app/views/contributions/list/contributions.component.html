@@ -70,28 +70,7 @@
               </li>
             }
             </ul>
-          </c-dropdown>
-          
-          <c-dropdown>
-            <button
-              cButton
-              cDropdownToggle
-              class="form-control ms-md-2 mb-3 text-center"
-              color="auto"
-              size="sm"
-            >
-              Filtrado por Fecha
-            </button>
-            <ul cDropdownMenu auto>
-              @for (contribution of contributions; track contribution.id){
-              <li>
-                <button (click)="setDateFilter(contribution.createAt)" cDropdownItem>
-                  {{ contribution.createAt }}
-                </button >
-              </li>
-            }
-            </ul>
-          </c-dropdown>
+          </c-dropdown>       
           <a
             cButton
             routerLinkActive="active"
