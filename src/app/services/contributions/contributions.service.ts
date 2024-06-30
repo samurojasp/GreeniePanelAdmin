@@ -13,12 +13,16 @@ export class ContributionsService {
   getPaginatedContributions(
     page: number,
     take: number,
-    categoryFilter: number
+    categoryFilter: number,
+    departmentFilter: number
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
     if (categoryFilter !== 0 && categoryFilter) {
       URL = URL.concat(`&categoryId=${categoryFilter}`);
+    }
+    if (departmentFilter !== 0 && departmentFilter) {
+      URL = URL.concat(`&dptoId=${departmentFilter}`);
     }
     return this.http.get(URL, {
       headers,
@@ -28,6 +32,13 @@ export class ContributionsService {
   deleteContribution(id: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.delete(`${this.apiUrl}/contributions/${id}`, {
+      headers,
+    });
+  }
+
+  getAllDepartment(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.apiUrl}/dptos`, {
       headers,
     });
   }

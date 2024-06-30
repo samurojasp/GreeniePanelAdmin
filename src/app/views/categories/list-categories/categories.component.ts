@@ -29,18 +29,8 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
-
+import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-
-export interface Categorie {
-  id: number;
-  name: string;
-  indicator: {
-    id: number;
-    name: string;
-  };
-  description: string;
-}
 
 @Component({
   selector: 'app-categories',

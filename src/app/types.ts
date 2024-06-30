@@ -20,6 +20,16 @@ export interface Criterion {
   indicator: Indicator;
 }
 
+export interface Categorie {
+  id: number;
+  name: string;
+  indicator: {
+    id: number;
+    name: string;
+  };
+  description: string;
+}
+
 export interface contribution {
   id: number;
   uuid: string;

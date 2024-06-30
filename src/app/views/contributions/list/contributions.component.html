@@ -21,9 +21,13 @@
               Filtrado por departamento
             </button>
             <ul cDropdownMenu dark>
-              <li><button cDropdownItem>Departamento 1</button></li>
-              <li><button cDropdownItem>Departamento 2</button></li>
-              <li><button cDropdownItem>Departamento 3</button></li>
+              @for (department of departments; track department.id){
+              <li>
+                <button (click)="setDepartmentFilter(department.id)" cDropdownItem>
+                  {{ department.id }} - {{ department.name }}
+                </button >
+              </li>
+            }
             </ul>
           </c-dropdown>
           <c-dropdown>
@@ -36,17 +40,13 @@
               Filtrado por Categoría
             </button>
             <ul cDropdownMenu dark>
+              @for (ctg of categories; track ctg.id){
               <li>
-                <button (click)="setCategoryFilter(1)" cDropdownItem>
-                  C 1
-                </button>
+                <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
+                  {{ ctg.id }} - {{ ctg.name }}
+                </button >
               </li>
-              <li>
-                <button (click)="setCategoryFilter(2)" cDropdownItem>
-                  C 2
-                </button>
-              </li>
-              <li><button cDropdownItem>C 3</button></li>
+            }
             </ul>
           </c-dropdown>
           <a

@@ -39,8 +39,9 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
-import { contribution } from 'src/app/types';
+import { Categorie, Department, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
 
 @Component({
   selector: 'app-contributions',
@@ -91,10 +92,13 @@ import { ContributionsService } from 'src/app/services/contributions/contributio
 export class ContributionsComponent {
   constructor(
     private contributionsService: ContributionsService,
+    private categoriesService: CategoriesService,
     private router: Router
   ) {}
 
   contributions: contribution[] = [];
+  categories: Categorie[] = [];
+  departments: Department[] = [];
 
   pagination = {
     page: 1,
@@ -114,6 +118,7 @@ export class ContributionsComponent {
   visible = false;
 
   categoryFilter = 0;
+  departmentFilter = 0;
 
   transformDate(dateString: string): string {
     const formattedDate = new Date(dateString);
@@ -125,7 +130,8 @@ export class ContributionsComponent {
       .getPaginatedContributions(
         this.pagination.page,
         this.pagination.take,
-        this.categoryFilter
+        this.categoryFilter,
+        this.departmentFilter
       )
       .subscribe({
         next: (response) => {
@@ -137,6 +143,29 @@ export class ContributionsComponent {
         },
       });
   }
+
+  getAllCategories(): void {
+    this.categoriesService.getPaginatedCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  getAllDepartments(): void {
+    this.contributionsService.getAllDepartment().subscribe({
+      next: (response) => {
+        this.departments = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
   deleteContribution(): void {
     this.contributionsService.deleteContribution(this.currentId).subscribe({
       next: () => {
@@ -175,6 +204,11 @@ export class ContributionsComponent {
     this.getPaginatedContributions();
   }
 
+  setDepartmentFilter(departmentId: number): void {
+    this.departmentFilter = departmentId;
+    this.getPaginatedContributions();
+  }
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
@@ -186,5 +220,7 @@ export class ContributionsComponent {
 
   ngOnInit(): void {
     this.getPaginatedContributions();
+    this.getAllCategories();
+    this.getAllDepartments();
   }
 }
