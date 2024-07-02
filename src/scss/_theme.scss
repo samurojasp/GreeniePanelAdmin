@@ -63,21 +63,3 @@ body {
   }
 }
 
-.greeniePanel{
-  width: 50%; 
-  height: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: scale 2s infinite alternate; /* 3 segundos de animación */
-}
-
-@keyframes scale {
-  0% {
-      transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-      transform: translate(-50%, -50%) scale(1.2);
-  }
-}
