@@ -35,6 +35,7 @@ import { CriteriaService } from '../../../services/criteria/get-paginated-criter
 import { DeleteCriterionService } from '../../../services/criteria/delete-criterion.service';
 import { Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { GetDocumentByCriterionIdService } from '../../../services/criteria/get-document-by-criterionId.service';
 
 @Component({
   templateUrl: 'criteria.component.html',
@@ -85,12 +86,16 @@ export class CriteriaComponent implements OnInit {
     hasNextPage: true,
   };
 
+  downloadName: string = '';
+  link = document.createElement('a');
+
   pages = this.pagination.pageCount;
 
   constructor(
     private criteriaService: CriteriaService,
     private deleteCriterionService: DeleteCriterionService,
-    private router: Router
+    private router: Router,
+    private GetDocumentService: GetDocumentByCriterionIdService
   ) {}
 
   getPaginatedCriteria(page: number, take: number): void {
@@ -136,5 +141,17 @@ export class CriteriaComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getPaginatedCriteria(this.pagination.page, this.pagination.take);
+  }
+
+  downloadDocument(id: number): void {
+    this.GetDocumentService.getDocumentByCriterionId(id).subscribe({
+      next: (response) => {
+        this.downloadName = URL.createObjectURL(response);
+        this.link.href = this.downloadName;
+        this.link.download = `criterio #${id}`;
+        this.link.click();
+      },
+      error: (error) => console.error(error),
+    });
   }
 }

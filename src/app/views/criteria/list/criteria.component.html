@@ -49,6 +49,19 @@
                 <div class="fw-semibold text-nowrap">
                   <a
                     cButton
+                    color="primary"
+                    variant="outline"
+                    class="mx-1"
+                    (click)="downloadDocument(criterion.id)"
+                  >
+                    <svg
+                      cIcon
+                      class="icon icon-lg"
+                      name="cilArrowThickBottom"
+                    ></svg>
+                  </a>
+                  <a
+                    cButton
                     routerLinkActive="active"
                     color="warning"
                     variant="outline"
