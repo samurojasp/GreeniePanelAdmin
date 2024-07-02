@@ -6,16 +6,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class SpinnerService {
 
-  constructor(private spinnerService: NgxSpinnerService) { }
+  constructor(private spinnerService: NgxSpinnerService) {}
 
   public show() {
     this.spinnerService.show();
-    console.log('Buenas tardes...');
   }
 
   public hide() { 
     this.spinnerService.hide();
-    console.log('Hasta luego...');
   }
 
 }
