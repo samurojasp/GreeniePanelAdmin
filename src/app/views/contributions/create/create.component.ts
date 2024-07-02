@@ -24,6 +24,9 @@ import {
   Indicator,
 } from 'src/app/types';
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -60,13 +63,25 @@ export class CreateComponent {
   constructor(
     private contributionsService: ContributionsService,
     private indicatorsService: IndicatorsService,
+    private categoriesService: CategoriesService,
     private router: Router
   ) {}
 
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
       next: (response) => {
-        this.indicatorOptions= response.data;
+        this.indicatorOptions = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  getCategories(): void {
+    this.categoriesService.getPaginatedCategories().subscribe({
+      next: (response) => {
+        this.categoryOptions = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -90,9 +105,10 @@ export class CreateComponent {
     console.log(this.files);
   }
 
-  editContribution(): void {
+  postContribution(): void {
+    this.uuid = uuidv4();
     this.contributionsService
-      .putContribution({
+      .postContribution({
         uuid: this.uuid,
         description: this.description,
         categoryId: this.categoryId,
@@ -112,5 +128,6 @@ export class CreateComponent {
 
   ngOnInit(): void {
     this.getIndicators();
+    this.getCategories();
   }
 }

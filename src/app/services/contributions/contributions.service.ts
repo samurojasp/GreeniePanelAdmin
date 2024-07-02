@@ -7,7 +7,7 @@ import { ContributionBody } from './types';
   providedIn: 'root',
 })
 export class ContributionsService {
-  apiUrl: any;
+  private apiUrl = 'http://localhost:3000/api/v1/';
   constructor(private http: HttpClient) {}
   token = localStorage.getItem('token');
 
@@ -33,12 +33,12 @@ export class ContributionsService {
     return postContributionFormData;
   }
 
-  putContribution(body: ContributionBody): Observable<any> {
+  postContribution(body: ContributionBody): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.put(`${this.apiUrl}contributions`, body, {
+    return this.http.post(`${this.apiUrl}contributions`, body, {
       headers,
     });
   }

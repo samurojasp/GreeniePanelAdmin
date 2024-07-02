@@ -3,15 +3,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategorieBody } from './types';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoriesService {
-
   private apiUrl = 'http://localhost:3000/api/v1/';
 
   constructor(private http: HttpClient) {}
+
+  getAllCategories(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.apiUrl}categories/notPag`, {
+      headers,
+    });
+  }
 
   getPaginatedCategories(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -29,7 +34,7 @@ export class CategoriesService {
 
   editCategorie(id: number, body: CategorieBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.patch(`${this.apiUrl}categories/${id}`,body, {
+    return this.http.patch(`${this.apiUrl}categories/${id}`, body, {
       headers,
     });
   }
@@ -43,13 +48,7 @@ export class CategoriesService {
 
   addCategorie(body: CategorieBody): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}categories`,body, {
-      headers,
-    });
-  }
-  getAllIndicators(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(`${this.apiUrl}indicators`, {
+    return this.http.post(`${this.apiUrl}categories`, body, {
       headers,
     });
   }
@@ -57,6 +56,13 @@ export class CategoriesService {
   getAllCriteria(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(`${this.apiUrl}criteria`, {
+      headers,
+    });
+  }
+
+  getAllIndicators(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.apiUrl}indicators`, {
       headers,
     });
   }

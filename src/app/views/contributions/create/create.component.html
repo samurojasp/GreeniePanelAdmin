@@ -45,7 +45,11 @@
                     name="departmentId"
                     cSelect
                   >
-                    <option>Hola</option>
+                    @for (category of categoryOptions; track category.id) {
+                    <option value="{{ category.id }}">
+                      {{ category.id }} {{ category.name }}
+                    </option>
+                    }
                   </select>
                 </div>
               </div>
@@ -99,7 +103,7 @@
               </div>
 
               <div class="button-container">
-                <button (click)="editContribution()" cButton>Guardar</button>
+                <button (click)="postContribution()" cButton>Guardar</button>
               </div>
             </div>
           </div>
