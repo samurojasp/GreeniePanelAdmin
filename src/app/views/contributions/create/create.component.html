@@ -62,13 +62,31 @@
                 } @for (file of files; track $index) {
                 <div class="file-container">
                   <button cButton class="image-container">
-                    <input cFormControl type="file" />
+                    <input
+                      cFormControl
+                      type="file"
+                      [(ngModel)]="file.file"
+                      name="file"
+                      value="{{ file.file }}"
+                    />
                   </button>
-
-                  <textarea
-                    placeholder="Descripción"
+                  <input
                     cFormControl
-                    class="textarea"
+                    id="name"
+                    placeholder="Nombre"
+                    type="text"
+                    name="filename"
+                    [(ngModel)]="file.name"
+                    value="{{ file.name }}"
+                  />
+                  <textarea
+                    cFormControl
+                    id="description"
+                    placeholder="Descripción"
+                    type="text"
+                    name="description"
+                    [(ngModel)]="file.description"
+                    value="{{ file.description }}"
                   ></textarea>
                 </div>
                 }

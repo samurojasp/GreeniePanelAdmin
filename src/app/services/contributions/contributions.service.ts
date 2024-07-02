@@ -13,6 +13,8 @@ export class ContributionsService {
 
   transformBodyToFormData(body: ContributionBody): FormData {
     const postContributionFormData = new FormData();
+    console.log(body.description);
+    postContributionFormData.append('uuid', body.uuid);
     postContributionFormData.append('description', body.description);
     postContributionFormData.append('categoryId', body.categoryId.toString());
     postContributionFormData.append('indicatorID', body.indicatorID.toString());
@@ -26,19 +28,22 @@ export class ContributionsService {
           description: body.file[i].description,
         })
       );
+      console.log(body.file[i])
       postContributionFormData.append('files', body.file[i].file!);
     }
 
     postContributionFormData.append('description', body.description);
+
     return postContributionFormData;
   }
 
   postContribution(body: ContributionBody): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.post(`${this.apiUrl}contributions`, body, {
+    const formData = this.transformBodyToFormData(body);
+    console.log(formData);
+    return this.http.post(`${this.apiUrl}contributions`, formData, {
       headers,
     });
   }
