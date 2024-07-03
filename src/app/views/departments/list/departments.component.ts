@@ -2,6 +2,7 @@ import { NgIf, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import {
   AvatarComponent,
@@ -79,7 +80,8 @@ import { Department } from '../../../types';
     PageLinkDirective,
     PaginationComponent,
     RouterLink,
-    NgIf
+    NgIf,
+    NgxSpinnerModule,
   ],
 })
 export class DepartmentsComponent implements OnInit {
