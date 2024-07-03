@@ -60,6 +60,7 @@ interface indicator {
     CardFooterComponent,
     GutterDirective,
     ProgressBarDirective,
+    ProgressBarComponent,
     ProgressComponent,
     CommonModule,
     CardHeaderComponent,

@@ -45,7 +45,7 @@ import { Indicator } from 'src/app/types';
     TextColorDirective,
     FormSelectDirective,
     FormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
     ProgressBarComponent,
     ProgressBarDirective,
     ProgressComponent,
