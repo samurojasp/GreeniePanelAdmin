@@ -20,6 +20,7 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Categorie } from 'src/app/types';
@@ -52,6 +53,7 @@ import { Indicator, Criteria } from '../types';
     ToasterComponent,
     MatFormFieldModule,
     MatSelectModule,
+    NgxSpinnerModule
   ],
   templateUrl: './add-categorie.component.html',
   styleUrl: './add-categorie.component.scss',

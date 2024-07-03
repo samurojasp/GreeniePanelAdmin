@@ -39,6 +39,7 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle } from '@angular/common';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
@@ -86,6 +87,7 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
+    NgxSpinnerModule
   ],
   templateUrl: './contributions.component.html',
   styleUrl: './contributions.component.scss',

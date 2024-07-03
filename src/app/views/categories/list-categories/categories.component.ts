@@ -29,6 +29,7 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 
@@ -63,7 +64,8 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
     PageLinkDirective,
     PaginationComponent,
     IconDirective,
-    RouterLink],
+    RouterLink,
+    NgxSpinnerModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
