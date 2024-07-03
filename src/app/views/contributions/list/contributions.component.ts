@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf, NgStyle } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -38,7 +39,6 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
-import { NgStyle } from '@angular/common';
 import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
@@ -73,6 +73,7 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
     ReactiveFormsModule,
     ButtonGroupComponent,
     NgStyle,
+    NgIf,
     CardFooterComponent,
     CardHeaderComponent,
     TableDirective,
