@@ -19,6 +19,7 @@ import {
   ToasterComponent
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { IconDirective } from '@coreui/icons-angular';
 import { User } from '../list-users/list.component';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -53,7 +54,8 @@ export interface Department {
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToasterComponent
+    ToasterComponent,
+    NgxSpinnerModule
   ],
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.scss'
@@ -95,10 +97,10 @@ export class AddUserComponent implements OnInit {
       email: this.email, 
       password: this.password, 
       birthdate: this.birthdate, 
-      departmentId: this.departmentId, 
+      departmentId: Number(this.departmentId), 
       role: this.role 
     }).subscribe({
-      next: (response) => {
+      next: () => {
         this.toggleToast('Usuario creado exitosamente', true); // Mostrar toast de éxito
         setTimeout(() => {
           this.router.navigate([`users`]); 

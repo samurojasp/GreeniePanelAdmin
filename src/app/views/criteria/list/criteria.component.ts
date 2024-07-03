@@ -2,6 +2,7 @@ import { NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   AvatarComponent,
   ButtonCloseDirective,
@@ -75,6 +76,7 @@ import { Router } from '@angular/router';
     PageLinkDirective,
     PaginationComponent,
     RouterLink,
+    NgxSpinnerModule,
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,

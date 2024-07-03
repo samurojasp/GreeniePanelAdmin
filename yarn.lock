@@ -120,7 +120,7 @@
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@angular/animations@^17.0.0 || ^18.0.0", "@angular/animations@^17.3.0", "@angular/animations@^17.3.4", "@angular/animations@17.3.10":
+"@angular/animations@^17.3.0", "@angular/animations@^17.3.10", "@angular/animations@>=15.0.0", "@angular/animations@17.3.10":
   version "17.3.10"
   resolved "https://registry.npmjs.org/@angular/animations/-/animations-17.3.10.tgz"
   integrity sha512-9fR5snTuG4aM2K54TG/6DXcKXMDKZMovZhjQOxO8l68/oqn6fKrHs8DLzckFs0XGRZ+2OyURH8WggFm1Z828rA==
@@ -160,7 +160,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.0", "@angular/common@^17.3.4", "@angular/common@>=16.0.0", "@angular/common@17.3.10":
+"@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.0", "@angular/common@^17.3.10", "@angular/common@>=15.0.0", "@angular/common@>=16.0.0", "@angular/common@17.3.10":
   version "17.3.10"
   resolved "https://registry.npmjs.org/@angular/common/-/common-17.3.10.tgz"
   integrity sha512-6SfD21M3LujymmZsZQIxAsV8Bj5u6He6ImZ+p2rr7FAhFxpVJyKldK8LCmJcFsBD4srpQcxEZ0iDxXvg+0ihAw==
@@ -188,7 +188,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.4", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
+"@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.10", "@angular/core@>=15.0.0", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
   version "17.3.10"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.3.10.tgz"
   integrity sha512-ocEKu7X0yFCOvgJn1uZy76qjhsjKvULrO1k/BuIX0nwhp61DTGYTvCqKmwCBLM8/gvcKYH5vMKMHoQKtiSGE0A==
@@ -5236,6 +5236,13 @@ ngx-scrollbar@^13.0.3:
   integrity sha512-ZpjNm9y7F5OSQh7p4x2PrwRkNl5zARPqPbRdkS5HjP8lHpG7hAFpbsjW+WlsM/6lAL5pesfVRCSlvcRJihM2sg==
   dependencies:
     tslib "^2.3.1"
+
+ngx-spinner@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.npmjs.org/ngx-spinner/-/ngx-spinner-17.0.0.tgz"
+  integrity sha512-VWDSvLlCnaWqu0W1L+ybQIRHTbd+GffkX1sWs++iMPXMGVJ2ZCuzW32FHnu+p0regMUHU8r1/rvUcFD0YooJxQ==
+  dependencies:
+    tslib "^2.3.0"
 
 node-forge@^1:
   version "1.3.1"

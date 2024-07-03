@@ -2,6 +2,8 @@ import { NgIf, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 import {
   AvatarComponent,
   ButtonCloseDirective,
@@ -91,6 +93,7 @@ import { Department } from '../../../types';
     ModalModule,
     ProgressBarComponent,
     NgIf,
+    NgxSpinnerModule,
   ],
 })
 export class DepartmentsComponent implements OnInit {

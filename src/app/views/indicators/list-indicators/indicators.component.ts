@@ -30,10 +30,11 @@ import {
   PageLinkDirective,
   PaginationComponent,
   ToastHeaderComponent,
-  ToasterComponent,
+  ToasterComponent
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 
@@ -47,50 +48,50 @@ interface indicator {
 @Component({
   selector: 'app-indicators',
   standalone: true,
-  imports: [ TextColorDirective,
-          CardComponent,
-          CardBodyComponent,
-          RowComponent,
-          ColComponent,
-          ButtonDirective,
-          ButtonGroupComponent,
-          FormCheckLabelDirective,
-          CardFooterComponent,
-          GutterDirective,
-          ProgressBarDirective,
-          ProgressComponent,
-          CommonModule,
-          CardHeaderComponent,
-          TableDirective,
-          ButtonCloseDirective,
-          ButtonDirective,
-          ModalModule,
-          PageItemDirective,
-          PageLinkDirective,
-          PaginationComponent,
-          ModalBodyComponent,
-          ModalComponent,
-          ModalFooterComponent,
-          ModalHeaderComponent,
-          ModalTitleDirective,
-          ThemeDirective,
-          IconDirective,
-          RouterLink,
-          ToastBodyComponent,
-          ToastComponent,
-          ToastHeaderComponent,
-          ToasterComponent,
-          ModalModule,
-          ProgressBarComponent],
+  imports: [
+    TextColorDirective,
+    CardComponent,
+    CardBodyComponent,
+    RowComponent,
+    ColComponent,
+    ButtonDirective,
+    ButtonGroupComponent,
+    FormCheckLabelDirective,
+    CardFooterComponent,
+    GutterDirective,
+    ProgressBarDirective,
+    ProgressComponent,
+    CommonModule,
+    CardHeaderComponent,
+    TableDirective,
+    ButtonCloseDirective,
+    ButtonDirective,
+    ModalModule,
+    ModalBodyComponent,
+    ModalComponent,
+    ModalFooterComponent,
+    ModalHeaderComponent,
+    ModalTitleDirective,
+    ThemeDirective,
+    PageItemDirective,
+    PageLinkDirective,
+    PaginationComponent,
+    IconDirective,
+    RouterLink,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    NgxSpinnerModule
+  ],
   templateUrl: './indicators.component.html',
-  styleUrl: './indicators.component.scss'
+  styleUrl: './indicators.component.scss',
 })
 export class IndicatorsComponent {
-
   constructor(
     private router: Router,
     private indicatorsService: IndicatorsService
-    ) { }
+  ) {}
 
   currentId = 0;
   position = 'top-end';
@@ -109,7 +110,7 @@ export class IndicatorsComponent {
     hasNextPage: true,
   };
 
-  public indicators: indicator[] = []
+  public indicators: indicator[] = [];
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
@@ -144,15 +145,9 @@ export class IndicatorsComponent {
     });
   }
 
-
   redirectToEdit(id: number): void {
-     this.router.navigate([`editIndicators/${id}`]);
+    this.router.navigate([`editIndicators/${id}`]);
   }
-
-  ngOnInit(): void {
-     this.getPaginatedIndicator();
- }
-
 
 toggleToast(message: string, success: boolean): void {
   this.visible = true;
@@ -175,4 +170,8 @@ onTimerChange($event: number) {
   this.percentage = $event * 34;
 }
 
+ngOnInit(): void {
+  this.getPaginatedIndicator();
+}
+  
 }
