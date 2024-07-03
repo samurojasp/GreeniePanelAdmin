@@ -16,6 +16,7 @@ import {
   ButtonDirective,
 } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoginService } from '../../../services/auth/login.service';
 import { Router } from '@angular/router';
 
@@ -40,6 +41,7 @@ import { Router } from '@angular/router';
     ButtonDirective,
     NgStyle,
     FormsModule,
+    NgxSpinnerModule
   ],
 })
 export class LoginComponent {

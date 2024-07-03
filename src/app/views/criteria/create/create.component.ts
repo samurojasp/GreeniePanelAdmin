@@ -17,6 +17,7 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { Indicator } from 'src/app/types';
 @Component({
   selector: 'app-create',
@@ -35,6 +36,7 @@ import { Indicator } from 'src/app/types';
     TextColorDirective,
     FormSelectDirective,
     FormsModule,
+    NgxSpinnerModule
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',

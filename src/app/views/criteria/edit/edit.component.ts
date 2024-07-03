@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-//import { EditCriteriaervice } from '../../../services/criteria/edit-criterion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ButtonDirective,
@@ -16,6 +15,7 @@ import {
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { GetCriterionByIdService } from 'src/app/services/criteria/get-criterion-by-id.service';
 import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
 import { EditCriterionService } from 'src/app/services/criteria/edit-criterion.service';
@@ -38,6 +38,7 @@ import { Indicator } from 'src/app/types';
     TextColorDirective,
     FormSelectDirective,
     FormsModule,
+    NgxSpinnerModule
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
