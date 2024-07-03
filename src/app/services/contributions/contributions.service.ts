@@ -11,6 +11,7 @@ export class ContributionsService {
   constructor(private http: HttpClient) {}
 
   role = localStorage.getItem('role')
+  token = localStorage.getItem('token')
 
   getPaginatedContributions(
     page: number,
@@ -19,7 +20,7 @@ export class ContributionsService {
     departmentFilter: number,
     indicatorFilter: number
   ): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
     
     let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
       if (this.role === 'dpto') {
