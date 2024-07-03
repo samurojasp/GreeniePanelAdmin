@@ -6,12 +6,12 @@
           Aportes de Información
         </h4>
         <div class="d-flex justify-content-between align-items-center">
-           <input
+          <input
             type="text"
             class="form-control w-25 ms-md-2 mb-3"
             placeholder="Buscar..."
-           /> 
-          <c-dropdown>
+          />
+          <c-dropdown *ngIf="role === 'admin'">
             <button
               cButton
               cDropdownToggle
@@ -90,7 +90,7 @@
         >
           <thead class="text-nowrap text-truncate">
             <tr>
-              <th class="bg-body-tertiary text-center">Departamento</th>
+              <th *ngIf="role === 'admin'" class="bg-body-tertiary text-center">Departamento</th>
               <th class="bg-body-tertiary text-center">Indicador</th>
               <th class="bg-body-tertiary text-center">Categoría</th>
               <th class="bg-body-tertiary text-center">Fecha</th>
@@ -101,7 +101,7 @@
             @for (contribution of contributions; track contribution.id; let i =
             $index) {
             <tr>
-              <td class="text-center">
+              <td *ngIf="role === 'admin'" class="text-center">
                 {{ contribution.user.department.name }}
               </td>
               <td class="text-center">

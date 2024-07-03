@@ -10,6 +10,8 @@ export class ContributionsService {
 
   constructor(private http: HttpClient) {}
 
+  role = localStorage.getItem('role')
+
   getPaginatedContributions(
     page: number,
     take: number,
@@ -18,7 +20,12 @@ export class ContributionsService {
     indicatorFilter: number
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    
     let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
+      if (this.role === 'dpto') {
+        URL = `${this.apiUrl}/contributions/my-contribution?page=${page}&take=${take}`;
+      }
+      
     if (categoryFilter !== 0 && categoryFilter) {
       URL = URL.concat(`&categoryId=${categoryFilter}`);
     }

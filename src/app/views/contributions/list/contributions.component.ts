@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf, NgStyle } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -38,7 +39,6 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
-import { NgStyle } from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
@@ -74,6 +74,7 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
     ReactiveFormsModule,
     ButtonGroupComponent,
     NgStyle,
+    NgIf,
     CardFooterComponent,
     CardHeaderComponent,
     TableDirective,
@@ -104,6 +105,7 @@ export class ContributionsComponent {
   categories: Categorie[] = [];
   departments: Department[] = [];
   indicators: Indicator[] = [];
+  role = localStorage.getItem('role');
 
   pagination = {
     page: 1,
@@ -131,6 +133,7 @@ export class ContributionsComponent {
     return formattedDate.toLocaleDateString('es-ES', { timeZone: 'UTC' });
   }
 
+
   getPaginatedContributions(): void {
     this.contributionsService
       .getPaginatedContributions(
@@ -142,6 +145,7 @@ export class ContributionsComponent {
       )
       .subscribe({
         next: (response) => {
+          console.log(this.role)
           this.contributions = response.data;
           this.pagination = response.meta;
         },
