@@ -21,7 +21,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Categorie } from '../list-categories/categories.component';
+import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { Indicator, Criteria } from '../types';
 
