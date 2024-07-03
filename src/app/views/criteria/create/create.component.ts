@@ -13,7 +13,14 @@ import {
   FormLabelDirective,
   FormSelectDirective,
   RowComponent,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
   TextColorDirective,
+  ProgressBarComponent,
+  ProgressBarDirective,
+  ProgressComponent
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
@@ -37,6 +44,13 @@ import { Indicator } from 'src/app/types';
     FormSelectDirective,
     FormsModule,
     NgxSpinnerModule
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
@@ -50,6 +64,14 @@ export class CreateComponent {
   indicators: Indicator[] = [];
 
   currentId = 0;
+  departmentId = 0;
+  role = ""; 
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
+
 
   pagination = {
     page: 1,
@@ -62,20 +84,22 @@ export class CreateComponent {
 
   pages = this.pagination.pageCount;
 
-  getIndicators(): void {
-    this.getIndicatorsService.getAllIndicators().subscribe({
-      next: (response) => {
-        this.indicators = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
-  }
-
   constructor(
     private createCriterionService: CreateCriterionService,
     private getIndicatorsService: GetAllIndicatorsService,
     private router: Router
   ) {}
+
+  getIndicators(): void {
+    this.getIndicatorsService.getAllIndicators().subscribe({
+      next: (response) => {
+        this.indicators = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   createCriterion(): void {
     this.createCriterionService
@@ -83,19 +107,48 @@ export class CreateComponent {
         name: this.name,
         description: this.description,
         index: this.index,
-        indicatorID: this.indicatorID,
+        indicatorID: Number(this.indicatorID), 
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['/criteria']);
+          this.toggleToast('El criterio se ha creado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`criteria`]); 
+          },1500)
         },
         error: (error) => {
+          this.toggleToast(error.message, false); 
           console.log(error);
         },
       });
   }
 
+
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
+
   ngOnInit(): void {
     this.getIndicators();
   }
+
+
 }

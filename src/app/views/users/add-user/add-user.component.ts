@@ -107,7 +107,7 @@ export class AddUserComponent implements OnInit {
         },1500)
       },
       error: (error) => {
-        this.toggleToast('Error al crear usuario', false); 
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });
