@@ -184,6 +184,10 @@ export class ContributionsComponent {
     this.percentage = $event * 34;
   }
 
+  goToCreate(): void {
+    this.router.navigate(['/create-contribution']);
+  }
+
   ngOnInit(): void {
     this.getPaginatedContributions();
   }

@@ -21,28 +21,30 @@
                 />
               </div>
 
-              <div class="two-inputs-container">
+              <div>
                 <div class="input-container">
                   <label cLabel for="exampleFormControlInput1">Indicador</label>
                   <select
-                    aria-label="department select"
+                    aria-label="indicatorId select"
                     name="indicatorId"
+                    [(ngModel)]="indicatorId"
                     cSelect
                   >
                     @for (indicator of indicatorOptions; track indicator.id) {
                     <option value="{{ indicator.id }}">
-                      {{ indicator.index }} {{ indicator.name }}
+                      {{ indicator.id }} {{ indicator.name }}
                     </option>
                     }
                   </select>
                 </div>
               </div>
-              <div class="two-inputs-container">
+              <div>
                 <div class="input-container">
                   <label cLabel for="exampleFormControlInput1">Categoría</label>
                   <select
-                    aria-label="department select"
-                    name="departmentId"
+                    aria-label="category select"
+                    name="categoryId"
+                    [(ngModel)]="categoryId"
                     cSelect
                   >
                     @for (category of categoryOptions; track category.id) {
@@ -65,29 +67,31 @@
                     <input
                       cFormControl
                       type="file"
-                      [(ngModel)]="file.file"
+                      [(ngModel)]="files[$index].file"
                       name="file"
-                      value="{{ file.file }}"
+                      value="{{ files[$index].file }}"
                     />
                   </button>
-                  <input
-                    cFormControl
-                    id="name"
-                    placeholder="Nombre"
-                    type="text"
-                    name="filename"
-                    [(ngModel)]="file.name"
-                    value="{{ file.name }}"
-                  />
-                  <textarea
-                    cFormControl
-                    id="description"
-                    placeholder="Descripción"
-                    type="text"
-                    name="description"
-                    [(ngModel)]="file.description"
-                    value="{{ file.description }}"
-                  ></textarea>
+                  <div class="two-inputs-container">
+                    <input
+                      cFormControl
+                      id="name"
+                      placeholder="Nombre"
+                      type="text"
+                      name="filename"
+                      [(ngModel)]="files[$index].name"
+                      value="{{ files[$index].name }}"
+                    />
+                    <textarea
+                      cFormControl
+                      id="description"
+                      placeholder="Descripción"
+                      type="text"
+                      name="description"
+                      [(ngModel)]="files[$index].description"
+                      value="{{ files[$index].description }}"
+                    ></textarea>
+                  </div>
                 </div>
                 }
                 <div class="new-file-button-container">
@@ -104,10 +108,19 @@
                 <h6>No se han agregado archivos todavía.</h6>
                 } @for (link of links; track $index) {
                 <div class="link-container">
-                  <input cFormControl placeholder="URL" />
+                  <input
+                    cFormControl
+                    name="linkurl"
+                    [(ngModel)]="links[$index].URL"
+                    value="{{ links[$index].URL }}"
+                    placeholder="URL"
+                  />
 
                   <textarea
                     placeholder="Descripción"
+                    name="linkdescription"
+                    [(ngModel)]="links[$index].description"
+                    value="{{ links[$index].description }}"
                     cFormControl
                     class="textarea"
                   ></textarea>

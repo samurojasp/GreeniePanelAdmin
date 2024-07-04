@@ -18,21 +18,26 @@ export class ContributionsService {
     postContributionFormData.append('description', body.description);
     postContributionFormData.append('categoryId', body.categoryId.toString());
     postContributionFormData.append('indicatorID', body.indicatorID.toString());
-    postContributionFormData.append('link', JSON.stringify(body.links));
 
-    for (let i = 0; i < body.file.length; i++) {
+    const stringifiedLinks = body.links
+      .map((link) => JSON.stringify(link))
+      .join(',');
+
+    console.log(stringifiedLinks);
+    postContributionFormData.append('link', stringifiedLinks);
+
+    body.file.forEach((file) => {
+      const blob = new Blob([file.file!], { type: 'application/pdf' });
+
       postContributionFormData.append(
         'file',
         JSON.stringify({
-          name: body.file[i].name,
-          description: body.file[i].description,
+          name: file.name,
+          description: file.description,
         })
       );
-      console.log(body.file[i])
-      postContributionFormData.append('files', body.file[i].file!);
-    }
-
-    postContributionFormData.append('description', body.description);
+      postContributionFormData.append('files', blob);
+    });
 
     return postContributionFormData;
   }
@@ -42,7 +47,7 @@ export class ContributionsService {
       Authorization: `Bearer ${this.token}`,
     });
     const formData = this.transformBodyToFormData(body);
-    console.log(formData);
+    console.log(formData.get('categoryId'));
     return this.http.post(`${this.apiUrl}contributions`, formData, {
       headers,
     });
@@ -54,7 +59,7 @@ export class ContributionsService {
     categoryFilter: number
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
+    let URL = `${this.apiUrl}contributions?page=${page}&take=${take}`;
     if (categoryFilter !== 0 && categoryFilter) {
       URL = URL.concat(`&categoryId=${categoryFilter}`);
     }
