@@ -42,6 +42,8 @@ import { IconDirective } from '@coreui/icons-angular';
 import { CriteriaService } from '../../../services/criteria/get-paginated-criteria.service';
 import { DeleteCriterionService } from '../../../services/criteria/delete-criterion.service';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { GetDocumentByCriterionIdService } from '../../../services/criteria/get-document-by-criterionId.service';
 
 @Component({
   templateUrl: 'criteria.component.html',
@@ -64,6 +66,7 @@ import { Router } from '@angular/router';
     ProgressComponent,
     CardHeaderComponent,
     TableDirective,
+    TextColorDirective,
     AvatarComponent,
     ModalComponent,
     ModalHeaderComponent,
@@ -82,7 +85,8 @@ import { Router } from '@angular/router';
     ToastHeaderComponent,
     ToasterComponent,
     ModalModule,
-    ProgressBarComponent
+    ProgressBarComponent,
+    NgxPaginationModule
   ],
 })
 export class CriteriaComponent implements OnInit {
@@ -105,12 +109,16 @@ export class CriteriaComponent implements OnInit {
     hasNextPage: true,
   };
 
+  downloadName: string = '';
+  link = document.createElement('a');
+
   pages = this.pagination.pageCount;
 
   constructor(
     private criteriaService: CriteriaService,
     private deleteCriterionService: DeleteCriterionService,
-    private router: Router
+    private router: Router,
+    private GetDocumentService: GetDocumentByCriterionIdService
   ) {}
 
   getPaginatedCriteria(page: number, take: number): void {
@@ -178,5 +186,17 @@ export class CriteriaComponent implements OnInit {
 
   onTimerChange($event: number) {
     this.percentage = $event * 34;
+  }
+
+  downloadDocument(id: number): void {
+    this.GetDocumentService.getDocumentByCriterionId(id).subscribe({
+      next: (response) => {
+        this.downloadName = URL.createObjectURL(response);
+        this.link.href = this.downloadName;
+        this.link.download = `criterio #${id}`;
+        this.link.click();
+      },
+      error: (error) => console.error(error),
+    });
   }
 }
