@@ -30,19 +30,49 @@ export interface Categorie {
   description: string;
 }
 
+export interface ContributionLink {
+  URL: string;
+  description: string;
+}
+
+export interface ContributionFile {
+  name: string;
+  description: string;
+  file: File | null;
+}
+
+export interface Contribution {
+  uuid: string;
+  description: string;
+  categoryId: number;
+  indicatorId: number;
+  links: ContributionLink[];
+  files: ContributionFile[];
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  description: string;
+  createAt: string;
+  updateAt: string;
+  deleteAt: string;
+  indicator: Indicator;
+  criteria: Criterion[];
+}
 export interface contribution {
   id: number;
   uuid: string;
   link: [
     {
-    URL: string;
-    description: string;
+      URL: string;
+      description: string;
     }
   ];
   description: string;
   createAt: string;
   updateAt: string;
-  files:[
+  files: [
     {
       id: number;
       name: string;
@@ -59,7 +89,7 @@ export interface contribution {
     department: {
       name: string;
       id: number;
-    }
+    };
   };
   category: {
     id: number;
@@ -70,14 +100,14 @@ export interface contribution {
       name: string;
       index: number;
       description: string;
-    }
+    };
     criteria: [
       {
-      id: number;
-      name: string;
-      index: number;
-      description: string;
+        id: number;
+        name: string;
+        index: number;
+        description: string;
       }
-    ]
+    ];
   };
-};
+}

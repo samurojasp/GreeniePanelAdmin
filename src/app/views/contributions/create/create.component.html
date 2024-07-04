@@ -1,0 +1,145 @@
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-body>
+        <form cForm>
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="card-title" id="users">Crear aporte de información</h4>
+          </div>
+          <div class="form-container">
+            <div class="two-inputs-container">
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Resumen</label>
+                <input
+                  cFormControl
+                  id="description"
+                  placeholder="Resumen"
+                  type="text"
+                  name="description"
+                  [(ngModel)]="description"
+                  value="{{ description }}"
+                />
+              </div>
+
+              <div>
+                <div class="input-container">
+                  <label cLabel for="exampleFormControlInput1">Indicador</label>
+                  <select
+                    aria-label="indicatorId select"
+                    name="indicatorId"
+                    [(ngModel)]="indicatorId"
+                    cSelect
+                  >
+                    @for (indicator of indicatorOptions; track indicator.id) {
+                    <option value="{{ indicator.id }}">
+                      {{ indicator.id }} {{ indicator.name }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div class="input-container">
+                  <label cLabel for="exampleFormControlInput1">Categoría</label>
+                  <select
+                    aria-label="category select"
+                    name="categoryId"
+                    [(ngModel)]="categoryId"
+                    cSelect
+                  >
+                    @for (category of categoryOptions; track category.id) {
+                    <option value="{{ category.id }}">
+                      {{ category.id }} {{ category.name }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <label cLabel>Archivos</label>
+
+              <div class="files-container">
+                @if (files.length === 0) {
+                <h6>No se han agregado archivos todavía.</h6>
+                } @for (file of files; track $index) {
+                <div class="file-container">
+                  <button cButton class="image-container">
+                    <input
+                      cFormControl
+                      type="file"
+                      [(ngModel)]="files[$index].file"
+                      name="file"
+                      value="{{ files[$index].file }}"
+                    />
+                  </button>
+                  <div class="two-inputs-container">
+                    <input
+                      cFormControl
+                      id="name"
+                      placeholder="Nombre"
+                      type="text"
+                      name="filename"
+                      [(ngModel)]="files[$index].name"
+                      value="{{ files[$index].name }}"
+                    />
+                    <textarea
+                      cFormControl
+                      id="description"
+                      placeholder="Descripción"
+                      type="text"
+                      name="description"
+                      [(ngModel)]="files[$index].description"
+                      value="{{ files[$index].description }}"
+                    ></textarea>
+                  </div>
+                </div>
+                }
+                <div class="new-file-button-container">
+                  <button class="" (click)="addFile()" cButton>
+                    Agregar otro archivo
+                  </button>
+                </div>
+              </div>
+
+              <label cLabel>Links</label>
+
+              <div class="links-container">
+                @if (links.length === 0) {
+                <h6>No se han agregado archivos todavía.</h6>
+                } @for (link of links; track $index) {
+                <div class="link-container">
+                  <input
+                    cFormControl
+                    name="linkurl"
+                    [(ngModel)]="links[$index].URL"
+                    value="{{ links[$index].URL }}"
+                    placeholder="URL"
+                  />
+
+                  <textarea
+                    placeholder="Descripción"
+                    name="linkdescription"
+                    [(ngModel)]="links[$index].description"
+                    value="{{ links[$index].description }}"
+                    cFormControl
+                    class="textarea"
+                  ></textarea>
+                </div>
+                }
+                <div class="new-link-button-container">
+                  <button class="" (click)="addLink()" cButton>
+                    Agregar otro link
+                  </button>
+                </div>
+              </div>
+
+              <div class="button-container">
+                <button (click)="postContribution()" cButton>Guardar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

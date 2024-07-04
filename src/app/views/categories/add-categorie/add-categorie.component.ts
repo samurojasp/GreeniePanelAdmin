@@ -98,7 +98,7 @@ export class AddCategorieComponent {
     this.categoriesService
       .addCategorie({
         name: this.name,
-        description: this.description,  
+        description: this.description,
         indicatorID: Number(this.indicatorID),
         criteriaID: criteriaIdNumber,
       })
