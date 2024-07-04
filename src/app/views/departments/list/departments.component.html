@@ -161,20 +161,28 @@
 </c-row>
 
 <c-modal
+  #staticBackdropModal
+  backdrop="static"
   id="liveDemoModal"
   [visible]="visibleModal"
   (visibleChange)="handleLiveDemoChange($event)"
   alignment="center"
 >
-  <c-modal-body class="delete-modal"
-    ><h6>¿Estás seguro que deseas borrar este departamento?</h6>
-    <div class="delete-modal-buttons-container">
-      <button (click)="toggleModal(0)" cButton color="primary">Cerrar</button>
-      <button (click)="deleteDepartment()" cButton color="danger">
-        Borrar
-      </button>
-    </div>
-  </c-modal-body>
+  <c-modal-header>
+    <h5 cModalTitle class="float-center">
+      ¿Estás seguro de querer eliminar este departamento?
+    </h5>
+    <button cButtonClose (click)="toggleModal(0)"></button>
+  </c-modal-header>
+  <c-modal-body>Una vez eliminado no podra ser recuperado </c-modal-body>
+  <c-modal-footer>
+    <button cButton (click)="toggleModal(0)" cButton color="secundary">
+      Cancelar
+    </button>
+    <button (click)="deleteDepartment()" cButton color="primary">
+      Aceptar
+    </button>
+  </c-modal-footer>
 </c-modal>
 
 <c-toaster [placement]="position" class="p-3" position="fixed">

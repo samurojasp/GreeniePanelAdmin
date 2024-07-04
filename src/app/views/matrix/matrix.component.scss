@@ -1,0 +1,30 @@
+/* Estilos personalizados para la tabla */
+.custom-table {
+    border-collapse: collapse; /* Para colapsar los bordes de las celdas */
+    width: 100%; /* Ancho completo de la tabla */
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid #dee2e6; /* Borde de 1px sólido */
+    padding: 8px; /* Espaciado interno de las celdas */
+  }
+  
+  .border-cell {
+    border: 1px solid #dee2e6; /* Añade borde a cada celda */
+  }
+  
+  /* Estilos para los botones de acción */
+  .action-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+ .table-responsive{
+  tr > th:first-child,
+  tr > td:first-child {
+  position: sticky;
+  left: 0;
+  }
+}
