@@ -13,16 +13,20 @@ import {
   FormSelectDirective,
   RowComponent,
   ToastBodyComponent,
-    ToastComponent,
-    ToastHeaderComponent,
-    ToasterComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
   TextColorDirective,
   ProgressBarComponent,
   ProgressBarDirective,
-  ProgressComponent
+  ProgressComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { Categorie } from 'src/app/types';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -45,41 +49,62 @@ import { FormsModule } from '@angular/forms';
     ToastHeaderComponent,
     ToasterComponent,
     ProgressBarComponent,
-  ProgressBarDirective,
-  ProgressComponent,
-    
+    ProgressBarDirective,
+    ProgressComponent,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
 })
 export class CreateComponent {
   name = '';
-  email = "";
-  password = "";
-  birthdate = "";
+  email = '';
+  password = '';
+  birthdate = '';
   departmentId = 0;
-  role = ""; 
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
+  categoryId: number[] = [];
+  categories: Categorie[] = [];
 
   constructor(
     private createDepartmentService: CreateDepartmentService,
-    private router: Router
+    private router: Router,
+    private categoriesService: CategoriesService
   ) {}
 
   createDepartment(): void {
-    this.createDepartmentService.postDepartment({ name: this.name }).subscribe({
-      next: () => {
-        this.toggleToast('Departamento creado exitosamente', true); // Mostrar toast de éxito
-        setTimeout(() => {
-          this.router.navigate([`departments`]); 
-        },1500)
+    const categoryIdNumbers = this.categoryId.map((categoryId) =>
+      Number(categoryId)
+    );
+    this.createDepartmentService
+      .postDepartment({ name: this.name, categoriesIDs: categoryIdNumbers })
+      .subscribe({
+        next: () => {
+          this.toggleToast('Departamento creado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`departments`]);
+          }, 1500);
+        },
+        error: (error) => {
+          this.toggleToast(error.message, false);
+          console.log(error);
+        },
+      });
+  }
+
+  getCategories(): void {
+    this.categoriesService.getPaginatedCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data;
       },
       error: (error) => {
-        this.toggleToast(error.message, false); 
+        this.toggleToast(error.message, false);
         console.log(error);
       },
     });
@@ -106,4 +131,7 @@ export class CreateComponent {
     this.percentage = $event * 100;
   }
 
+  ngOnInit(): void {
+    this.getCategories();
+  }
 }

@@ -3,6 +3,7 @@ export interface Department {
   name: string;
   director: string;
   membersQuantity: number;
+  categorie: Categorie;
 }
 
 export interface Indicator {
@@ -35,14 +36,14 @@ export interface contribution {
   uuid: string;
   link: [
     {
-    URL: string;
-    description: string;
+      URL: string;
+      description: string;
     }
   ];
   description: string;
   createAt: string;
   updateAt: string;
-  files:[
+  files: [
     {
       id: number;
       name: string;
@@ -59,7 +60,7 @@ export interface contribution {
     department: {
       name: string;
       id: number;
-    }
+    };
   };
   category: {
     id: number;
@@ -70,14 +71,14 @@ export interface contribution {
       name: string;
       index: number;
       description: string;
-    }
+    };
     criteria: [
       {
-      id: number;
-      name: string;
-      index: number;
-      description: string;
+        id: number;
+        name: string;
+        index: number;
+        description: string;
       }
-    ]
+    ];
   };
-};
+}
