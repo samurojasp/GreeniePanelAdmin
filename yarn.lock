@@ -188,7 +188,8 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.4", "@angular/core@>=15.0.0", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
+
+"@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@^17.3.4", "@angular/core@>=16.0.0", "@angular/core@17.3.10":
   version "17.3.10"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.3.10.tgz"
   integrity sha512-ocEKu7X0yFCOvgJn1uZy76qjhsjKvULrO1k/BuIX0nwhp61DTGYTvCqKmwCBLM8/gvcKYH5vMKMHoQKtiSGE0A==

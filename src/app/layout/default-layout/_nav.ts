@@ -11,6 +11,11 @@ export const navItems: INavData[] = [
     },
   },
   {
+    name: 'Matriz',
+    url: '/matrix',
+    iconComponent: { name: 'cil-speedometer' },
+  },
+  {
     title: true,
     name: 'Theme',
   },
