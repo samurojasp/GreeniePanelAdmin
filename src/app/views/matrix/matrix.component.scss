@@ -20,4 +20,11 @@
     justify-content: center;
     gap: 8px;
   }
-  
+
+ .table-responsive{
+  tr > th:first-child,
+  tr > td:first-child {
+  position: sticky;
+  left: 0;
+  }
+}

@@ -2,7 +2,7 @@
     <table class="table table-striped align-middle mb-0 border custom-table">
       <thead class="text-nowrap text-truncate">
         <tr>
-          <th class="text-center" [style.backgroundColor]="headers[0].color">{{ headers[0].label }}</th>
+          <th class="column1H text-center" [style.backgroundColor]="headers[0].color">{{ headers[0].label }}</th>
           <ng-container *ngFor="let header of headers.slice(1)">
             <th class="text-center" [style.backgroundColor]="header.color">{{ header.label }}</th>
           </ng-container>
@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of rows">
-          <td class="text-center border-cell">{{ row.title }}</td>
+          <td class="column1 text-start border-cell">{{ row.title }}</td>
           <td class="text-center border-cell" *ngFor="let checkbox of row.checkboxes.slice(1)">
             <input type="checkbox" [checked]="checkbox">
           </td>
