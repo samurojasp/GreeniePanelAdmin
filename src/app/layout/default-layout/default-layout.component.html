@@ -3,9 +3,11 @@
   #sidebar1="cSidebar"
   class="d-print-none sidebar sidebar-fixed border-end"
   colorScheme="dark"
+  style="background-color: #1E4034;"
   id="sidebar1"
   visible
 >
+
   <c-sidebar-header class="border-bottom">
     <c-sidebar-brand [routerLink]="[]">
       <img src="../../../assets/images/GreeniePanel.png" style="width: 80%; height: auto; margin: 0 auto; ">
@@ -24,6 +26,7 @@
       [navItems]="navItems"
       dropdownMode="close"
       compact
+      class="overflow"
     />
   </ng-scrollbar>
   @if (!sidebar1.narrow) {
