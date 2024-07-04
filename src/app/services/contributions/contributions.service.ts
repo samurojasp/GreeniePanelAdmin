@@ -68,36 +68,10 @@ export class ContributionsService {
     });
 
     let URL = `${this.apiUrl}contributions?page=${page}&take=${take}`;
-    if (categoryFilter !== 0 && categoryFilter) {
-      URL = URL.concat(`&categoryId=${categoryFilter}`);
-    }
-    if (departmentFilter !== 0 && departmentFilter) {
-      URL = URL.concat(`&dptoId=${departmentFilter}`);
-    }
-    if (indicatorFilter !== 0 && indicatorFilter) {
-      URL = URL.concat(`&indicatorId=${indicatorFilter}`);
-    }
-    return this.http.get(URL, {
-      headers,
-    });
-  }
-
-  getPaginatedMyContributions(
-    page: number,
-    take: number,
-    categoryFilter: number,
-    departmentFilter: number,
-    indicatorFilter: number
-  ): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.token}`,
-    });
-
-    let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
     if (this.role === 'dpto') {
-      URL = `${this.apiUrl}/contributions/my-contribution?page=${page}&take=${take}`;
+      URL = `${this.apiUrl}contributions/my-contribution?page=${page}&take=${take}`;
     }
+
     if (categoryFilter !== 0 && categoryFilter) {
       URL = URL.concat(`&categoryId=${categoryFilter}`);
     }
@@ -114,14 +88,14 @@ export class ContributionsService {
 
   deleteContribution(id: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.delete(`${this.apiUrl}/contributions/${id}`, {
+    return this.http.delete(`${this.apiUrl}contributions/${id}`, {
       headers,
     });
   }
 
   getAllDepartment(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(`${this.apiUrl}/dptos`, {
+    return this.http.get(`${this.apiUrl}dptos`, {
       headers,
     });
   }
