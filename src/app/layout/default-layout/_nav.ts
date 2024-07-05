@@ -70,14 +70,14 @@ export const navItems: INavData[] = [
       {
         name: 'Listado',
         url: '/categories',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
       {
-        name: 'Agregar Categorias',
+        name: 'Añadir',
         url: '/addcategories',
-        icon: 'nav-icon-bullet'
+        icon: 'nav-icon-bullet',
       },
-    ]
+    ],
   },
   {
     name: 'Usuarios',
@@ -99,6 +99,6 @@ export const navItems: INavData[] = [
   {
     name: 'Aportes',
     iconComponent: { name: 'cil-star' },
-    url: '/contributions'
-  },  
+    url: '/contributions',
+  },
 ];

@@ -8,12 +8,19 @@
             cButton
             [routerLink]="['/create-department']"
             routerLinkActive="active"
-            style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;"
+            style="
+              background-color: #5a835a;
+              color: white;
+              border: 1px solid #5a835a;
+              border-radius: 5px;
+              padding: 8px 16px;
+              display: inline-block;
+              text-decoration: none;
+            "
             class="ms-md-2 mb-3 px-3 py-2 rounded"
           >
             Agregar Departamento
           </a>
-
         </div>
         <table
           [hover]="true"
@@ -190,7 +197,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>

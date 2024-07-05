@@ -3,7 +3,7 @@ export interface Department {
   name: string;
   director: string;
   membersQuantity: number;
-  categorie: Categorie;
+  categories: Categorie[];
 }
 
 export interface Indicator {

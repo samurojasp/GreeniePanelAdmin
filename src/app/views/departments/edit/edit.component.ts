@@ -19,11 +19,15 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
 import { GetDepartmentByIdService } from 'src/app/services/departments/get-department-by-id.service';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { Categorie } from 'src/app/types';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'app-edit',
   standalone: true,
@@ -47,7 +51,9 @@ import { GetDepartmentByIdService } from 'src/app/services/departments/get-depar
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToasterComponent
+    ToasterComponent,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
@@ -55,20 +61,22 @@ import { GetDepartmentByIdService } from 'src/app/services/departments/get-depar
 export class EditComponent {
   currentId = 0;
   name = '';
-  departmentId= 0;
-  role= "";
+  departmentId = 0;
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
-
+  toastMessage = '';
+  toastClass: string = '';
+  categoryId: number[] = [];
+  categories: Categorie[] = [];
 
   constructor(
     private editDepartmentService: EditDepartmentService,
     private getDepartmentByIdService: GetDepartmentByIdService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private categoriesService: CategoriesService
   ) {}
 
   getDepartmentById(id: number): void {
@@ -80,24 +88,40 @@ export class EditComponent {
     });
   }
 
+  getCategories(): void {
+    this.categoriesService.getPaginatedCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data;
+      },
+      error: (error) => {
+        this.toggleToast(error.message, false);
+        console.log(error);
+      },
+    });
+  }
+
   editDepartment(): void {
+    const categoryIdNumbers = this.categoryId.map((categoryId) =>
+      Number(categoryId)
+    );
     this.editDepartmentService
-      .patchDepartment(this.currentId, { name: this.name })
+      .patchDepartment(this.currentId, {
+        name: this.name,
+        categoriesIDs: categoryIdNumbers,
+      })
       .subscribe({
         next: (response) => {
           this.toggleToast('Departamento editado exitosamente', true);
           setTimeout(() => {
-            this.router.navigate([`departments`]); 
-          },1500)
-         },
-         error: (error) => {
-          this.toggleToast(error.message, false); 
+            this.router.navigate([`departments`]);
+          }, 1500);
+        },
+        error: (error) => {
+          this.toggleToast(error.message, false);
           console.log(error);
-         },
+        },
       });
   }
-
-
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
@@ -110,21 +134,21 @@ export class EditComponent {
       this.toastClass = 'toast-error';
     }
   }
-  
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
-  
+
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }
-  
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.currentId = params['id'];
     });
     this.getDepartmentById(this.currentId);
+    this.getCategories();
   }
-
 }
