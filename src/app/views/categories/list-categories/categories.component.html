@@ -32,20 +32,20 @@
                 </tr>
               </thead>
               <tbody>
-                @for (ctg of categories; track ctg.id; let i = $index)
+                @for (category of categories; track category.id; let i = $index)
                 {
                 <tr>       
                   <td class="text-center">
-                      {{ ctg.name }}
+                      {{ category.name }}
                   </td>
                   <td class="text-center">
-                      {{ctg.indicator.name}}
+                      {{category.indicator.name}}
                   </td>
                   <td class="text-center">
                     <div class="fw-semibold text-nowrap">
                       <a
                         cButton
-                        (click)="redirectToEdit(ctg.id)"
+                        (click)="redirectToEdit(category.id)"
                         color="warning"
                         variant="outline"
                         class="mx-1"
@@ -55,7 +55,7 @@
                       <button
                         cButton
                         [cModalToggle]="staticBackdropModal.id"
-                        (click)="toggleLiveDemo(ctg.id)"
+                        (click)="toggleLiveDemo(category.id)"
                         color="danger"
                         variant="outline"
                         class="mx-1"

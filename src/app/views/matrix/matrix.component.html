@@ -1,20 +1,27 @@
 <div class="table-responsive">
-    <table class="table table-striped align-middle mb-0 border custom-table">
-      <thead class="text-nowrap text-truncate">
-        <tr>
-          <th class="column1H text-center" [style.backgroundColor]="headers[0].color">{{ headers[0].label }}</th>
-          <ng-container *ngFor="let header of headers.slice(1)">
-            <th class="text-center" [style.backgroundColor]="header.color">{{ header.label }}</th>
+  <table class="table table-striped align-middle mb-0 border custom-table">
+    <thead class="text-nowrap text-truncate">
+      <tr>
+        <th class="text-center" [ngStyle]="{ 'background-color': headers[0].color }">
+          Unidades involucradas/programas-actividades-competencia
+        </th>
+        <ng-container *ngFor="let category of categories; let i = index">
+          <th class="text-center" [ngStyle]="{ 'background-color': headers[i+1].color }">{{ category.name }}</th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let matrix of matrix">
+        <td class="text-start border-cell">{{ matrix.departmentName }}</td>
+        <td class="text-center border-cell" *ngFor="let category of categories">
+          <ng-container *ngIf="category.id === matrix.categories.id && matrix.categories.potencially">
+            <p>Si</p>
           </ng-container>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of rows">
-          <td class="column1 text-start border-cell">{{ row.title }}</td>
-          <td class="text-center border-cell" *ngFor="let checkbox of row.checkboxes.slice(1)">
-            <input type="checkbox" [checked]="checkbox">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          <ng-container *ngIf="category.id !== matrix.categories.id || !matrix.categories.potencially">
+            <p>No</p>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
