@@ -22,9 +22,39 @@
                   value="{{ name }}"
                 />
               </div>
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Categorias</label>
+                <mat-select
+                  class="text-white"
+                  cSelect
+                  [(ngModel)]="categoryId"
+                  [ngModelOptions]="{ standalone: true }"
+                  multiple
+                >
+                  @for (cate of categories; track cate.id) {
+                  <mat-option value="{{ cate.id }}">
+                    {{ cate.id }} - {{ cate.name }}
+                  </mat-option>
+                  }
+                </mat-select>
+              </div>
             </div>
-            <div class="button-container"  >
-              <button style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;"(click)="createDepartment()  " cButton>Guardar  </button>
+            <div class="button-container">
+              <button
+                style="
+                  background-color: #5a835a;
+                  color: white;
+                  border: 1px solid #5a835a;
+                  border-radius: 5px;
+                  padding: 8px 16px;
+                  display: inline-block;
+                  text-decoration: none;
+                "
+                (click)="createDepartment()"
+                cButton
+              >
+                Guardar
+              </button>
             </div>
           </div>
         </form>
@@ -38,7 +68,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>

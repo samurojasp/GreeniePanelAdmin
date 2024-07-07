@@ -20,4 +20,5 @@ export class EditDepartmentService {
 
 export interface EditDepartmentBody {
   name: string;
+  categoriesIDs: number[];
 }

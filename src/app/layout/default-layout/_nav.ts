@@ -73,7 +73,7 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet',
       },
       {
-        name: 'Agregar Categorias',
+        name: 'Añadir',
         url: '/addcategories',
         icon: 'nav-icon-bullet',
       },

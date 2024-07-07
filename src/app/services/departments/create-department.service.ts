@@ -20,4 +20,5 @@ export class CreateDepartmentService {
 
 export interface CreateDepartmentBody {
   name: string;
+  categoriesIDs: number[];
 }

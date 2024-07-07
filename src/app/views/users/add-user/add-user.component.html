@@ -1,85 +1,121 @@
 <c-card class="mb-4">
   <c-card-body>
     <div class="d-flex justify-content-between align-items-center">
-      <h4 class="card-title" id="users">Agregar Usuario</h4>     
+      <h4 class="card-title" id="users">Agregar Usuario</h4>
     </div>
 
     <form cForm>
-      <div>
-        <label cLabel for="exampleFormControlInput1">Nombre</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="text"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="name"
-               value="{{ name }}"
-        />
-      </div>
-      <div>
-        <label cLabel for="exampleFormControlInput1">Correo electrónico</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               placeholder="name@example.com"
-               type="email"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="email"
-               value="{{ email }}"
-        />
-      </div>
-      <div>
-        <label cLabel for="exampleFormControlInput1">Contraseña</label>
-          <input cFormControl
-               id="exampleFormControlInput1"
-               type="password"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="password"
-               value="{{ password }}"
-        />  
-      </div>
-      <div>
-        <label cLabel for="exampleFormControlInput1">Fecha de nacimiento</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="date"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="birthdate"
-               value="{{ birthdate }}"
-        />
-      </div>
-      <div class="input-container">
-        <label cLabel for="exampleFormControlInput1">Departamento</label>
-        <select
-          aria-label="department select"
-          name="departmentId"
-          [(ngModel)]="departmentId"
-          value="{{ departmentId }}"
-          cSelect
-        >
-          @for (department of departments; track department.id) {
-          <option value="{{ department.id }}">
-            {{ department.id }} {{ department.name }}
-          </option>
-          }
-        </select>
-      </div>
-      <div>
-        <label cLabel for="exampleFormControlInput1">Rol</label>
-        <select cFormControl
-               aria-label="Role Select"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="role"
-               value="{{ role }}"
-               cSelect>
-          <option value="dpto">dpto</option>
-          <option value="admin">admin</option>
-        </select>
-      </div>          
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
+        <div style="width: 50%; margin-right: 10px">
+          <div>
+            <label cLabel for="exampleFormControlInput1">Nombre</label>
+            <input
+              cFormControl
+              id="exampleFormControlInput1"
+              type="text"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="name"
+              value="{{ name }}"
+            />
+          </div>
+          <div>
+            <label cLabel for="exampleFormControlInput1"
+              >Correo electrónico</label
+            >
+            <input
+              cFormControl
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+              type="email"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="email"
+              value="{{ email }}"
+            />
+          </div>
+          <div>
+            <label cLabel for="exampleFormControlInput1">Contraseña</label>
+            <input
+              cFormControl
+              id="exampleFormControlInput1"
+              type="password"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="password"
+              value="{{ password }}"
+            />
+          </div>
+        </div>
+        <div style="width: 50%; margin-left: 10px">
+          <div>
+            <label cLabel for="exampleFormControlInput1"
+              >Fecha de nacimiento</label
+            >
+            <input
+              cFormControl
+              id="exampleFormControlInput1"
+              type="date"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="birthdate"
+              value="{{ birthdate }}"
+            />
+          </div>
+          <div class="input-container">
+            <label cLabel for="exampleFormControlInput1">Departamento</label>
+            <select
+              aria-label="department select"
+              name="departmentId"
+              [(ngModel)]="departmentId"
+              value="{{ departmentId }}"
+              cSelect
+            >
+              @for (department of departments; track department.id) {
+              <option value="{{ department.id }}">
+                {{ department.id }} {{ department.name }}
+              </option>
+              }
+            </select>
+          </div>
 
-      <a cButton style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;" (click)="createUser()" color="success" class="text-white ms-md-2 mb-3">
+          <div>
+            <label cLabel for="exampleFormControlInput1">Rol</label>
+            <select
+              cFormControl
+              aria-label="Role Select"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="role"
+              value="{{ role }}"
+              cSelect
+            >
+              <option value="dpto">dpto</option>
+              <option value="admin">admin</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <a
+        cButton
+        style="
+          background-color: #5a835a;
+          color: white;
+          border: 1px solid #5a835a;
+          border-radius: 5px;
+          padding: 8px 16px;
+          display: inline-block;
+          text-decoration: none;
+        "
+        (click)="createUser()"
+        color="success"
+        class="text-white ms-md-2 mb-3"
+      >
         Guardar
       </a>
     </form>
-
   </c-card-body>
 </c-card>
 
@@ -88,7 +124,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>
@@ -97,6 +134,11 @@
     </c-toast-body>
   </c-toast>
 </c-toaster>
-<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-  <p style="color: white" > Loading... </p>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
