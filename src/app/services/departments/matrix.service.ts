@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MatrixService {
-  private apiUrl = 'http://localhost:3000/api/v1';
+  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1';
 
   constructor(private http: HttpClient) {}
+
+  token = localStorage.getItem('token');
   
   getDepartments(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.get(
       `${this.apiUrl}/dptos/notPag`, {
         headers,
@@ -20,14 +22,14 @@ export class MatrixService {
   }
 
   getAllCategories(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.get(`${this.apiUrl}/categories`, {
       headers,
     });
   }
 
   getMatrix(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.get(
       `${this.apiUrl}/dptos/matrix`, {
         headers,

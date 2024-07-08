@@ -42,7 +42,7 @@ export class MatrixComponent {
   headers = [
     { color: '#74b72e' },
     { color: '#ffae6a' }, 
-    { color: '#ade8f4' },
+    { color: '#26a4be' }, 
     { color: '#bca89f' },
     { color: '#48cae4' },
     { color: '#f2a6d7' },

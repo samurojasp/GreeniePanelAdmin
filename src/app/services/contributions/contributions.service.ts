@@ -7,8 +7,10 @@ import { ContributionBody } from './types';
   providedIn: 'root',
 })
 export class ContributionsService {
-  private apiUrl = 'http://localhost:3000/api/v1/';
+  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  
   constructor(private http: HttpClient) {}
+
   token = localStorage.getItem('token');
 
   transformBodyToFormData(body: ContributionBody): FormData {
@@ -87,14 +89,14 @@ export class ContributionsService {
   }
 
   deleteContribution(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
     return this.http.delete(`${this.apiUrl}contributions/${id}`, {
       headers,
     });
   }
 
   getAllDepartment(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
     return this.http.get(`${this.apiUrl}dptos`, {
       headers,
     });
