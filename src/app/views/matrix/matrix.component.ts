@@ -15,11 +15,11 @@ interface Categorie {
 
 interface Matrix {
   departmentName: string;
-  categories:{
+  categories:[{
     id: number;
     potencially:boolean;
     quantity: number;
-  }
+  }]
 }
 
 @Component({
