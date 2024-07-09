@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GetCriterionByIdService {
-  private apiUrl = 'http://localhost:3000/api/v1';
+  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1';
 
   constructor(private http: HttpClient) {}
 
+  token = localStorage.getItem('token');
+
   getCriterionById(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.get(`${this.apiUrl}/criteria/${id}`, {
       headers,
     });

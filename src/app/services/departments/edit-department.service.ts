@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class EditDepartmentService {
-  private apiUrl = 'http://localhost:3000/api/v1';
+  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1';
 
   constructor(private http: HttpClient) {}
 
+  token = localStorage.getItem('token');
+
   patchDepartment(id: number, body: EditDepartmentBody): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.patch(`${this.apiUrl}/dptos/${id}`, body, {
       headers,
     });
@@ -20,4 +22,5 @@ export class EditDepartmentService {
 
 export interface EditDepartmentBody {
   name: string;
+  categoriesIDs: number[];
 }

@@ -11,48 +11,70 @@
             class="form-control w-25 ms-md-2 mb-3"
             placeholder="Buscar..."
           />
-          <c-dropdown>
+          <c-dropdown *ngIf="role === 'admin'">
             <button
               cButton
               cDropdownToggle
-              class="form-control ms-md-2 mb-3"
-              color="dark"
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
             >
               Filtrado por departamento
             </button>
-            <ul cDropdownMenu dark>
-              <li><button cDropdownItem>Departamento 1</button></li>
-              <li><button cDropdownItem>Departamento 2</button></li>
-              <li><button cDropdownItem>Departamento 3</button></li>
+            <ul cDropdownMenu auto>
+              @for (department of departments; track department.id){
+              <li>
+                <button (click)="setDepartmentFilter(department.id)" cDropdownItem>
+                  {{ department.id }} - {{ department.name }}
+                </button >
+              </li>
+            }
             </ul>
           </c-dropdown>
           <c-dropdown>
             <button
               cButton
               cDropdownToggle
-              class="form-control ms-md-2 mb-3"
-              color="dark"
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
             >
               Filtrado por Categoría
             </button>
-            <ul cDropdownMenu dark>
+            <ul cDropdownMenu auto>
+              @for (ctg of categories; track ctg.id){
               <li>
-                <button (click)="setCategoryFilter(1)" cDropdownItem>
-                  C 1
-                </button>
+                <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
+                  {{ ctg.id }} - {{ ctg.name }}
+                </button >
               </li>
-              <li>
-                <button (click)="setCategoryFilter(2)" cDropdownItem>
-                  C 2
-                </button>
-              </li>
-              <li><button cDropdownItem>C 3</button></li>
+            }
             </ul>
           </c-dropdown>
+          <c-dropdown>
+            <button
+              cButton
+              cDropdownToggle
+              class="form-control ms-md-2 mb-3 text-center"
+              color="auto"
+              size="sm"
+            >
+              Filtrado por Indicadores
+            </button>
+            <ul cDropdownMenu auto>
+              @for (ind of indicators; track ind.id){
+              <li>
+                <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
+                  {{ ind.id }} - {{ ind.name }}
+                </button >
+              </li>
+            }
+            </ul>
+          </c-dropdown>       
           <a
             cButton
             routerLinkActive="active"
-            color="success"
+            style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;"
             class="text-white ms-md-2 mb-3"
             (click)="goToCreate()"
           >
@@ -69,7 +91,7 @@
         >
           <thead class="text-nowrap text-truncate">
             <tr>
-              <th class="bg-body-tertiary text-center">Departamento</th>
+              <th *ngIf="role === 'admin'" class="bg-body-tertiary text-center">Departamento</th>
               <th class="bg-body-tertiary text-center">Indicador</th>
               <th class="bg-body-tertiary text-center">Categoría</th>
               <th class="bg-body-tertiary text-center">Fecha</th>
@@ -80,7 +102,7 @@
             @for (contribution of contributions; track contribution.id; let i =
             $index) {
             <tr>
-              <td class="text-center">
+              <td *ngIf="role === 'admin'" class="text-center">
                 {{ contribution.user.department.name }}
               </td>
               <td class="text-center">
@@ -179,3 +201,7 @@
     </c-toast-body>
   </c-toast>
 </c-toaster>
+
+<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
+  <p style="color: white" > Cargando... </p>
+</ngx-spinner>

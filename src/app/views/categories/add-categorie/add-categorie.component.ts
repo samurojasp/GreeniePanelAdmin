@@ -20,9 +20,10 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Categorie } from '../list-categories/categories.component';
+import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { Indicator, Criteria } from '../types';
 
@@ -52,6 +53,7 @@ import { Indicator, Criteria } from '../types';
     ToasterComponent,
     MatFormFieldModule,
     MatSelectModule,
+    NgxSpinnerModule
   ],
   templateUrl: './add-categorie.component.html',
   styleUrl: './add-categorie.component.scss',
@@ -62,7 +64,6 @@ export class AddCategorieComponent {
     private router: Router
   ) {}
 
-  id = 0;
   name = '';
   description = '';
   indicatorID = 0;
@@ -96,7 +97,6 @@ export class AddCategorieComponent {
 
     this.categoriesService
       .addCategorie({
-        id: this.id,
         name: this.name,
         description: this.description,
         indicatorID: Number(this.indicatorID),

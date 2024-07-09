@@ -46,6 +46,19 @@
                 <div class="fw-semibold text-nowrap">
                   <a
                     cButton
+                    color="primary"
+                    variant="outline"
+                    class="mx-1"
+                    (click)="downloadDocument(criterion.id)"
+                  >
+                    <svg
+                      cIcon
+                      class="icon icon-lg"
+                      name="cilArrowThickBottom"
+                    ></svg>
+                  </a>
+                  <a
+                    cButton
                     routerLinkActive="active"
                     color="warning"
                     variant="outline"
@@ -89,16 +102,48 @@
 </c-row>
 
 <c-modal
+  #staticBackdropModal
+  backdrop="static"
   id="liveDemoModal"
-  [visible]="visible"
+  [visible]="visibleModal"
   (visibleChange)="handleLiveDemoChange($event)"
   alignment="center"
 >
-  <c-modal-body class="delete-modal"
-    ><h6>¿Estás seguro que deseas borrar este criterio?</h6>
-    <div class="delete-modal-buttons-container">
-      <button (click)="toggleModal(0)" cButton color="primary">Cerrar</button>
-      <button (click)="deleteCriterion()" cButton color="danger">Borrar</button>
-    </div>
-  </c-modal-body>
+  <c-modal-header>
+    <h5 cModalTitle class="float-center">
+      ¿Estás seguro de querer eliminar este criterio?
+    </h5>
+    <button cButtonClose (click)="toggleModal(0)"></button>
+  </c-modal-header>
+  <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
+  <c-modal-footer>
+    <button cButton (click)="toggleModal(0)" cButton color="secundary">
+      Cancelar
+    </button>
+    <button (click)="deleteCriterion()" cButton color="primary">Aceptar</button>
+  </c-modal-footer>
 </c-modal>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass">
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
+</ngx-spinner>

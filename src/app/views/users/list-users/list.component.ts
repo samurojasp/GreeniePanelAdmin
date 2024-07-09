@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import {
   ButtonDirective,
@@ -34,7 +35,7 @@ import {
   ToastComponent,
   ToastHeaderComponent,
   ToasterComponent,
-  ModalModule,
+  ModalModule
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
@@ -97,6 +98,7 @@ export interface User {
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
+    NgxSpinnerModule
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -129,7 +131,6 @@ export class ListComponent implements OnInit {
   getPaginatedUser(): void {
     this.usersService.getPaginatedUser().subscribe({
       next: (response) => {
-        console.log(response);
         this.users = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -144,7 +145,7 @@ export class ListComponent implements OnInit {
         this.toggleToast('Usuario eliminado exitosamente', true); // Mostrar toast de éxito después de eliminar
       },
       error: (error) => {
-        this.toggleToast('Error al eliminar usuario', false); // Mostrar toast de error
+        this.toggleToast(error.message, false); // Mostrar toast de error
         console.log(error);
       },
     });

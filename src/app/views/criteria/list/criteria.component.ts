@@ -2,6 +2,7 @@ import { NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   AvatarComponent,
   ButtonCloseDirective,
@@ -28,6 +29,12 @@ import {
   TableDirective,
   TextColorDirective,
   ThemeDirective,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
+  ModalModule,
+  ProgressBarComponent
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
@@ -35,6 +42,8 @@ import { IconDirective } from '@coreui/icons-angular';
 import { CriteriaService } from '../../../services/criteria/get-paginated-criteria.service';
 import { DeleteCriterionService } from '../../../services/criteria/delete-criterion.service';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { GetDocumentByCriterionIdService } from '../../../services/criteria/get-document-by-criterionId.service';
 
 @Component({
   templateUrl: 'criteria.component.html',
@@ -57,6 +66,7 @@ import { Router } from '@angular/router';
     ProgressComponent,
     CardHeaderComponent,
     TableDirective,
+    TextColorDirective,
     AvatarComponent,
     ModalComponent,
     ModalHeaderComponent,
@@ -69,12 +79,26 @@ import { Router } from '@angular/router';
     PageLinkDirective,
     PaginationComponent,
     RouterLink,
+    NgxSpinnerModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ModalModule,
+    ProgressBarComponent,
+    NgxPaginationModule
   ],
 })
 export class CriteriaComponent implements OnInit {
   criteria: any = [];
 
   currentId = 0;
+  position = 'top-end';
+  percentage = 0;
+  toastMessage = '';
+  toastClass = '';
+  visibleModal = false;
+  visible = false;
 
   pagination = {
     page: 1,
@@ -85,12 +109,16 @@ export class CriteriaComponent implements OnInit {
     hasNextPage: true,
   };
 
+  downloadName: string = '';
+  link = document.createElement('a');
+
   pages = this.pagination.pageCount;
 
   constructor(
     private criteriaService: CriteriaService,
     private deleteCriterionService: DeleteCriterionService,
-    private router: Router
+    private router: Router,
+    private GetDocumentService: GetDocumentByCriterionIdService
   ) {}
 
   getPaginatedCriteria(page: number, take: number): void {
@@ -106,24 +134,25 @@ export class CriteriaComponent implements OnInit {
     this.router.navigate([`edit-criterion/${id}`]);
   }
 
-  public visible = false;
 
   toggleModal(id: number) {
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
     this.currentId = id;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
 
   deleteCriterion(): void {
     this.deleteCriterionService.deleteCriterion(this.currentId).subscribe({
-      next: () => {
+      next:  () => {
         this.getPaginatedCriteria(this.pagination.page, 10);
-        this.visible = !this.visible;
+        this.visibleModal = false;
+        this.toggleToast('El Criterio se ha eliminado exitosamente', true); 
       },
       error: (error) => {
+        this.toggleToast(error.message, false); 
         console.log(error);
       },
     });
@@ -135,5 +164,39 @@ export class CriteriaComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getPaginatedCriteria(this.pagination.page, 10);
+  }
+
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 34;
+  }
+
+  downloadDocument(id: number): void {
+    this.GetDocumentService.getDocumentByCriterionId(id).subscribe({
+      next: (response) => {
+        this.downloadName = URL.createObjectURL(response);
+        this.link.href = this.downloadName;
+        this.link.download = `criterio #${id}`;
+        this.link.click();
+      },
+      error: (error) => console.error(error),
+    });
   }
 }

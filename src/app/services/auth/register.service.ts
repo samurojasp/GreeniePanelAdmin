@@ -10,11 +10,13 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
+  token = localStorage.getItem('token');
+
   postRegister(body: RegisterBody): Observable<any> {
     if (body.password !== body.confirmPassword)
       throw new Error('La contraseñas deben ser iguales');
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` });
     return this.http.post(`${this.apiUrl}/auth/register`, body, {
       headers,
     });

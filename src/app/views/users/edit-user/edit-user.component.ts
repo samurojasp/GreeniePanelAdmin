@@ -19,6 +19,7 @@ import {
   ToasterComponent
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { Department } from '../add-user/add-user.component';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -44,7 +45,8 @@ import { UsersService } from 'src/app/services/users/users.service';
     ToasterComponent, 
     ToastComponent, 
     ToastHeaderComponent,
-    ToastBodyComponent
+    ToastBodyComponent,
+    NgxSpinnerModule
   ],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss'
@@ -106,7 +108,7 @@ export class EditUserComponent implements OnInit {
       },1500)
      },
      error: (error) => {
-      this.toggleToast('Error al editar usuario', false); 
+      this.toggleToast(error.message, false); 
       console.log(error);
      },
    });

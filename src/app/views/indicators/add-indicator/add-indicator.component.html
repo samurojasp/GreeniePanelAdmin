@@ -38,10 +38,26 @@
         ></textarea>
       </div>
 
-      <a cButton (click)="addIndicator()" routerLink="/indicators" routerLinkActive="active" color="success" class="text-white ms-md-2 mb-3">
+      <a cButton style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;" (click)="addIndicator()" color="success" class="text-white ms-md-2 mb-3">
         Guardar
       </a>
     </form>
 
     </c-card-body>
     </c-card>
+
+    <c-toaster [placement]="position" class="p-3" position="fixed">
+      <c-toast
+        (timer)="onTimerChange($event)"
+        (visibleChange)="onVisibleChange($event)"
+        [visible]="visible"
+        [class]="toastClass">
+        <c-toast-body>
+          <p>{{ toastMessage }}</p>
+          <c-progress thin>
+            <c-progress-bar [value]="percentage"></c-progress-bar>
+          </c-progress>
+        </c-toast-body>
+      </c-toast>
+    </c-toaster>
+    

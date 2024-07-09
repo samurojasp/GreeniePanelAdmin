@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+
 
 import { IconDirective } from '@coreui/icons-angular';
 import {
@@ -50,10 +52,23 @@ function isOverflown(element: HTMLElement) {
 })
 export class DefaultLayoutComponent {
   public navItems = navItems;
+  sidebarColor = '#1E4034'; 
 
   onScrollbarUpdate($event: any) {
     // if ($event.verticalUsed) {
     // console.log('verticalUsed', $event.verticalUsed);
     // }
   }
+  "styles": [
+  "src/styles.css"
+   ]
+   onMouseEnterSidebar() {
+    this.sidebarColor = 'rgba(30, 64, 52, 0.8)'; // Color más transparente
+  }
+
+  // Restaurar el color original al salir del mouse
+  onMouseLeaveSidebar() {
+    this.sidebarColor = '#1E4034'; // Color de fondo original
+  }
+
 }

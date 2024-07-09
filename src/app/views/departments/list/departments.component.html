@@ -8,8 +8,16 @@
             cButton
             [routerLink]="['/create-department']"
             routerLinkActive="active"
-            color="success"
-            class="text-white ms-md-2 mb-3"
+            style="
+              background-color: #5a835a;
+              color: white;
+              border: 1px solid #5a835a;
+              border-radius: 5px;
+              padding: 8px 16px;
+              display: inline-block;
+              text-decoration: none;
+            "
+            class="ms-md-2 mb-3 px-3 py-2 rounded"
           >
             Agregar Departamento
           </a>
@@ -160,18 +168,51 @@
 </c-row>
 
 <c-modal
+  #staticBackdropModal
+  backdrop="static"
   id="liveDemoModal"
-  [visible]="visible"
+  [visible]="visibleModal"
   (visibleChange)="handleLiveDemoChange($event)"
   alignment="center"
 >
-  <c-modal-body class="delete-modal"
-    ><h6>¿Estás seguro que deseas borrar este departamento?</h6>
-    <div class="delete-modal-buttons-container">
-      <button (click)="toggleModal(0)" cButton color="primary">Cerrar</button>
-      <button (click)="deleteDepartment()" cButton color="danger">
-        Borrar
-      </button>
-    </div>
-  </c-modal-body>
+  <c-modal-header>
+    <h5 cModalTitle class="float-center">
+      ¿Estás seguro de querer eliminar este departamento?
+    </h5>
+    <button cButtonClose (click)="toggleModal(0)"></button>
+  </c-modal-header>
+  <c-modal-body>Una vez eliminado no podra ser recuperado </c-modal-body>
+  <c-modal-footer>
+    <button cButton (click)="toggleModal(0)" cButton color="secundary">
+      Cancelar
+    </button>
+    <button (click)="deleteDepartment()" cButton color="primary">
+      Aceptar
+    </button>
+  </c-modal-footer>
 </c-modal>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
+</ngx-spinner>

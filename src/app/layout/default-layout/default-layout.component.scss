@@ -22,3 +22,27 @@
 //  --scrollbar-thumb-transition: height ease-out 150ms, width ease-out 150ms;
 //  --scrollbar-track-transition: height ease-out 150ms, width ease-out 150ms;
 //}
+
+/* Elimina estas reglas CSS si estaban cambiando el color de fondo */
+::ng-deep .ng-scrollbar-track {
+  background-color: #1E4034 !important; /* Color de fondo de la pista de la barra */
+}
+
+::ng-deep .ng-scrollbar-thumb {
+  background-color: #1E4034 !important; /* Color del pulgar de la barra */
+}
+
+/* Cambia el color de fondo de la pista de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+  background-color: #1E4034;
+}
+
+/* Cambia el color del pulgar de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+  background-color: #1E4034;
+}
+
+.sidebar {
+  background-color: #1E4034;
+  transition: background-color 0.7s ease;
+}

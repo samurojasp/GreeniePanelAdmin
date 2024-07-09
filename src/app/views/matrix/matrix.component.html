@@ -1,0 +1,24 @@
+<div class="table-responsive">
+  <table class="table table-striped align-middle mb-0 border custom-table">
+    <thead class="text-nowrap text-truncate">
+      <tr>
+        <th class="text-center" [ngStyle]="{ 'background-color': headers[0].color }">
+          Unidades involucradas/programas-actividades-competencia
+        </th>
+        <ng-container *ngFor="let category of categories; let i = index">
+          <th class="text-center" [ngStyle]="{ 'background-color': headers[i+1].color }">{{ category.name }}</th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let matrix of matrix">
+        <td class="text-start border-cell">{{ matrix.departmentName }}</td>
+        <td class="text-center border-cell" *ngFor="let category of categories; let i = index">
+          <ng-container *ngIf="category.id === matrix.categories[i].id && matrix.categories[i].potencially">
+            <c-spinner [ngStyle]="{ 'color': headers[i+1].color }"></c-spinner>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
