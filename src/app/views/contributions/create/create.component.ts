@@ -16,7 +16,14 @@ import {
   TextColorDirective,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  FormGroup,
+  FormArray,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   Category,
   ContributionFile,
@@ -26,6 +33,7 @@ import {
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { v4 as uuidv4 } from 'uuid';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-create',
@@ -45,27 +53,75 @@ import { v4 as uuidv4 } from 'uuid';
     FormSelectDirective,
     FormsModule,
     ImgDirective,
+    ReactiveFormsModule,
+    NgFor,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
 })
 export class CreateComponent {
-  uuid: string = '';
-  description: string = '';
-  categoryId: number = 0;
-  indicatorId: number = 0;
-  links: ContributionLink[] = [];
-  files: ContributionFile[] = [];
-
   categoryOptions: Category[] = [];
   indicatorOptions: Indicator[] = [];
+
+  newFiles: File[] = [];
 
   constructor(
     private contributionsService: ContributionsService,
     private indicatorsService: IndicatorsService,
     private categoriesService: CategoriesService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {
+    this.contributionForm = this.formBuilder.group({
+      uuid: [''],
+      description: [''],
+      categoryId: [0],
+      indicatorId: [0],
+      links: this.formBuilder.array([]),
+      files: this.formBuilder.array([]),
+    });
+  }
+
+  contributionForm: FormGroup;
+
+  createFileFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      name: [''],
+      description: [''],
+    });
+  }
+
+  createLinkFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      URL: [''],
+      description: [''],
+    });
+  }
+
+  get files() {
+    return this.contributionForm!.get('files') as FormArray;
+  }
+
+  get links() {
+    return this.contributionForm!.get('links') as FormArray;
+  }
+
+  addFiles(): void {
+    this.files.push(this.createFileFormGroup());
+  }
+
+  addLinks(): void {
+    this.links.push(this.createLinkFormGroup());
+  }
+
+  removeLink(index: number): void {
+    this.links.removeAt(index);
+  }
+
+  removeFile(index: number): void {
+    this.files.removeAt(index);
+    this.newFiles.splice(index, 1);
+  }
 
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
@@ -89,32 +145,25 @@ export class CreateComponent {
     });
   }
 
-  addFile(): void {
-    const newFile = { name: '', description: '', file: null };
-    this.files.push(newFile);
+  handleFileChange(event: any, index: number): void {
+    console.log(event.target.files[0]);
+    this.newFiles[index] = event.target.files[0];
   }
 
   addLink(): void {
-    const newLink = { URL: '', description: '' };
-    this.links.push(newLink);
-  }
-
-  deleteFile(index: number): void {
-    console.log(index);
-    this.files.splice(index, 1);
-    console.log(this.files);
+    this.files.push(this.createFileFormGroup());
   }
 
   postContribution(): void {
-    this.uuid = uuidv4();
     this.contributionsService
       .postContribution({
-        uuid: this.uuid,
-        description: this.description,
-        categoryId: this.categoryId,
-        indicatorID: this.indicatorId,
-        links: this.links,
-        file: this.files,
+        uuid: uuidv4(),
+        description: this.contributionForm.value.description,
+        categoryId: this.contributionForm.value.categoryId,
+        indicatorID: this.contributionForm.value.indicatorId,
+        links: this.contributionForm.value.links,
+        file: this.contributionForm.value.files,
+        files: this.newFiles,
       })
       .subscribe({
         next: () => {

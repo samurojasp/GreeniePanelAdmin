@@ -7,4 +7,5 @@ export interface ContributionBody {
   file: ContributionFile[];
   categoryId: number;
   indicatorID: number;
+  files: File[];
 }

@@ -4,30 +4,22 @@
   justify-content: flex-end;
 }
 
-.file-image {
-  max-width: 40px;
-  max-height: 50px;
-}
-
-.image-container {
-  border: solid 1px black;
-  border-radius: 6px;
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
 .files-container {
   display: flex;
   flex-direction: column;
-  border: solid 1px black;
+  border: solid 1px #dbdfe6;
   border-radius: 6px;
-  gap: 20px;
+  gap: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .file-container {
@@ -43,29 +35,15 @@
 .new-file-button-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-}
-
-.erase-file-button {
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  justify-content: center;
-  background-color: red;
-  color: white;
-  height: 50px;
-  width: 50px;
-  border: none;
-  font-weight: 400;
-  border-radius: 100%;
+  justify-content: flex-start;
 }
 
 .links-container {
   display: flex;
   flex-direction: column;
-  border: solid 1px black;
+  border: solid 1px #dbdfe6;
   border-radius: 6px;
-  gap: 20px;
+  gap: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 20px;
@@ -85,13 +63,49 @@
 .new-link-button-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .two-inputs-container {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-content: center;
+}
+
+.file-form {
+  display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
-  margin-left: 20px;
+}
+
+.file-input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.erase-file-button {
+  color: white;
+}
+
+.erase-link-button {
+  color: white;
+}
+
+.erase-link-button-container {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

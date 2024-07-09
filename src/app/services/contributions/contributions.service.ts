@@ -13,7 +13,6 @@ export class ContributionsService {
 
   transformBodyToFormData(body: ContributionBody): FormData {
     const postContributionFormData = new FormData();
-    console.log(body.description);
     postContributionFormData.append('uuid', body.uuid);
     postContributionFormData.append('description', body.description);
     postContributionFormData.append('categoryId', body.categoryId.toString());
@@ -23,20 +22,16 @@ export class ContributionsService {
       .map((link) => JSON.stringify(link))
       .join(',');
 
-    console.log(stringifiedLinks);
     postContributionFormData.append('link', stringifiedLinks);
 
-    body.file.forEach((file) => {
-      const blob = new Blob([file.file!], { type: 'application/pdf' });
+    const stringifiedFiles = body.file
+      .map((file) => JSON.stringify(file))
+      .join(',');
 
-      postContributionFormData.append(
-        'file',
-        JSON.stringify({
-          name: file.name,
-          description: file.description,
-        })
-      );
-      postContributionFormData.append('files', blob);
+    postContributionFormData.append('file', stringifiedFiles);
+
+    body.files.forEach((file) => {
+      postContributionFormData.append('files', file);
     });
 
     return postContributionFormData;
@@ -47,7 +42,6 @@ export class ContributionsService {
       Authorization: `Bearer ${this.token}`,
     });
     const formData = this.transformBodyToFormData(body);
-    console.log(formData.get('categoryId'));
     return this.http.post(`${this.apiUrl}contributions`, formData, {
       headers,
     });
