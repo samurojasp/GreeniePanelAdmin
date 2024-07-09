@@ -7,8 +7,9 @@ import { ContributionBody } from './types';
   providedIn: 'root',
 })
 export class ContributionsService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
-  
+  private apiUrl =
+    'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+
   constructor(private http: HttpClient) {}
 
   token = localStorage.getItem('token');
@@ -83,14 +84,20 @@ export class ContributionsService {
   }
 
   deleteContribution(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
     return this.http.delete(`${this.apiUrl}contributions/${id}`, {
       headers,
     });
   }
 
   getAllDepartment(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
     return this.http.get(`${this.apiUrl}dptos`, {
       headers,
     });

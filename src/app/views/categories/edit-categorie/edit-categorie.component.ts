@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { 
+import {
   ButtonDirective,
   ButtonGroupComponent,
   ButtonCloseDirective,
@@ -16,10 +16,10 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Categorie } from 'src/app/types';
@@ -45,16 +45,16 @@ import { Indicator, Criteria } from '../types';
     ProgressBarDirective,
     ProgressComponent,
     RouterLink,
-    ToasterComponent, 
-    ToastComponent, 
+    ToasterComponent,
+    ToastComponent,
     ToastHeaderComponent,
     ToastBodyComponent,
     MatSelectModule,
     MatFormFieldModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './edit-categorie.component.html',
-  styleUrl: './edit-categorie.component.scss'
+  styleUrl: './edit-categorie.component.scss',
 })
 export class EditCategorieComponent {
   constructor(
@@ -63,7 +63,7 @@ export class EditCategorieComponent {
     private route: ActivatedRoute
   ) {}
 
-  public categories: Categorie[] = []
+  public categories: Categorie[] = [];
 
   id = 0;
   name = '';
@@ -91,7 +91,6 @@ export class EditCategorieComponent {
   getIndicators(): void {
     this.categoriesService.getAllIndicators().subscribe({
       next: (response) => {
-        console.log(response);
         this.indicators = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -101,41 +100,41 @@ export class EditCategorieComponent {
   getCriteria(): void {
     this.categoriesService.getAllCriteria().subscribe({
       next: (response) => {
-        console.log(response);
         this.criteria = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
     });
   }
 
-
   editCategorie(): void {
-
     const criteriaIdNumber = this.criteriaID.map((criterionId) =>
       Number(criterionId)
     );
 
-    this.categoriesService.editCategorie( this.currentId,
-       {name: this.name, description: this.description, indicatorID: Number(this.indicatorID), criteriaID: criteriaIdNumber, }).subscribe({
-     next: (response) => {
-        this.router.navigate([`categories`]); 
-     },
-     error: (error) => {
-      console.log(this.id, this.name, this.indicatorID, this.criteriaID)
-      console.log(error);
-     },
-   });
- }
+    this.categoriesService
+      .editCategorie(this.currentId, {
+        name: this.name,
+        description: this.description,
+        indicatorID: Number(this.indicatorID),
+        criteriaID: criteriaIdNumber,
+      })
+      .subscribe({
+        next: (response) => {
+          this.router.navigate([`categories`]);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
 
- ngOnInit(): void {
-  this.getIndicators();
-  this.getCriteria();
-  this.route.params.subscribe((params) => {
-    this.currentId = params['id'];
+  ngOnInit(): void {
+    this.getIndicators();
+    this.getCriteria();
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+    });
 
-  });
-
-  this.getCategorieById(this.currentId);
-}
-
+    this.getCategorieById(this.currentId);
+  }
 }

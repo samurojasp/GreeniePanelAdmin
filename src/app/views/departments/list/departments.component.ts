@@ -121,7 +121,6 @@ export class DepartmentsComponent implements OnInit {
     private router: Router
   ) {}
 
-
   toggleModal(id: number) {
     this.visibleModal = !this.visibleModal;
     this.currentId = id;
@@ -140,16 +139,16 @@ export class DepartmentsComponent implements OnInit {
       error: (error) => console.error('Error al realizar la solicitud:', error),
     });
   }
-  
+
   deleteDepartment(): void {
     this.deleteDepartmentService.deleteDepartment(this.currentId).subscribe({
-      next:  () => {
+      next: () => {
         this.getPaginatedDepartments(this.pagination.page, 10);
         this.visibleModal = false;
-        this.toggleToast('El departamento se ha eliminado exitosamente', true); 
+        this.toggleToast('El departamento se ha eliminado exitosamente', true);
       },
       error: (error) => {
-        this.toggleToast(error.message, false); 
+        this.toggleToast(error.message, false);
         console.log(error);
       },
     });
@@ -161,7 +160,6 @@ export class DepartmentsComponent implements OnInit {
     }
     this.pagination.page = page;
 
-    console.log(this.pagination.page);
     this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
   }
 
@@ -193,6 +191,4 @@ export class DepartmentsComponent implements OnInit {
   onTimerChange($event: number) {
     this.percentage = $event * 34;
   }
-
-
 }

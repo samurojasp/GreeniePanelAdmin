@@ -14,6 +14,13 @@ import {
   FormSelectDirective,
   RowComponent,
   TextColorDirective,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
+  ProgressBarComponent,
+  ProgressBarDirective,
+  ProgressComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import {
@@ -34,6 +41,7 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { v4 as uuidv4 } from 'uuid';
 import { NgFor } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create',
@@ -55,6 +63,14 @@ import { NgFor } from '@angular/common';
     ImgDirective,
     ReactiveFormsModule,
     NgFor,
+    NgxSpinnerModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
@@ -62,6 +78,12 @@ import { NgFor } from '@angular/common';
 export class CreateComponent {
   categoryOptions: Category[] = [];
   indicatorOptions: Indicator[] = [];
+
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = '';
+  toastClass: string = '';
 
   newFiles: File[] = [];
 
@@ -129,7 +151,7 @@ export class CreateComponent {
         this.indicatorOptions = response.data;
       },
       error: (error) => {
-        console.log(error);
+        this.toggleToast(error.message, false);
       },
     });
   }
@@ -140,13 +162,12 @@ export class CreateComponent {
         this.categoryOptions = response.data;
       },
       error: (error) => {
-        console.log(error);
+        this.toggleToast(error.message, false);
       },
     });
   }
 
   handleFileChange(event: any, index: number): void {
-    console.log(event.target.files[0]);
     this.newFiles[index] = event.target.files[0];
   }
 
@@ -167,14 +188,37 @@ export class CreateComponent {
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['/contributions']);
+          this.toggleToast('El aporte se ha creado exitosamente', true);
+          setTimeout(() => {}, 1500);
+          this.router.navigate([`contributions`]);
         },
         error: (error) => {
           console.log(error);
+          this.toggleToast(error.message, false);
         },
       });
   }
 
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
   ngOnInit(): void {
     this.getIndicators();
     this.getCategories();
