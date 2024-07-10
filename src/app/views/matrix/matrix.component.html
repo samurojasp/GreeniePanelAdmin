@@ -14,6 +14,9 @@
       <tr *ngFor="let matrix of matrix">
         <td class="text-start border-cell">{{ matrix.departmentName }}</td>
         <td class="text-center border-cell" *ngFor="let category of categories; let i = index">
+          <ng-container *ngIf="matrix.categories[i].quantity > 0">
+            <p>Aportado: {{ matrix.categories[i].quantity }}</p>
+          </ng-container>
           <ng-container *ngIf="category.id === matrix.categories[i].id && matrix.categories[i].potencially">
             <c-spinner [ngStyle]="{ 'color': headers[i+1].color }"></c-spinner>
           </ng-container>
