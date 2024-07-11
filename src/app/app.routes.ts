@@ -67,17 +67,23 @@ export const routes: Routes = [
       {
         path: 'categories',
         loadChildren: () =>
-          import('./views/categories/list-categories/routes').then((m) => m.routes),
+          import('./views/categories/list-categories/routes').then(
+            (m) => m.routes
+          ),
       },
       {
         path: 'addcategories',
         loadChildren: () =>
-          import('./views/categories/add-categorie/routes').then((m) => m.routes),
+          import('./views/categories/add-categorie/routes').then(
+            (m) => m.routes
+          ),
       },
       {
         path: 'editcategories/:id',
         loadChildren: () =>
-          import('./views/categories/edit-categorie/routes').then((m) => m.routes),
+          import('./views/categories/edit-categorie/routes').then(
+            (m) => m.routes
+          ),
       },
       {
         path: 'users',
@@ -164,6 +170,11 @@ export const routes: Routes = [
           import('./views/indicators/edit-indicator/routes').then(
             (m) => m.routes
           ),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./views/settings/routes').then((m) => m.routes),
       },
       {
         path: '**',

@@ -101,4 +101,9 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-star' },
     url: '/contributions',
   },
+  {
+    name: 'Ajustes',
+    url: '/settings',
+    iconComponent: { name: 'cil-star' },
+  },
 ];
