@@ -9,7 +9,7 @@ export const navItems: INavData[] = [
   {
     title: true,
     name: 'Gestión',
-    class: 'mt-auto',
+    class: 'mt-auto text-white',
   },
   {
     name: 'Departamentos',
