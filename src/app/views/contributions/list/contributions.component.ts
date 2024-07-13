@@ -39,7 +39,7 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
@@ -88,7 +88,7 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './contributions.component.html',
   styleUrl: './contributions.component.scss',
@@ -133,7 +133,6 @@ export class ContributionsComponent {
     return formattedDate.toLocaleDateString('es-ES', { timeZone: 'UTC' });
   }
 
-
   getPaginatedContributions(): void {
     this.contributionsService
       .getPaginatedContributions(
@@ -145,7 +144,7 @@ export class ContributionsComponent {
       )
       .subscribe({
         next: (response) => {
-          console.log(this.role)
+          console.log(this.role);
           this.contributions = response.data;
           this.pagination = response.meta;
         },
@@ -247,6 +246,12 @@ export class ContributionsComponent {
 
   goToCreate(): void {
     this.router.navigate(['/create-contribution']);
+  }
+
+  goToEdit(currentContributionId: number): void {
+    console.log('entro');
+    console.log(currentContributionId)
+    this.router.navigate([`/edit-contribution/${currentContributionId}`]);
   }
 
   ngOnInit(): void {

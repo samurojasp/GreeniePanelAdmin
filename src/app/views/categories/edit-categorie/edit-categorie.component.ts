@@ -134,7 +134,6 @@ export class EditCategorieComponent {
     this.route.params.subscribe((params) => {
       this.currentId = params['id'];
     });
-
     this.getCategorieById(this.currentId);
   }
 }

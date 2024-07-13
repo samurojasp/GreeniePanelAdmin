@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ContributionsService } from '../../../services/contributions/contributions.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ButtonDirective,
   CardBodyComponent,
@@ -28,6 +28,7 @@ import {
   FormsModule,
   FormGroup,
   FormArray,
+  FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
@@ -62,7 +63,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ImgDirective,
     ReactiveFormsModule,
     NgFor,
-    NgIf,
     NgxSpinnerModule,
     ToastBodyComponent,
     ToastComponent,
@@ -71,14 +71,15 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ProgressBarComponent,
     ProgressBarDirective,
     ProgressComponent,
+    NgIf,
   ],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.scss',
+  templateUrl: './edit.component.html',
+  styleUrl: './edit.component.scss',
 })
-export class CreateComponent {
+export class EditComponent {
   categoryOptions: Category[] = [];
   indicatorOptions: Indicator[] = [];
-
+  currentId = 0;
   position = 'top-end';
   visible = false;
   percentage = 0;
@@ -92,7 +93,8 @@ export class CreateComponent {
     private indicatorsService: IndicatorsService,
     private categoriesService: CategoriesService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) {
     this.contributionForm = this.formBuilder.group({
       uuid: [''],
@@ -145,6 +147,44 @@ export class CreateComponent {
     this.newFiles.splice(index, 1);
   }
 
+  getContribution(): void {
+    this.contributionsService.getContributionById(this.currentId).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.contributionForm = this.formBuilder.group({
+          uuid: [response.uuid],
+          description: [response.description],
+          categoryId: [response.categoryId],
+          indicatorId: [response.indicatorID],
+          links: this.formBuilder.array([]),
+          files: this.formBuilder.array([]),
+        });
+
+        response.link.map((link: ContributionLink) =>
+          this.links.push(
+            this.formBuilder.group({
+              URL: [link.URL],
+              description: [link.description],
+            })
+          )
+        );
+        response.files.map((file: any) => {
+          const fileFormGroup = this.createFileFormGroup();
+          fileFormGroup.patchValue({
+            name: file.name,
+            description: file.description,
+          });
+          this.files.push(fileFormGroup);
+          const blob = new Blob([file.path], {
+            type: `application/${file.type}`,
+          });
+          const newFile = new File([blob], file.name, { type: file.type });
+          this.newFiles.push(newFile);
+        });
+      },
+    });
+  }
+
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
       next: (response) => {
@@ -171,14 +211,10 @@ export class CreateComponent {
     this.newFiles[index] = event.target.files[0];
   }
 
-  addLink(): void {
-    this.files.push(this.createFileFormGroup());
-  }
-
-  postContribution(): void {
+  patchContribution(): void {
     this.contributionsService
       .postContribution({
-        uuid: uuidv4(),
+        uuid: this.contributionForm.value.uuid,
         description: this.contributionForm.value.description,
         categoryId: this.contributionForm.value.categoryId,
         indicatorID: this.contributionForm.value.indicatorId,
@@ -190,9 +226,19 @@ export class CreateComponent {
         next: () => {
           this.toggleToast('El aporte se ha creado exitosamente', true);
           setTimeout(() => {}, 1500);
+          console.log({
+            uuid: this.contributionForm.value.uuid,
+            description: this.contributionForm.value.description,
+            categoryId: this.contributionForm.value.categoryId,
+            indicatorID: this.contributionForm.value.indicatorId,
+            links: this.contributionForm.value.links,
+            file: this.contributionForm.value.files,
+            files: this.newFiles,
+          });
           this.router.navigate([`contributions`]);
         },
         error: (error) => {
+          console.log(this.newFiles);
           console.log(error);
           this.toggleToast(error.message, false);
         },
@@ -220,7 +266,11 @@ export class CreateComponent {
     this.percentage = $event * 100;
   }
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+    });
     this.getIndicators();
     this.getCategories();
+    this.getContribution();
   }
 }
