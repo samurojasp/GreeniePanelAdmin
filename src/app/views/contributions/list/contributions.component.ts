@@ -222,16 +222,22 @@ export class ContributionsComponent {
   }
 
   setCategoryFilter(categoryId: number): void {
+    this.indicatorFilter = 0;
+    this.departmentFilter = 0;
     this.categoryFilter = categoryId;
     this.getPaginatedContributions();
   }
 
   setDepartmentFilter(departmentId: number): void {
+    this.indicatorFilter = 0;
+    this.categoryFilter = 0;
     this.departmentFilter = departmentId;
     this.getPaginatedContributions();
   }
 
   setIndicatorFilter(indicatorId: number): void {
+    this.categoryFilter = 0;  
+    this.departmentFilter = 0;
     this.indicatorFilter = indicatorId;
     this.getPaginatedContributions();
   }
