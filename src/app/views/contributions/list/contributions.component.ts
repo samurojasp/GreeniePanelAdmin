@@ -129,10 +129,7 @@ export class ContributionsComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.categoryFilter = params['CategoryID'];
-      this.indicatorFilter = params['IndicatorID'];
-    });
+
   }
 
   transformDate(dateString: string): string {
@@ -262,9 +259,15 @@ export class ContributionsComponent {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.categoryFilter = params['CategoryID'];
+      this.indicatorFilter = params['IndicatorID'];
+    });
+    console.log(this.categoryFilter, this.indicatorFilter);
     this.getPaginatedContributions();
     this.getAllCategories();
     this.getAllDepartments();
     this.getAllIndicators();
+    
   }
 }
