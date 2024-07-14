@@ -1,1 +1,57 @@
-<p>settings works!</p>
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-body>
+        <form cForm>
+          <div class="root-div">
+            <div class="tittle-container">
+              <h4 class="card-title" id="settings">Ajustes</h4>
+            </div>
+            <div>
+              <h5 class="subtittle-style">
+                Periodo valido para subir aportes de información
+              </h5>
+              <div class="settings-container">
+                <div class="left-date-container">
+                  <h6 class="subtittle-style">Fecha de inicio</h6>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Introduzca fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="right-date-container">
+                  <h6 class="subtittle-style">Fecha de fin</h6>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Introduzca fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-slide-toggle
+                class="slider-style"
+                [aria-label]="isSubscribedToEmailsMessage"
+                [checked]="buttonIsOn"
+                (change)="printStuff(buttonIsOn)"
+              >
+                testing: {{ buttonIsOn }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
