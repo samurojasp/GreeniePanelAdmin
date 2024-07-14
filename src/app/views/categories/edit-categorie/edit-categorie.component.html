@@ -1,7 +1,7 @@
 <c-card class="mb-4">
     <c-card-body>
       <div class="d-flex justify-content-between align-items-center">
-        <h4 class="card-title" id="users">Editar Usuario</h4>     
+        <h4 class="card-title" id="users">Editar Categoría</h4>     
       </div>
   
       <form cForm>
@@ -60,9 +60,24 @@
           Guardar
         </a>
       </form>
-  
     </c-card-body>
   </c-card>
+
+  <c-toaster [placement]="position" class="p-3" position="fixed">
+    <c-toast
+      (timer)="onTimerChange($event)"
+      (visibleChange)="onVisibleChange($event)"
+      [visible]="visible"
+      [class]="toastClass">
+      <c-toast-body>
+        <p>{{ toastMessage }}</p>
+        <c-progress thin>
+          <c-progress-bar [value]="percentage"></c-progress-bar>
+        </c-progress>
+      </c-toast-body>
+    </c-toast>
+  </c-toaster>
+  
   <ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
     <p style="color: white" > Cargando... </p>
   </ngx-spinner>

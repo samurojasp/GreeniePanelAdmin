@@ -6,10 +6,10 @@
       <c-col lg="10" xl="8">
         <c-card-group>
           <c-card
-            [ngStyle]="{ 'minWidth.%': 44 }"
-            class="text-white bg-primary py-5"
+          [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A', 'minWidth.%': 44 }"
+          class="text-white ms-md-2 mb-3 py-5"
           >
-            <c-card-body class="text-center">
+            <c-card-body class="text-center p-5 my-5 ">
               <div>
                 <h2>Bienvenido/a</h2>
                 <p>Me alegra verte de nuevo</p>
@@ -53,15 +53,10 @@
                     <button
                       (click)="login()"
                       cButton
-                      class="px-4"
-                      color="primary"
+                      [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
+                      class="text-white ms-md-2 mb-3 px-4"
                     >
                       Ingresar
-                    </button>
-                  </c-col>
-                  <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
-                      ¿Olvidó la contraseña?
                     </button>
                   </c-col>
                 </c-row>
@@ -73,6 +68,22 @@
     </c-row>
   </c-container>
 </div>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass">
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
 <ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
   <p style="color: white" > Cargando... </p>
 </ngx-spinner>

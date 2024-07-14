@@ -79,7 +79,12 @@ export class CategoriesComponent {
   public categories: Categorie[] = []
 
   currentId = 0;
-  public visible = false;
+  position = 'top-end';
+  percentage = 0;
+  toastMessage = '';
+  toastClass = '';
+  visibleModal = false;
+  visible = false;
 
 
   getPaginatedCategories(): void {
@@ -104,17 +109,38 @@ export class CategoriesComponent {
     });
   }
 
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 34;
+  }
+
   redirectToEdit(id: number): void {
     this.router.navigate([`editcategories/${id}`]);
   }
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
    ngOnInit(): void {
     this.getPaginatedCategories();

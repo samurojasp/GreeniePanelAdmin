@@ -123,8 +123,6 @@ export class EditComponent {
       });
   }
 
-
-
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
     this.percentage = 100;
@@ -151,6 +149,7 @@ export class EditComponent {
       this.currentId = params['id'];
     });
     this.getIndicators();
+    this.getCriterionById(this.currentId);
   }
 
 }

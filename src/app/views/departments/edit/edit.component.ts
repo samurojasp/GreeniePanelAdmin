@@ -110,7 +110,7 @@ export class EditComponent {
         categoriesIDs: categoryIdNumbers,
       })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.toggleToast('Departamento editado exitosamente', true);
           setTimeout(() => {
             this.router.navigate([`departments`]);

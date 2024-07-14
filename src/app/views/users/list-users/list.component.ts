@@ -40,20 +40,8 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle, CommonModule } from '@angular/common';
+import { User } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  birthdate: string;
-  role: string;
-  department: {
-    id: number;
-    name: string;
-  };
-}
 
 @Component({
   selector: 'app-users',

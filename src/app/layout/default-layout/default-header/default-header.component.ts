@@ -67,8 +67,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   readonly colorModes = [
     { name: 'light', text: 'Light', icon: 'cilSun' },
-    { name: 'dark', text: 'Dark', icon: 'cilMoon' },
-    { name: 'auto', text: 'Auto', icon: 'cilContrast' },
   ];
 
   readonly icons = computed(() => {

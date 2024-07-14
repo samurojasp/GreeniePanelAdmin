@@ -21,15 +21,8 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { IconDirective } from '@coreui/icons-angular';
-import { User } from '../list-users/list.component';
+import { User, Department } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
-
-export interface Department {
-  id: number;
-  name: string;
-  director: string;
-  membersQuantity: number;
-}
 
 @Component({
   selector: 'app-add-user',

@@ -14,6 +14,13 @@ import {
   InputGroupTextDirective,
   FormControlDirective,
   ButtonDirective,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
+  ProgressBarComponent,
+  ProgressBarDirective,
+  ProgressComponent,
 } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -41,12 +48,26 @@ import { Router } from '@angular/router';
     ButtonDirective,
     NgStyle,
     FormsModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent,
     NgxSpinnerModule
   ],
 })
 export class LoginComponent {
   email = '';
   password = '';
+  currentId = 0;
+  position = 'top-end';
+  percentage = 0;
+  toastMessage = '';
+  toastClass = '';
+  visibleModal = false;
+  visible = false;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -59,10 +80,31 @@ export class LoginComponent {
           localStorage.setItem('id', response.id);
           localStorage.setItem('email', response.email);
           localStorage.setItem('role', response.role);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/matrix']);
         },
         error: (error) =>
-          console.error('Error al realizar la solicitud:', error),
+          this.toggleToast(error.message, false)
       });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 34;
   }
 }
