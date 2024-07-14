@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategorieBody } from './types';
+import { getBaseUrl } from '../config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoriesService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 

@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { AddUserBody, EditUserBody, CreateUserBody } from './types';
-
+import { getBaseUrl } from '../config';
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 

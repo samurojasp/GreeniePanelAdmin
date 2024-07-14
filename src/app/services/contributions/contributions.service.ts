@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PatchContributionBody, PostContributionBody } from './types';
+import { getBaseUrl } from '../config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContributionsService {
-  private apiUrl =
-    'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
