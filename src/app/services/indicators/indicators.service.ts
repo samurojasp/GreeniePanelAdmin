@@ -7,7 +7,7 @@ import { getBaseUrl } from '../config';
   providedIn: 'root',
 })
 export class IndicatorsService {
-  private apiUrl = getBaseUrl();
+  private apiUrl = getBaseUrl() + '/';
 
   constructor(private http: HttpClient) {}
 
