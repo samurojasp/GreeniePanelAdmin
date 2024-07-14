@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgIf, NgStyle } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { IconDirective, IconModule } from '@coreui/icons-angular';
+import { ContributionsComponent } from 'src/app/views/contributions/list/contributions.component';
 import { MatrixService } from 'src/app/services/departments/matrix.service';
 import { SpinnerModule, CardModule, TableModule, UtilitiesModule } from '@coreui/angular';
+import { Indicator } from 'src/app/types';
 
 interface Department {
   id: number;
@@ -11,6 +15,7 @@ interface Department {
 interface Categorie {
   id: number;
   name: string;
+  indicator: Indicator;
 }
 
 interface Matrix {
@@ -25,13 +30,15 @@ interface Matrix {
 @Component({
   selector: 'app-matrix',
   standalone: true,
-  imports: [CommonModule, SpinnerModule, NgIf, NgStyle, CardModule, TableModule, UtilitiesModule],
+  imports: [ ContributionsComponent, CommonModule, SpinnerModule, NgIf, NgStyle, IconDirective, IconModule, CardModule, TableModule, UtilitiesModule, RouterLink],
   templateUrl: './matrix.component.html',
   styleUrl: './matrix.component.scss'
 })
 export class MatrixComponent {
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private matrixService: MatrixService
   ) { }
 
@@ -75,11 +82,16 @@ export class MatrixComponent {
     this.matrixService.getMatrix().subscribe({
       next: (response) => {
         console.log(response);
+        console.log(response.data);
         this.matrix = response.data;
       },
       error: (error) =>
         console.error('Error al realizar la solicitud:', error),
     });
+  }
+
+  navigateToContributions(categoryID: number, indicatorID: number): void {
+    this.router.navigate(['/contributions'], { queryParams: { categoryID: categoryID, indicatorID: indicatorID } });
   }
 
   ngOnInit(): void {

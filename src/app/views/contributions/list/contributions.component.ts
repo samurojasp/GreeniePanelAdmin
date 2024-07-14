@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgStyle } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 
 import {
   ButtonDirective,
@@ -94,12 +94,6 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
   styleUrl: './contributions.component.scss',
 })
 export class ContributionsComponent {
-  constructor(
-    private contributionsService: ContributionsService,
-    private categoriesService: CategoriesService,
-    private getAllIndicatorsService: GetAllIndicatorsService,
-    private router: Router
-  ) {}
 
   contributions: contribution[] = [];
   categories: Categorie[] = [];
@@ -127,6 +121,19 @@ export class ContributionsComponent {
   categoryFilter = 0;
   departmentFilter = 0;
   indicatorFilter = 0;
+
+  constructor(
+    private contributionsService: ContributionsService,
+    private categoriesService: CategoriesService,
+    private getAllIndicatorsService: GetAllIndicatorsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      this.categoryFilter = params['CategoryID'];
+      this.indicatorFilter = params['IndicatorID'];
+    });
+  }
 
   transformDate(dateString: string): string {
     const formattedDate = new Date(dateString);

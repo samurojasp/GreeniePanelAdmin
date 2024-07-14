@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CreateDepartmentService } from '../../../services/departments/create-department.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   ButtonDirective,
   CardBodyComponent,
@@ -53,6 +54,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ProgressComponent,
     MatSelectModule,
     MatFormFieldModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
