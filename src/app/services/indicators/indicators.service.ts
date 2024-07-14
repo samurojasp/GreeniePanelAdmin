@@ -7,7 +7,7 @@ import { getBaseUrl } from '../config';
   providedIn: 'root',
 })
 export class IndicatorsService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
