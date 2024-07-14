@@ -19,7 +19,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}categories/notPag`, {
+    return this.http.get(`${this.apiUrl}/categories/notPag`, {
       headers,
     });
   }
@@ -29,7 +29,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}categories?page=${page}&take=${take}`, {
+    return this.http.get(`${this.apiUrl}/categories?page=${page}&take=${take}`, {
       headers,
     });
   }
@@ -39,7 +39,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}categories/${id}`, {
+    return this.http.get(`${this.apiUrl}/categories/${id}`, {
       headers,
     });
   }
@@ -49,7 +49,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.patch(`${this.apiUrl}categories/${id}`, body, {
+    return this.http.patch(`${this.apiUrl}/categories/${id}`, body, {
       headers,
     });
   }
@@ -59,7 +59,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.delete(`${this.apiUrl}categories/${id}`, {
+    return this.http.delete(`${this.apiUrl}/categories/${id}`, {
       headers,
     });
   }
@@ -69,7 +69,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.post(`${this.apiUrl}categories`, body, {
+    return this.http.post(`${this.apiUrl}/categories`, body, {
       headers,
     });
   }
@@ -79,7 +79,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}criteria`, {
+    return this.http.get(`${this.apiUrl}/criteria`, {
       headers,
     });
   }
@@ -89,7 +89,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}indicators`, {
+    return this.http.get(`${this.apiUrl}/indicators`, {
       headers,
     });
   }
