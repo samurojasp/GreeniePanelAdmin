@@ -6,18 +6,9 @@
           <h4 class="card-title" id="criteria">Gestión de Criterios</h4>
           <a
             cButton
-            style="
-            background-color: #5a835a;
-            color: white;
-            border: 1px solid #5a835a;
-            border-radius: 5px;
-            padding: 8px 16px;
-            display: inline-block;
-            text-decoration: none;
-          "
             [routerLink]="['/create-criterion']"
             routerLinkActive="active"
-            color="success"
+            [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
             class="text-white ms-md-2 mb-3"
           >
             Agregar Criterio

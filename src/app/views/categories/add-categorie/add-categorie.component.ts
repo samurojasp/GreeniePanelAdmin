@@ -67,6 +67,11 @@ export class AddCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
   criteriaID: number[] = [];
   categories: Categorie[] = [];
   indicators: Indicator[] = [];
@@ -104,12 +109,36 @@ export class AddCategorieComponent {
       })
       .subscribe({
         next: () => {
-          this.router.navigate([`categories`]);
+          this.toggleToast('Se ha creado la categoría exitosamente', true);
+          setTimeout(() => {
+            this.router.navigate([`categories`]);
+          },1500)
         },
         error: (error) => {
-          console.log(error);
+          this.toggleToast(error.message, false); 
         },
       });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+  
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+  
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
   }
 
   ngOnInit(): void {

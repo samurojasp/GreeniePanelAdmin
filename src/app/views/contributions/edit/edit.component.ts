@@ -197,7 +197,7 @@ export class EditComponent {
   }
 
   getCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
+    this.categoriesService.getPaginatedCategories(1, 10).subscribe({
       next: (response) => {
         this.categoryOptions = response.data;
       },

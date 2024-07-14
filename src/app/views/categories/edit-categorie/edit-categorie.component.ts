@@ -45,10 +45,13 @@ import { Indicator, Criteria } from '../types';
     ProgressBarDirective,
     ProgressComponent,
     RouterLink,
-    ToasterComponent,
+    ProgressBarComponent,
+    ProgressBarDirective,
+    ProgressComponent,
+    ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToastBodyComponent,
+    ToasterComponent,
     MatSelectModule,
     MatFormFieldModule,
     NgxSpinnerModule,
@@ -69,6 +72,11 @@ export class EditCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = ''; 
+  toastClass: string = ''; 
   criteriaID: number[] = [];
   currentId = 0;
 
@@ -119,13 +127,37 @@ export class EditCategorieComponent {
         criteriaID: criteriaIdNumber,
       })
       .subscribe({
-        next: (response) => {
-          this.router.navigate([`categories`]);
+        next: () => {
+          this.toggleToast('Se ha editado la categoría correctamente', true);
+          setTimeout(() => {
+            this.router.navigate([`categories`]);
+          },1500)
         },
         error: (error) => {
-          console.log(error);
+          this.toggleToast(error.message, false); 
         },
       });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+  
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+  
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
   }
 
   ngOnInit(): void {

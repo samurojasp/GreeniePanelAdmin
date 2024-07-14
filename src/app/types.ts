@@ -1,3 +1,16 @@
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  birthdate: string;
+  role: string;
+  department: {
+    id: number;
+    name: string;
+  };
+}
+
 export interface Department {
   id: number;
   name: string;
@@ -110,5 +123,15 @@ export interface contribution {
         description: string;
       }
     ];
+  };
+}
+
+export interface BackendError {
+  error: {
+    status: number;
+    instance: string;
+    code: string;
+    message: string;
+    detail: [message: string] | string;
   };
 }

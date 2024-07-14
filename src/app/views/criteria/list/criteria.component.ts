@@ -162,11 +162,7 @@ export class CriteriaComponent implements OnInit {
     if (page < 1 || page > this.pagination.pageCount) return;
     this.pagination.page = page;
   }
-  ngOnInit(): void {
-    this.getPaginatedCriteria(this.pagination.page, 10);
-  }
-
-
+ 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
     this.percentage = 100;
@@ -198,5 +194,9 @@ export class CriteriaComponent implements OnInit {
       },
       error: (error) => console.error(error),
     });
+  }
+
+  ngOnInit(): void {
+    this.getPaginatedCriteria(this.pagination.page, 10);
   }
 }

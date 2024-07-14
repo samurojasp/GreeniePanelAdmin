@@ -20,7 +20,7 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { Department } from '../add-user/add-user.component';
+import { Department } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -55,7 +55,6 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class EditUserComponent implements OnInit {
 
   currentId = 0;
-  currentName = '';
 
   toastMessage = ''; 
   toastClass: string = ''; 
@@ -75,18 +74,6 @@ export class EditUserComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
-  
-  getUserById(id: number): void {
-    this.usersService.getUserById(id).subscribe({
-      next: (response) => {
-        this.name = response.name;
-        this.email = response.email;
-        this.role = response.role;
-        this.departmentId = response.departmentId;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
-  }
 
   getDepartments(): void {
     this.usersService.getAllDepartments().subscribe({
@@ -97,11 +84,23 @@ export class EditUserComponent implements OnInit {
       error: (error) => console.error('Error al realizar la solicitud:', error),
     });
   }
+  
+  getUserById(id: number): void {
+    this.usersService.getUserById(id).subscribe({
+      next: (response) => {
+        this.name = response.name;
+        this.email = response.email;
+        this.role = response.role;
+        this.departmentId = response.department.id;
+      },
+      error: (error) => console.error('Error al realizar la solicitud:', error),
+    });
+  }
 
   editUser(): void {
     this.usersService.editUser( this.currentId,
        { name: this.name, email: this.email, department: this.departmentId, role: this.role }).subscribe({
-     next: (response) => {
+     next: () => {
       this.toggleToast('Usuario editado exitosamente', true);
       setTimeout(() => {
         this.router.navigate([`users`]); 
@@ -136,12 +135,10 @@ onTimerChange($event: number) {
 }
 
  ngOnInit(): void {
-  this.getDepartments();
   this.route.params.subscribe((params) => {
     this.currentId = params['id'];
-    this.currentName = params['name'];
   });
-
+  this.getDepartments();
   this.getUserById(this.currentId);
 }
 

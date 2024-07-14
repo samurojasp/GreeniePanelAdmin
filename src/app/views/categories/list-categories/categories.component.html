@@ -2,27 +2,13 @@
   <c-col xs>
     <c-card class="mb-4">
       <c-card-body>
-        <h4 class="card-title text-center" id="users">Gestión de Categorías</h4>
         <div class="d-flex justify-content-between align-items-center">
-          <input
-            type="text"
-            class="form-control w-25 ms-md-2 mb-3"
-            placeholder="Buscar..."
-          />
-
+          <h4 class="card-title text-center" id="users">Gestión de Categorías</h4>
           <a
             cButton
             routerLink="/addcategories"
             routerLinkActive="active"
-            style="
-              background-color: #5a835a;
-              color: white;
-              border: 1px solid #5a835a;
-              border-radius: 5px;
-              padding: 8px 16px;
-              display: inline-block;
-              text-decoration: none;
-            "
+            [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
             class="text-white ms-md-2 mb-3"
           >
             Agregar Categoría
@@ -45,7 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (category of categories; track category.id; let i = $index) {
+            @for (category of categories | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page}; track category.id;
+            let i = $index) {
             <tr>
               <td class="text-center">
                 {{ category.name }}
@@ -81,23 +69,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div>
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>

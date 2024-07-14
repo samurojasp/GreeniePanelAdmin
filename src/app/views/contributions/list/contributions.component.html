@@ -2,15 +2,10 @@
   <c-col xs>
     <c-card class="mb-4">
       <c-card-body>
-        <h4 class="card-title text-center" id="users">
-          Aportes de Información
-        </h4>
         <div class="d-flex justify-content-between align-items-center">
-          <input
-            type="text"
-            class="form-control w-25 ms-md-2 mb-3"
-            placeholder="Buscar..."
-          />
+          <h4 class="card-title text-center" id="users">
+            Aportes de Información
+          </h4>
           <c-dropdown *ngIf="role === 'admin'">
             <button
               cButton
@@ -82,19 +77,11 @@
           <a
             cButton
             routerLinkActive="active"
-            style="
-              background-color: #5a835a;
-              color: white;
-              border: 1px solid #5a835a;
-              border-radius: 5px;
-              padding: 8px 16px;
-              display: inline-block;
-              text-decoration: none;
-            "
+            [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
             class="text-white ms-md-2 mb-3"
             (click)="goToCreate()"
           >
-            Agregar
+            Agregar aporte
           </a>
         </div>
         <table
