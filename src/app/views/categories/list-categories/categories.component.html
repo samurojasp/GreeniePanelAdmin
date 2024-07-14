@@ -31,7 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (category of categories; track category.id; let i = $index) {
+            @for (category of categories | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page}; track category.id;
+            let i = $index) {
             <tr>
               <td class="text-center">
                 {{ category.name }}
@@ -67,23 +69,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div>
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>

@@ -156,7 +156,7 @@ export class ContributionsComponent {
   }
 
   getAllCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
+    this.categoriesService.getPaginatedCategories(1, 10).subscribe({
       next: (response) => {
         this.categories = response.data;
       },

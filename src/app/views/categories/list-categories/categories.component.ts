@@ -32,6 +32,7 @@ import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-categories',
@@ -67,6 +68,7 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
     IconDirective,
     RouterLink,
     NgxSpinnerModule,
+    NgxPaginationModule,
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
@@ -80,20 +82,34 @@ export class CategoriesComponent {
   public categories: Categorie[] = [];
 
   currentId = 0;
+  pagination = {
+    page: 1,
+    take: 1,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
   position = 'top-end';
   percentage = 0;
   toastMessage = '';
   toastClass = '';
   visibleModal = false;
-  visible = false;
+
+  public visible = false;
 
   getPaginatedCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
-      next: (response) => {
-        this.categories = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+    this.categoriesService
+      .getPaginatedCategories(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.categories = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) =>
+          console.error('Error al realizar la solicitud:', error),
+      });
   }
 
   deleteCategorie(): void {
@@ -142,6 +158,15 @@ export class CategoriesComponent {
     this.visibleModal = event;
   }
   ngOnInit(): void {
+    this.getPaginatedCategories();
+  }
+
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
+
     this.getPaginatedCategories();
   }
 }
