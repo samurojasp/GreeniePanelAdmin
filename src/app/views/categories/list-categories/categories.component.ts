@@ -25,18 +25,19 @@ import {
   TextColorDirective,
   PageLinkDirective,
   PaginationComponent,
-  PageItemDirective
+  PageItemDirective,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { Categorie } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [ TextColorDirective,
+  imports: [
+    TextColorDirective,
     CardComponent,
     CardBodyComponent,
     RowComponent,
@@ -65,18 +66,18 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
     PaginationComponent,
     IconDirective,
     RouterLink,
-    NgxSpinnerModule],
+    NgxSpinnerModule,
+  ],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-
   constructor(
     private router: Router,
     private categoriesService: CategoriesService
-  ) { }
+  ) {}
 
-  public categories: Categorie[] = []
+  public categories: Categorie[] = [];
 
   currentId = 0;
   position = 'top-end';
@@ -86,11 +87,9 @@ export class CategoriesComponent {
   visibleModal = false;
   visible = false;
 
-
   getPaginatedCategories(): void {
     this.categoriesService.getPaginatedCategories().subscribe({
       next: (response) => {
-        console.log(response);
         this.categories = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -142,8 +141,7 @@ export class CategoriesComponent {
   handleLiveDemoChange(event: any) {
     this.visibleModal = event;
   }
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.getPaginatedCategories();
   }
-
 }

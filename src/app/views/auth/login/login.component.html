@@ -6,19 +6,24 @@
       <c-col lg="10" xl="8">
         <c-card-group>
           <c-card
-          [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A', 'minWidth.%': 44 }"
-          class="text-white ms-md-2 mb-3 py-5"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A',
+              'minWidth.%': 44
+            }"
           >
-            <c-card-body class="text-center p-5 my-5 ">
-              <div>
-                <h2>Bienvenido/a</h2>
-                <p>Me alegra verte de nuevo</p>
+            <c-card-body class="green-card">
+              <div class="image-container">
+                <img class="image" src="assets/images/GreeniePanel.png" />
               </div>
+
+              <h2>¡Bienvenido/a!</h2>
+              <p>Me alegra verte de nuevo</p>
             </c-card-body>
           </c-card>
           <c-card class="p-4">
             <c-card-body>
-              <form cForm>
+              <form [formGroup]="loginForm" cForm>
                 <h1>Inicia Sesión</h1>
                 <p class="text-body-secondary">
                   Ingresa a tu cuenta de GreenieMetrics
@@ -26,12 +31,10 @@
                 <c-input-group class="mb-3">
                   <span cInputGroupText>&#64;</span>
                   <input
-                    [(ngModel)]="email"
-                    name="email"
+                    formControlName="email"
                     autoComplete="email"
                     cFormControl
                     placeholder="Correo electrónico"
-                    value="{{ email }}"
                   />
                 </c-input-group>
                 <c-input-group class="mb-4">
@@ -39,21 +42,42 @@
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
                   <input
-                    [(ngModel)]="password"
-                    name="password"
+                    formControlName="password"
                     autoComplete="current-password"
                     cFormControl
                     placeholder="Contraseña"
                     type="password"
-                    value="{{ password }}"
                   />
                 </c-input-group>
+                <c-row class="helpers-container"
+                  ><div
+                    *ngIf="
+                      (email!.invalid && (email!.dirty || email!.touched)) ||
+                      (password!.invalid &&
+                        (password!.dirty || password!.touched))
+                    "
+                    class="helper"
+                  >
+                    <div *ngIf="email!.hasError('required')">
+                      El email es requerido
+                    </div>
+                    <div *ngIf="password!.hasError('required')">
+                      La contraseña es requerida
+                    </div>
+                    <div *ngIf="password!.hasError('minlength')">
+                      La contraseña debe tener al menos 8 caracteres
+                    </div>
+                  </div></c-row
+                >
                 <c-row>
                   <c-col xs="6">
                     <button
                       (click)="login()"
                       cButton
-                      [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
+                      [ngStyle]="{
+                        'background-color': '#5A835A',
+                        border: '1px solid #5A835A'
+                      }"
                       class="text-white ms-md-2 mb-3 px-4"
                     >
                       Ingresar
@@ -74,7 +98,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>
@@ -84,6 +109,11 @@
   </c-toast>
 </c-toaster>
 
-<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-  <p style="color: white" > Cargando... </p>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
 </ngx-spinner>

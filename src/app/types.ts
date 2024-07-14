@@ -125,3 +125,13 @@ export interface contribution {
     ];
   };
 }
+
+export interface BackendError {
+  error: {
+    status: number;
+    instance: string;
+    code: string;
+    message: string;
+    detail: [message: string] | string;
+  };
+}
