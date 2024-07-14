@@ -1,28 +1,30 @@
 <c-card class="mb-4">
   <c-card-body>
     <div class="d-flex justify-content-between align-items-center">
-      <h4 class="card-title" id="users">Editar Usuario</h4>     
+      <h4 class="card-title" id="users">Editar Usuario</h4>
     </div>
 
     <form cForm>
       <div>
         <label cLabel for="exampleFormControlInput1">Nombre</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="text"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="name"
-               value="{{ name }}"
+        <input
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="name"
+          value="{{ name }}"
         />
       </div>
       <div>
         <label cLabel for="exampleFormControlInput1">Correo electrónico</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="text"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="email"
-               value="{{ email }}"
+        <input
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="email"
+          value="{{ email }}"
         />
       </div>
       <div class="input-container">
@@ -43,21 +45,27 @@
       </div>
       <div>
         <label cLabel for="exampleFormControlInput1">Rol</label>
-        <select cFormControl
-               aria-label="Role Select"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="role"
-               value="{{ role }}"
-               cSelect>
+        <select
+          cFormControl
+          aria-label="Role Select"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="role"
+          value="{{ role }}"
+          cSelect
+        >
           <option value="dpto">dpto</option>
           <option value="admin">admin</option>
         </select>
-      </div>    
-      <a cButton (click)="editUser()" color="success" class="text-white ms-md-2 mb-3">
+      </div>
+      <a
+        cButton
+        (click)="editUser()"
+        color="success"
+        class="text-white ms-md-2 mb-3"
+      >
         Guardar
       </a>
     </form>
-
   </c-card-body>
 </c-card>
 
@@ -66,7 +74,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>

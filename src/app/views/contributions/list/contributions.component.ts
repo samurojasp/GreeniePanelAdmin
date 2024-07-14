@@ -94,7 +94,6 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
   styleUrl: './contributions.component.scss',
 })
 export class ContributionsComponent {
-
   contributions: contribution[] = [];
   categories: Categorie[] = [];
   departments: Department[] = [];
@@ -128,9 +127,7 @@ export class ContributionsComponent {
     private getAllIndicatorsService: GetAllIndicatorsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-
-  }
+  ) {}
 
   transformDate(dateString: string): string {
     const formattedDate = new Date(dateString);
@@ -254,20 +251,28 @@ export class ContributionsComponent {
 
   goToEdit(currentContributionId: number): void {
     console.log('entro');
-    console.log(currentContributionId)
+    console.log(currentContributionId);
     this.router.navigate([`/edit-contribution/${currentContributionId}`]);
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.categoryFilter = params['CategoryID'];
-      this.indicatorFilter = params['IndicatorID'];
+    this.route.paramMap.subscribe((params) => {
+      const categoryId = params.get('CategoryID');
+      const indicatorId = params.get('IndicatorID');
+
+      if (categoryId) {
+        this.categoryFilter = Number(categoryId);
+      }
+
+      if (indicatorId) {
+        this.indicatorFilter = Number(indicatorId);
+      }
+      console.log(categoryId);
+      console.log(indicatorId);
+      this.getPaginatedContributions();
+      this.getAllCategories();
+      this.getAllDepartments();
+      this.getAllIndicators();
     });
-    console.log(this.categoryFilter, this.indicatorFilter);
-    this.getPaginatedContributions();
-    this.getAllCategories();
-    this.getAllDepartments();
-    this.getAllIndicators();
-    
   }
 }

@@ -22,6 +22,11 @@
               Filtrado por departamento
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setDepartmentFilter(0)" cDropdownItem>
+                  Todos los departamentos
+                </button>
+              </li>
               @for (department of departments; track department.id){
               <li>
                 <button

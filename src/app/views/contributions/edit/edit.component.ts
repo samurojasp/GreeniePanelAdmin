@@ -176,7 +176,7 @@ export class EditComponent {
           });
           this.files.push(fileFormGroup);
           const blob = new Blob([file.path], {
-            type: `application/${file.type}`,
+            type: file.type,
           });
           const newFile = new File([blob], file.name, { type: file.type });
           this.newFiles.push(newFile);

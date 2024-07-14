@@ -4,7 +4,7 @@
       <c-card-body>
         <form [formGroup]="contributionForm" cForm>
           <div class="d-flex justify-content-between align-items-center">
-            <h4 class="card-title" id="users">Crear aporte de información</h4>
+            <h4 class="card-title" id="users">Editar aporte de información</h4>
           </div>
           <div class="form-container">
             <div class="input-container">
@@ -59,11 +59,11 @@
                     <div class="file-input-container">
                       <input
                         type="file"
-                        id="fileinput"
+                        id="fileinput{{ i }}"
                         (change)="handleFileChange($event, i)"
                         style="display: none"
                       />
-                      <label for="fileinput" class="file-input">{{
+                      <label for="fileinput{{ i }}" class="file-input">{{
                         "Selecciona un Archivo"
                       }}</label>
                       <div *ngIf="newFiles[i]; else elseBlock">

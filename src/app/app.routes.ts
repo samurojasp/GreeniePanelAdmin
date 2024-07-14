@@ -101,6 +101,21 @@ export const routes: Routes = [
           import('./views/users/edit-user/routes').then((m) => m.routes),
       },
       {
+        path: 'contributions/category/:CategoryID/indicator/:IndicatorID',
+        loadChildren: () =>
+          import('./views/contributions/list/routes').then((m) => m.routes),
+      },
+      {
+        path: 'contributions/category/:CategoryID',
+        loadChildren: () =>
+          import('./views/contributions/list/routes').then((m) => m.routes),
+      },
+      {
+        path: 'contributions/indicator/:IndicatorID',
+        loadChildren: () =>
+          import('./views/contributions/list/routes').then((m) => m.routes),
+      },
+      {
         path: 'contributions',
         loadChildren: () =>
           import('./views/contributions/list/routes').then((m) => m.routes),

@@ -4,7 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { ContributionsComponent } from 'src/app/views/contributions/list/contributions.component';
 import { MatrixService } from 'src/app/services/departments/matrix.service';
-import { SpinnerModule, CardModule, TableModule, UtilitiesModule } from '@coreui/angular';
+import {
+  SpinnerModule,
+  CardModule,
+  TableModule,
+  UtilitiesModule,
+} from '@coreui/angular';
 import { Indicator } from 'src/app/types';
 
 interface Department {
@@ -20,27 +25,40 @@ interface Categorie {
 
 interface Matrix {
   departmentName: string;
-  categories:[{
-    id: number;
-    potencially:boolean;
-    quantity: number;
-  }]
+  categories: [
+    {
+      id: number;
+      potencially: boolean;
+      quantity: number;
+    }
+  ];
 }
 
 @Component({
   selector: 'app-matrix',
   standalone: true,
-  imports: [ ContributionsComponent, CommonModule, SpinnerModule, NgIf, NgStyle, IconDirective, IconModule, CardModule, TableModule, UtilitiesModule, RouterLink],
+  imports: [
+    ContributionsComponent,
+    CommonModule,
+    SpinnerModule,
+    NgIf,
+    NgStyle,
+    IconDirective,
+    IconModule,
+    CardModule,
+    TableModule,
+    UtilitiesModule,
+    RouterLink,
+  ],
   templateUrl: './matrix.component.html',
-  styleUrl: './matrix.component.scss'
+  styleUrl: './matrix.component.scss',
 })
 export class MatrixComponent {
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private matrixService: MatrixService
-  ) { }
+  ) {}
 
   matrix: Matrix[] = [];
   departments: Department[] = [];
@@ -48,8 +66,8 @@ export class MatrixComponent {
 
   headers = [
     { color: '#74b72e' },
-    { color: '#ffae6a' }, 
-    { color: '#26a4be' }, 
+    { color: '#ffae6a' },
+    { color: '#26a4be' },
     { color: '#bca89f' },
     { color: '#48cae4' },
     { color: '#f2a6d7' },
@@ -62,9 +80,8 @@ export class MatrixComponent {
         console.log(response);
         this.departments = response.data;
       },
-      error: (error) =>
-        console.error('Error al realizar la solicitud:', error),
-    })
+      error: (error) => console.error('Error al realizar la solicitud:', error),
+    });
   }
 
   getCategories() {
@@ -73,9 +90,8 @@ export class MatrixComponent {
         console.log(response);
         this.categories = response.data;
       },
-      error: (error) =>
-        console.error('Error al realizar la solicitud:', error),
-    })
+      error: (error) => console.error('Error al realizar la solicitud:', error),
+    });
   }
 
   getMatrixData() {
@@ -85,13 +101,14 @@ export class MatrixComponent {
         console.log(response.data);
         this.matrix = response.data;
       },
-      error: (error) =>
-        console.error('Error al realizar la solicitud:', error),
+      error: (error) => console.error('Error al realizar la solicitud:', error),
     });
   }
 
   navigateToContributions(categoryID: number, indicatorID: number): void {
-    this.router.navigate(['/contributions'], { queryParams: { categoryID: categoryID, indicatorID: indicatorID } });
+    this.router.navigate([
+      `/contributions/category/${categoryID}/indicator/${indicatorID}`,
+    ]);
   }
 
   ngOnInit(): void {
@@ -99,5 +116,4 @@ export class MatrixComponent {
     this.getDepartments();
     this.getCategories();
   }
-
 }
