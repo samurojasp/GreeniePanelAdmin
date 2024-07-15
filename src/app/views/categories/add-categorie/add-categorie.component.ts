@@ -20,7 +20,7 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Categorie } from 'src/app/types';
@@ -53,7 +53,7 @@ import { Indicator, Criteria } from '../types';
     ToasterComponent,
     MatFormFieldModule,
     MatSelectModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './add-categorie.component.html',
   styleUrl: './add-categorie.component.scss',
@@ -70,8 +70,8 @@ export class AddCategorieComponent {
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
   criteriaID: number[] = [];
   categories: Categorie[] = [];
   indicators: Indicator[] = [];
@@ -82,7 +82,12 @@ export class AddCategorieComponent {
       next: (response) => {
         this.indicators = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -91,7 +96,12 @@ export class AddCategorieComponent {
       next: (response) => {
         this.criteria = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -112,10 +122,13 @@ export class AddCategorieComponent {
           this.toggleToast('Se ha creado la categoría exitosamente', true);
           setTimeout(() => {
             this.router.navigate([`categories`]);
-          },1500)
+          }, 1500);
         },
         error: (error) => {
-          this.toggleToast(error.message, false); 
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -131,12 +144,12 @@ export class AddCategorieComponent {
       this.toastClass = 'toast-error';
     }
   }
-  
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
-  
+
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }

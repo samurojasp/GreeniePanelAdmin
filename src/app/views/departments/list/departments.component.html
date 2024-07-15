@@ -33,7 +33,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (department of departments| paginate: { itemsPerPage:
+            @for (department of departments | paginate: { itemsPerPage:
             pagination.take, currentPage: pagination.page, totalItems:
             pagination.itemCount}; track department.id; let i = $index) {
             <tr>

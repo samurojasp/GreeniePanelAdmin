@@ -75,8 +75,8 @@ export class EditCategorieComponent {
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
   criteriaID: number[] = [];
   currentId = 0;
 
@@ -92,7 +92,12 @@ export class EditCategorieComponent {
         this.indicatorID = response.indicatorID;
         this.criteriaID = response.criteriaID;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -101,7 +106,12 @@ export class EditCategorieComponent {
       next: (response) => {
         this.indicators = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -131,10 +141,13 @@ export class EditCategorieComponent {
           this.toggleToast('Se ha editado la categoría correctamente', true);
           setTimeout(() => {
             this.router.navigate([`categories`]);
-          },1500)
+          }, 1500);
         },
         error: (error) => {
-          this.toggleToast(error.message, false); 
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -150,12 +163,12 @@ export class EditCategorieComponent {
       this.toastClass = 'toast-error';
     }
   }
-  
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
-  
+
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }

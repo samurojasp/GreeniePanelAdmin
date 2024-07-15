@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { 
+import {
   ButtonDirective,
   ButtonGroupComponent,
   ButtonCloseDirective,
@@ -16,10 +16,10 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { Department } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -42,27 +42,25 @@ import { UsersService } from 'src/app/services/users/users.service';
     ProgressBarDirective,
     ProgressComponent,
     RouterLink,
-    ToasterComponent, 
-    ToastComponent, 
+    ToasterComponent,
+    ToastComponent,
     ToastHeaderComponent,
     ToastBodyComponent,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './edit-user.component.html',
-  styleUrl: './edit-user.component.scss'
+  styleUrl: './edit-user.component.scss',
 })
-
 export class EditUserComponent implements OnInit {
-
   currentId = 0;
 
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
 
-  name= "";
-  email= "";
-  departmentId= 0;
-  role= "";
+  name = '';
+  email = '';
+  departmentId = 0;
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
@@ -81,65 +79,82 @@ export class EditUserComponent implements OnInit {
         console.log(response);
         this.departments = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
-  
+
   getUserById(id: number): void {
     this.usersService.getUserById(id).subscribe({
       next: (response) => {
         this.name = response.name;
         this.email = response.email;
         this.role = response.role;
-        this.departmentId = response.department.id;
+        this.departmentId = 7;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
   editUser(): void {
-    this.usersService.editUser( this.currentId,
-       { name: this.name, email: this.email, department: this.departmentId, role: this.role }).subscribe({
-     next: () => {
-      this.toggleToast('Usuario editado exitosamente', true);
-      setTimeout(() => {
-        this.router.navigate([`users`]); 
-      },1500)
-     },
-     error: (error) => {
-      this.toggleToast(error.message, false); 
-      console.log(error);
-     },
-   });
- }
-
- toggleToast(message: string, success: boolean): void {
-  this.visible = true;
-  this.percentage = 100;
-  if (success) {
-    this.toastMessage = message;
-    this.toastClass = 'toast-success';
-  } else {
-    this.toastMessage = message;
-    this.toastClass = 'toast-error';
+    this.usersService
+      .editUser(this.currentId, {
+        name: this.name,
+        email: this.email,
+        department: this.departmentId.toString(),
+        role: this.role,
+      })
+      .subscribe({
+        next: () => {
+          this.toggleToast('Usuario editado exitosamente', true);
+          setTimeout(() => {
+            this.router.navigate([`users`]);
+          }, 1500);
+        },
+        error: (error) => {
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
-}
 
-onVisibleChange($event: boolean) {
-  this.visible = $event;
-  this.percentage = !this.visible ? 0 : this.percentage;
-}
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
 
-onTimerChange($event: number) {
-  this.percentage = $event * 100;
-}
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
 
- ngOnInit(): void {
-  this.route.params.subscribe((params) => {
-    this.currentId = params['id'];
-  });
-  this.getDepartments();
-  this.getUserById(this.currentId);
-}
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
 
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+    });
+    this.getDepartments();
+    this.getUserById(this.currentId);
+  }
 }

@@ -14,7 +14,7 @@
               color="auto"
               size="sm"
             >
-              Filtrado por departamento
+              {{ getDepartmentFilterTitle(departmentFilter) }}
             </button>
             <ul cDropdownMenu auto>
               <li>
@@ -42,9 +42,14 @@
               color="auto"
               size="sm"
             >
-              Filtrado por Categoría
+              {{ getCategoryFilterTitle(categoryFilter) }}
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setCategoryFilter(0)" cDropdownItem>
+                  Todas las categorías
+                </button>
+              </li>
               @for (ctg of categories; track ctg.id){
               <li>
                 <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
@@ -62,9 +67,14 @@
               color="auto"
               size="sm"
             >
-              Filtrado por Indicadores
+              {{ getIndicatorFilterTitle(indicatorFilter) }}
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setIndicatorFilter(0)" cDropdownItem>
+                  Todos los indicadores
+                </button>
+              </li>
               @for (ind of indicators; track ind.id){
               <li>
                 <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
@@ -77,7 +87,10 @@
           <a
             cButton
             routerLinkActive="active"
-            [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A'
+            }"
             class="text-white ms-md-2 mb-3"
             (click)="goToCreate()"
           >
@@ -104,8 +117,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (contribution of contributions; track contribution.id; let i =
-            $index) {
+            @for (contribution of contributions | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page, totalItems:
+            pagination.itemCount}; track contribution.id; let i = $index) {
             <tr>
               <td *ngIf="role === 'admin'" class="text-center">
                 {{ contribution.user.department.name }}
@@ -147,23 +161,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>
@@ -183,14 +189,14 @@
   </c-modal-header>
   <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
   <c-modal-footer>
-    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="white">
       Cerrar
     </button>
     <button
       cButton
       (click)="deleteContribution()"
       [cModalToggle]="staticBackdropModal.id"
-      color="primary"
+      class="accept-button"
     >
       Aceptar
     </button>

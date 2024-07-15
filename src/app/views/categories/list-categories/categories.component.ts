@@ -107,8 +107,12 @@ export class CategoriesComponent {
           this.categories = response.data;
           this.pagination = response.meta;
         },
-        error: (error) =>
-          console.error('Error al realizar la solicitud:', error),
+        error: (error) => {
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
       });
   }
 
@@ -119,7 +123,10 @@ export class CategoriesComponent {
         this.visible = !this.visible;
       },
       error: (error) => {
-        console.log(error);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
