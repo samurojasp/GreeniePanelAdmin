@@ -1,19 +1,19 @@
 <c-card class="mb-4">
-    <c-card-body>
-        
+  <c-card-body>
     <div class="d-flex justify-content-between align-items-center">
-        <h4 class="card-title" id="users">Editar Indicador</h4>     
+      <h4 class="card-title" id="users">Editar Indicador</h4>
     </div>
 
     <form cForm>
       <div>
         <label cLabel for="exampleFormControlInput1">Nombre</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="text"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="name"
-               value="{{ name }}"
+        <input
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="name"
+          value="{{ name }}"
         />
       </div>
       <div>
@@ -28,45 +28,52 @@
       </div>
       <div>
         <label cLabel for="exampleFormControlInput1">Indice</label>
-        <input cFormControl
-               id="exampleFormControlInput1"
-               type="number"
-               min="1"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="index"
-               value="{{ index }}"
+        <input
+          cFormControl
+          id="exampleFormControlInput1"
+          type="number"
+          min="1"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="index"
+          value="{{ index }}"
         />
       </div>
       <div>
         <label cLabel for="exampleFormControlInput1">Descripción</label>
-        <textarea cFormControl
-               id="exampleFormControlInput1"
-               type="text"
-               [ngModelOptions]="{standalone: true}"
-               [(ngModel)]="description"
-               value="{{ description }}"
+        <textarea
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="description"
+          value="{{ description }}"
         ></textarea>
       </div>
-      
-      <a cButton (click)="editIndicator()"  color="success" class="text-white ms-md-2 mb-3">
+
+      <a
+        cButton
+        (click)="editIndicator()"
+        color="success"
+        class="text-white ms-md-2 mb-3"
+      >
         Guardar
       </a>
     </form>
-    </c-card-body>
-    </c-card>
+  </c-card-body>
+</c-card>
 
-    <c-toaster [placement]="position" class="p-3" position="fixed">
-      <c-toast
-        (timer)="onTimerChange($event)"
-        (visibleChange)="onVisibleChange($event)"
-        [visible]="visible"
-        [class]="toastClass">
-        <c-toast-body>
-          <p>{{ toastMessage }}</p>
-          <c-progress thin>
-            <c-progress-bar [value]="percentage"></c-progress-bar>
-          </c-progress>
-        </c-toast-body>
-      </c-toast>
-    </c-toaster>
-
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

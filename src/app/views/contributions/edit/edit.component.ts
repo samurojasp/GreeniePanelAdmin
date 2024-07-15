@@ -110,6 +110,7 @@ export class EditComponent {
 
   createFileFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id: 0,
       name: [''],
       description: [''],
     });
@@ -154,8 +155,8 @@ export class EditComponent {
         this.contributionForm = this.formBuilder.group({
           uuid: [response.uuid],
           description: [response.description],
-          categoryId: [response.categoryId],
-          indicatorId: [response.indicatorID],
+          categoryId: [response.category.id],
+          indicatorId: [response.category.indicator.id],
           links: this.formBuilder.array([]),
           files: this.formBuilder.array([]),
         });
@@ -169,17 +170,15 @@ export class EditComponent {
           )
         );
         response.files.map((file: any) => {
+          console.log(file);
           const fileFormGroup = this.createFileFormGroup();
           fileFormGroup.patchValue({
+            id: file.id,
             name: file.name,
             description: file.description,
           });
           this.files.push(fileFormGroup);
-          const blob = new Blob([file.path], {
-            type: file.type,
-          });
-          const newFile = new File([blob], file.name, { type: file.type });
-          this.newFiles.push(newFile);
+          console.log(this.files.controls[0].value.name);
         });
       },
     });
@@ -209,6 +208,7 @@ export class EditComponent {
 
   handleFileChange(event: any, index: number): void {
     this.newFiles[index] = event.target.files[0];
+    this.files.at(index).patchValue({ name: event.target.files[0].name });
   }
 
   patchContribution(): void {
