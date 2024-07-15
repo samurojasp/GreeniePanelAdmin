@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIf, NgStyle } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
@@ -36,6 +36,8 @@ import {
   ToastHeaderComponent,
   ToasterComponent,
   ModalModule,
+  FormControlDirective,
+  FormSelectDirective,
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
@@ -44,6 +46,7 @@ import { Categorie, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-contributions',
@@ -89,6 +92,9 @@ import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-ind
     ToasterComponent,
     RouterLink,
     NgxSpinnerModule,
+    FormControlDirective,
+    FormSelectDirective,
+    NgxPaginationModule,
   ],
   templateUrl: './contributions.component.html',
   styleUrl: './contributions.component.scss',
@@ -134,6 +140,33 @@ export class ContributionsComponent {
     return formattedDate.toLocaleDateString('es-ES', { timeZone: 'UTC' });
   }
 
+  getCategoryFilterTitle(categoryId: number): string {
+    const category = this.categories.find(
+      (category) => category.id === categoryId
+    );
+    return category
+      ? `${category.id} - ${category.name}`
+      : 'Todas las categorías';
+  }
+
+  getIndicatorFilterTitle(indicatorId: number): string {
+    const indicator = this.indicators.find(
+      (indicator) => indicator.id === indicatorId
+    );
+    return indicator
+      ? `${indicator.id} - ${indicator.name}`
+      : 'Todos los indicadores';
+  }
+
+  getDepartmentFilterTitle(departmentId: number): string {
+    const department = this.departments.find(
+      (department) => department.id === departmentId
+    );
+    return department
+      ? `${department.id} - ${department.name}`
+      : 'Todos los departamentos';
+  }
+
   getPaginatedContributions(): void {
     this.contributionsService
       .getPaginatedContributions(
@@ -145,7 +178,6 @@ export class ContributionsComponent {
       )
       .subscribe({
         next: (response) => {
-          console.log(this.role);
           this.contributions = response.data;
           this.pagination = response.meta;
         },
@@ -259,6 +291,15 @@ export class ContributionsComponent {
     console.log('entro');
     console.log(currentContributionId);
     this.router.navigate([`/edit-contribution/${currentContributionId}`]);
+  }
+
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
+
+    this.getPaginatedContributions();
   }
 
   ngOnInit(): void {

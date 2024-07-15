@@ -1,6 +1,8 @@
 import { INavData } from '@coreui/angular';
 
-export const navItems: INavData[] = [
+const role = localStorage.getItem('role');
+
+const adminNavBarItems = [
   {
     name: 'Matriz',
     url: '/matrix',
@@ -100,5 +102,49 @@ export const navItems: INavData[] = [
     name: 'Aportes',
     iconComponent: { name: 'cilTask' },
     url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
   },
 ];
+
+const departmentNavBarItems = [
+  {
+    name: 'Matriz',
+    url: '/matrix',
+    iconComponent: { name: 'cil-speedometer' },
+  },
+  {
+    title: true,
+    name: 'Gestión',
+    class: 'mt-auto text-white',
+  },
+  {
+    name: 'Aportes',
+    iconComponent: { name: 'cil-star' },
+    url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
+  },
+];
+
+export const navItems: INavData[] = adminNavBarItems;

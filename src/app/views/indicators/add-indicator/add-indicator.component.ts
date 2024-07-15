@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CardBodyComponent,
-         CardComponent,
-         FormDirective,
-         FormLabelDirective,
-         FormSelectDirective,
-         FormControlDirective,
-         ButtonDirective,
-         ButtonGroupComponent,
-         ButtonCloseDirective,
-         RowComponent,
-         ToastBodyComponent,
-         ToastComponent,
-         ToastHeaderComponent,
-         ToasterComponent,
-         TextColorDirective,
-         ProgressBarComponent,
-         ProgressBarDirective,
-         CardHeaderComponent,
-         ColComponent,
-         ProgressComponent } from '@coreui/angular';
+import {
+  CardBodyComponent,
+  CardComponent,
+  FormDirective,
+  FormLabelDirective,
+  FormSelectDirective,
+  FormControlDirective,
+  ButtonDirective,
+  ButtonGroupComponent,
+  ButtonCloseDirective,
+  RowComponent,
+  ToastBodyComponent,
+  ToastComponent,
+  ToastHeaderComponent,
+  ToasterComponent,
+  TextColorDirective,
+  ProgressBarComponent,
+  ProgressBarDirective,
+  CardHeaderComponent,
+  ColComponent,
+  ProgressComponent,
+} from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
@@ -27,16 +29,17 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
 @Component({
   selector: 'app-add-indicator',
   standalone: true,
-  imports: [CardBodyComponent,
+  imports: [
+    CardBodyComponent,
     CardComponent,
     FormsModule,
-      FormDirective,
-       FormLabelDirective,
-        FormControlDirective,
-         FormSelectDirective,
-        ButtonDirective,
-       ButtonGroupComponent,
-      ButtonCloseDirective,
+    FormDirective,
+    FormLabelDirective,
+    FormControlDirective,
+    FormSelectDirective,
+    ButtonDirective,
+    ButtonGroupComponent,
+    ButtonCloseDirective,
     RouterLink,
     CardComponent,
     CardBodyComponent,
@@ -54,9 +57,10 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
     ToasterComponent,
     ProgressBarComponent,
     ProgressBarDirective,
-    ProgressComponent],
+    ProgressComponent,
+  ],
   templateUrl: './add-indicator.component.html',
-  styleUrl: './add-indicator.component.scss'
+  styleUrl: './add-indicator.component.scss',
 })
 export class AddIndicatorComponent {
   constructor(
@@ -71,11 +75,11 @@ export class AddIndicatorComponent {
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
-
+  toastMessage = '';
+  toastClass: string = '';
 
   addIndicator(): void {
+<<<<<<< HEAD
     this.indicatorsService.addIndicator({ name: this.name, englishName: this.englishName , index: this.index, description: this.description }).subscribe({
      next: () => {
        this.toggleToast('El indicador se ha creado exitosamente', true); 
@@ -89,6 +93,29 @@ export class AddIndicatorComponent {
      },
    });
  }
+=======
+    this.indicatorsService
+      .addIndicator({
+        name: this.name,
+        index: this.index,
+        description: this.description,
+      })
+      .subscribe({
+        next: () => {
+          this.toggleToast('El indicador se ha creado exitosamente', true);
+          setTimeout(() => {
+            this.router.navigate([`indicators`]);
+          }, 1500);
+        },
+        error: (error) => {
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
+  }
+>>>>>>> 3571608353b0b9d28c3553a0d5f9c784991ce0ac
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;

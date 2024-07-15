@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
-import { 
+import {
   ButtonDirective,
   ButtonGroupComponent,
   ButtonCloseDirective,
@@ -16,10 +16,10 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { IconDirective } from '@coreui/icons-angular';
 import { User, Department } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -48,28 +48,25 @@ import { UsersService } from 'src/app/services/users/users.service';
     ToastComponent,
     ToastHeaderComponent,
     ToasterComponent,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './add-user.component.html',
-  styleUrl: './add-user.component.scss'
+  styleUrl: './add-user.component.scss',
 })
 export class AddUserComponent implements OnInit {
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
 
-  constructor(
-    private usersService: UsersService,
-    private router: Router
-  ) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
   users: User[] = [];
   departments: Department[] = [];
-  name = "";
-  email = "";
-  password = "";
-  birthdate = "";
+  name = '';
+  email = '';
+  password = '';
+  birthdate = '';
   departmentId = 0;
-  role = ""; 
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
@@ -80,30 +77,39 @@ export class AddUserComponent implements OnInit {
         console.log(response);
         this.departments = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
   createUser(): void {
-    this.usersService.createUser({ 
-      name: this.name, 
-      email: this.email, 
-      password: this.password, 
-      birthdate: this.birthdate, 
-      departmentId: Number(this.departmentId),
-      role: this.role 
-    }).subscribe({
-      next: () => {
-        this.toggleToast('Usuario creado exitosamente', true); // Mostrar toast de éxito
-        setTimeout(() => {
-          this.router.navigate([`users`]); 
-        },1500)
-      },
-      error: (error) => {
-        this.toggleToast(error.message, false); 
-        console.log(error);
-      },
-    });
+    this.usersService
+      .createUser({
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        birthdate: this.birthdate,
+        departmentId: Number(this.departmentId),
+        role: this.role,
+      })
+      .subscribe({
+        next: () => {
+          this.toggleToast('Usuario creado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`users`]);
+          }, 1500);
+        },
+        error: (error) => {
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   toggleToast(message: string, success: boolean): void {

@@ -29,13 +29,7 @@
       </div>
       <div class="input-container">
         <label cLabel for="exampleFormControlInput1">Departamento</label>
-        <select
-          aria-label="department select"
-          name="departmentId"
-          [(ngModel)]="departmentId"
-          value="{{ departmentId }}"
-          cSelect
-        >
+        <select name="departmentId" [(ngModel)]="departmentId" cSelect>
           @for (department of departments; track department.id) {
           <option value="{{ department.id }}">
             {{ department.id }} {{ department.name }}

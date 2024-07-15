@@ -169,12 +169,13 @@ export class CreateComponent {
           this.toggleToast(error.error.error.detail[0].message, false);
         if (error.error.error.message && !error.error.error.detail[0].message)
           this.toggleToast(error.error.error.message, false);
-      }
+      },
     });
   }
 
   handleFileChange(event: any, index: number): void {
     this.newFiles[index] = event.target.files[0];
+    this.files.at(index).patchValue({ name: event.target.files[0].name });
   }
 
   addLink(): void {

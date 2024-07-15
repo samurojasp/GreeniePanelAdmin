@@ -3,12 +3,17 @@
     <c-card class="mb-4">
       <c-card-body>
         <div class="d-flex justify-content-between align-items-center">
-          <h4 class="card-title text-start" id="users">Gestión de Indicadores</h4>
+          <h4 class="card-title text-start" id="users">
+            Gestión de Indicadores
+          </h4>
           <a
             cButton
             routerLink="/addIndicators"
             routerLinkActive="active"
-            [ngStyle]="{'background-color': '#5A835A', 'border': '1px solid #5A835A' }"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A'
+            }"
             class="text-white ms-md-2 mb-3"
           >
             Agregar Indicador
@@ -32,7 +37,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (ind of indicators; track ind.id; let i = $index) {
+            @for (ind of indicators | paginate: { itemsPerPage: pagination.take,
+            currentPage: pagination.page, totalItems: pagination.itemCount};
+            track ind.id) {
             <tr>
               <td class="text-center">
                 {{ ind.name }}
@@ -71,23 +78,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>
@@ -107,14 +106,14 @@
   </c-modal-header>
   <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
   <c-modal-footer>
-    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="white">
       Cancelar
     </button>
     <button
       cButton
       (click)="deleteIndicator()"
       [cModalToggle]="staticBackdropModal.id"
-      color="primary"
+      class="accept-button"
     >
       Aceptar
     </button>
@@ -126,7 +125,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>
