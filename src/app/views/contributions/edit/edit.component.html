@@ -23,6 +23,7 @@
                 aria-label="indicatorId select"
                 formControlName="indicatorId"
                 cSelect
+                (change)="onIndicatorChange($event.target!)"
               >
                 @for (indicator of indicatorOptions; track indicator.id) {
                 <option value="{{ indicator.id }}">

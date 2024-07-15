@@ -79,6 +79,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 export class EditComponent {
   categoryOptions: Category[] = [];
   indicatorOptions: Indicator[] = [];
+  indicatorId = 0;
   currentId = 0;
   position = 'top-end';
   visible = false;
@@ -151,7 +152,7 @@ export class EditComponent {
   getContribution(): void {
     this.contributionsService.getContributionById(this.currentId).subscribe({
       next: (response) => {
-        console.log(response);
+        this.indicatorId = response.category.indicator.id;
         this.contributionForm = this.formBuilder.group({
           uuid: [response.uuid],
           description: [response.description],
@@ -170,7 +171,6 @@ export class EditComponent {
           )
         );
         response.files.map((file: any) => {
-          console.log(file);
           const fileFormGroup = this.createFileFormGroup();
           fileFormGroup.patchValue({
             id: file.id,
@@ -187,6 +187,7 @@ export class EditComponent {
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
       next: (response) => {
+        console.log('Indicadores =>', response.data);
         this.indicatorOptions = response.data;
       },
       error: (error) => {
@@ -195,13 +196,26 @@ export class EditComponent {
     });
   }
 
+  onIndicatorChange(target: any): void {
+    this.indicatorId = parseInt(target.value);
+    this.getCategories();
+  }
+
   getCategories(): void {
-    this.categoriesService.getPaginatedCategories(1, 10).subscribe({
+    this.categoriesService.getAllCategories().subscribe({
       next: (response) => {
-        this.categoryOptions = response.data;
+        if (this.indicatorId == 0) this.categoryOptions = response.data;
+        if (this.indicatorId != 0) {
+          this.categoryOptions = response.data.filter(
+            (category: Category) => category.indicator.id === this.indicatorId
+          );
+        }
       },
       error: (error) => {
-        this.toggleToast(error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }

@@ -84,6 +84,7 @@ export class CreateComponent {
   percentage = 0;
   toastMessage = '';
   toastClass: string = '';
+  indicatorId = 0;
 
   newFiles: File[] = [];
 
@@ -160,9 +161,14 @@ export class CreateComponent {
   }
 
   getCategories(): void {
-    this.categoriesService.getPaginatedCategories(1, 10).subscribe({
+    this.categoriesService.getAllCategories().subscribe({
       next: (response) => {
-        this.categoryOptions = response.data;
+        if (this.indicatorId == 0) this.categoryOptions = response.data;
+        if (this.indicatorId != 0) {
+          this.categoryOptions = response.data.filter(
+            (category: Category) => category.indicator.id === this.indicatorId
+          );
+        }
       },
       error: (error) => {
         if (error.error.error.message && error.error.error.detail[0].message)
@@ -176,6 +182,11 @@ export class CreateComponent {
   handleFileChange(event: any, index: number): void {
     this.newFiles[index] = event.target.files[0];
     this.files.at(index).patchValue({ name: event.target.files[0].name });
+  }
+
+  onIndicatorChange(target: any): void {
+    this.indicatorId = parseInt(target.value);
+    this.getCategories();
   }
 
   addLink(): void {
