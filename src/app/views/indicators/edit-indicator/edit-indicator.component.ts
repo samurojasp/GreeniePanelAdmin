@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import { ActivatedRoute,Router, RouterLink } from '@angular/router';
 import { CardBodyComponent,
-   CardComponent,
-    FormDirective,
-     FormLabelDirective,
-      FormSelectDirective,
+       CardComponent,
+       FormDirective,
+       FormLabelDirective,
+       FormSelectDirective,
        FormControlDirective,
        ButtonDirective,
        ButtonGroupComponent,
@@ -18,29 +17,6 @@ import { CardBodyComponent,
        ToastComponent,
        ToastHeaderComponent,
        ToasterComponent } from '@coreui/angular';
-=======
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  CardBodyComponent,
-  CardComponent,
-  FormDirective,
-  FormLabelDirective,
-  FormSelectDirective,
-  FormControlDirective,
-  ButtonDirective,
-  ButtonGroupComponent,
-  ButtonCloseDirective,
-  CardHeaderComponent,
-  TextColorDirective,
-  ProgressBarComponent,
-  ProgressBarDirective,
-  ProgressComponent,
-  ToastBodyComponent,
-  ToastComponent,
-  ToastHeaderComponent,
-  ToasterComponent,
-} from '@coreui/angular';
->>>>>>> 3571608353b0b9d28c3553a0d5f9c784991ce0ac
 import { FormsModule } from '@angular/forms';
 
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
@@ -87,12 +63,8 @@ export class EditIndicatorComponent {
   toastMessage = '';
   toastClass: string = '';
 
-<<<<<<< HEAD
   name= "";
   englishName= "";
-=======
-  name = '';
->>>>>>> 3571608353b0b9d28c3553a0d5f9c784991ce0ac
   index = 1;
   description = '';
   constructor(
@@ -119,7 +91,6 @@ export class EditIndicatorComponent {
   }
 
   editIndicator(): void {
-<<<<<<< HEAD
     this.indicatorsService.editIndicator( this.currentId,
        { name: this.name, englishName: this.englishName, index: this.index, description: this.description }).subscribe({
      next: () => {
@@ -129,34 +100,13 @@ export class EditIndicatorComponent {
       },1500)
      },
      error: (error) => {
-      this.toggleToast(error.message, false); 
-      console.log(error);
-     },
+      if (error.error.error.message && error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.detail[0].message, false);
+      if (error.error.error.message && !error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.message, false);
+    },
    });
  }
-=======
-    this.indicatorsService
-      .editIndicator(this.currentId, {
-        name: this.name,
-        index: this.index,
-        description: this.description,
-      })
-      .subscribe({
-        next: () => {
-          this.toggleToast('Indicador editado exitosamente', true);
-          setTimeout(() => {
-            this.router.navigate([`indicators`]);
-          }, 1500);
-        },
-        error: (error) => {
-          if (error.error.error.message && error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.detail[0].message, false);
-          if (error.error.error.message && !error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.message, false);
-        },
-      });
-  }
->>>>>>> 3571608353b0b9d28c3553a0d5f9c784991ce0ac
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

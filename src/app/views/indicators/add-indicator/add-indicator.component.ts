@@ -79,7 +79,6 @@ export class AddIndicatorComponent {
   toastClass: string = '';
 
   addIndicator(): void {
-<<<<<<< HEAD
     this.indicatorsService.addIndicator({ name: this.name, englishName: this.englishName , index: this.index, description: this.description }).subscribe({
      next: () => {
        this.toggleToast('El indicador se ha creado exitosamente', true); 
@@ -88,34 +87,13 @@ export class AddIndicatorComponent {
        },1500)
      },
      error: (error) => {
-       this.toggleToast(error.message, false); 
-       console.log(error);
-     },
+      if (error.error.error.message && error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.detail[0].message, false);
+      if (error.error.error.message && !error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.message, false);
+    },
    });
  }
-=======
-    this.indicatorsService
-      .addIndicator({
-        name: this.name,
-        index: this.index,
-        description: this.description,
-      })
-      .subscribe({
-        next: () => {
-          this.toggleToast('El indicador se ha creado exitosamente', true);
-          setTimeout(() => {
-            this.router.navigate([`indicators`]);
-          }, 1500);
-        },
-        error: (error) => {
-          if (error.error.error.message && error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.detail[0].message, false);
-          if (error.error.error.message && !error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.message, false);
-        },
-      });
-  }
->>>>>>> 3571608353b0b9d28c3553a0d5f9c784991ce0ac
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
