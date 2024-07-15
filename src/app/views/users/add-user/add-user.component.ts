@@ -104,6 +104,8 @@ export class AddUserComponent implements OnInit {
           }, 1500);
         },
         error: (error) => {
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
           if (error.error.error.message && error.error.error.detail[0].message)
             this.toggleToast(error.error.error.detail[0].message, false);
           if (error.error.error.message && !error.error.error.detail[0].message)

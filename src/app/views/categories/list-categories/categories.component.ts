@@ -84,7 +84,7 @@ export class CategoriesComponent {
   currentId = 0;
   pagination = {
     page: 1,
-    take: 1,
+    take: 10,
     itemCount: 0,
     pageCount: 0,
     hasPreviousPage: false,
@@ -103,7 +103,6 @@ export class CategoriesComponent {
       .getPaginatedCategories(this.pagination.page, this.pagination.take)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.categories = response.data;
           this.pagination = response.meta;
         },

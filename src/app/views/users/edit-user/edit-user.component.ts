@@ -94,9 +94,12 @@ export class EditUserComponent implements OnInit {
         this.name = response.name;
         this.email = response.email;
         this.role = response.role;
-        this.departmentId = 7;
+        this.departmentId = response.department.id;
       },
       error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
         if (error.error.error.message && error.error.error.detail[0].message)
           this.toggleToast(error.error.error.detail[0].message, false);
         if (error.error.error.message && !error.error.error.detail[0].message)

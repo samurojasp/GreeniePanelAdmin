@@ -22,7 +22,7 @@ import {
   ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetDepartmentByIdService } from 'src/app/services/departments/get-department-by-id.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { Category } from 'src/app/types';
@@ -88,12 +88,11 @@ export class EditComponent {
     private route: ActivatedRoute,
     private categoriesService: CategoriesService
   ) {}
-  categoryControl = new FormControl([0]);
+
   getDepartmentById(id: number): void {
     this.getDepartmentByIdService.getDepartmentById(id).subscribe({
       next: (response) => {
         this.name = response.name;
-        console.log(response.categories);
         this.categoryId = response.categories.map(
           (category: Category) => category.id
         );

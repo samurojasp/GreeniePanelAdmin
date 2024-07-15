@@ -37,8 +37,8 @@
           </thead>
           <tbody>
             @for (category of categories | paginate: { itemsPerPage:
-            pagination.take, currentPage: pagination.page}; track category.id;
-            let i = $index) {
+            pagination.take, currentPage: pagination.page, totalItems:
+            pagination.itemCount}; track category.id; let i = $index) {
             <tr>
               <td class="text-center">
                 {{ category.name }}

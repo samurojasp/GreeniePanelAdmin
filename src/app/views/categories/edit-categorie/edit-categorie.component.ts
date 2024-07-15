@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   ButtonDirective,
@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Category, Indicator, Criterion } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-edit-user',
@@ -54,6 +55,7 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
     MatSelectModule,
     MatFormFieldModule,
     NgxSpinnerModule,
+    NgFor,
   ],
   templateUrl: './edit-categorie.component.html',
   styleUrl: './edit-categorie.component.scss',
@@ -88,8 +90,10 @@ export class EditCategorieComponent {
         this.id = response.id;
         this.name = response.name;
         this.description = response.description;
-        this.indicatorID = response.indicatorID;
-        this.criteriaID = response.criteriaID;
+        this.indicatorID = response.indicator.id;
+        this.criteriaID = response.criteria.map(
+          (criteria: Criterion) => criteria.id
+        );
       },
       error: (error) => {
         if (error.error.error.message && error.error.error.detail[0].message)
@@ -170,6 +174,10 @@ export class EditCategorieComponent {
 
   onTimerChange($event: number) {
     this.percentage = $event * 100;
+  }
+
+  trackById(index: number, criterion: Criterion): number {
+    return criterion.id;
   }
 
   ngOnInit(): void {
