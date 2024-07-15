@@ -104,6 +104,6 @@ export const navItems: INavData[] = [
   {
     name: 'Ajustes',
     url: '/settings',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cil-settings' },
   },
 ];

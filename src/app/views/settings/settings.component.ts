@@ -42,6 +42,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { CreateSettingService } from '../../services/settings/create-settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -94,11 +96,85 @@ import { FormsModule } from '@angular/forms';
   ],
 })
 export class SettingsComponent {
-  isSubscribedToEmailsMessage: string = 'Testing';
-  buttonIsOn: boolean = false;
+  notificaciones: string =
+    'Recibir notificaciones de los aportes de información';
+  recordatorios: string = 'Recibir recordatorios por correo';
 
-  printStuff(answer: boolean): void {
-    this.buttonIsOn = !answer;
-    console.log(this.buttonIsOn);
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = '';
+  toastClass: string = '';
+
+  notificationButton: boolean = false;
+  reminderButton: boolean = false;
+  fechaIni: Date = new Date();
+  fechaFin: Date = new Date();
+
+  constructor(
+    private createSettingService: CreateSettingService,
+    private router: Router
+  ) {}
+
+  notificationSliderHandler(answer: boolean): void {
+    this.notificationButton = !answer;
+  }
+
+  reminderSliderHandler(answer: boolean): void {
+    this.reminderButton = !answer;
+  }
+
+  setInitDate(date: Date): void {
+    this.fechaIni = date;
+  }
+
+  setEndDate(date: Date): void {
+    this.fechaFin = date;
+  }
+
+  createSetting(): void {
+    this.createSettingService
+      .postSetting({
+        key: '81ed6231-5be6-4166-9118-d982038a2fc7',
+        contributionSettings: {
+          initDate: this.fechaIni,
+          endDate: this.fechaFin,
+          getNotificationForContribution: this.notificationButton,
+          recordatory: this.reminderButton,
+        },
+      })
+      .subscribe({
+        next: () => {
+          this.toggleToast(
+            'El ajuste de tiempos limites se ha actualizado exitosamente',
+            true
+          ); // Mostrar toast de éxito
+        },
+        error: (error) => {
+          this.toggleToast(error.message, false);
+          console.log(error);
+        },
+      });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
   }
 }

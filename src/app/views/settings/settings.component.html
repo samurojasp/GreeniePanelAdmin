@@ -16,7 +16,11 @@
                   <h6 class="subtittle-style">Fecha de inicio</h6>
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
-                    <input matInput [matDatepicker]="picker" />
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      (dateChange)="setInitDate($event.value)"
+                    />
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle
                       matIconSuffix
@@ -30,7 +34,11 @@
                   <h6 class="subtittle-style">Fecha de fin</h6>
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
-                    <input matInput [matDatepicker]="picker" />
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      (dateChange)="setEndDate($event.value)"
+                    />
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle
                       matIconSuffix
@@ -40,14 +48,36 @@
                   </mat-form-field>
                 </div>
               </div>
-              <mat-slide-toggle
-                class="slider-style"
-                [aria-label]="isSubscribedToEmailsMessage"
-                [checked]="buttonIsOn"
-                (change)="printStuff(buttonIsOn)"
-              >
-                testing: {{ buttonIsOn }}
-              </mat-slide-toggle>
+              <div class="left-date-container">
+                <h5 class="subtittle-style">
+                  Recibir notificaciones de cada aporte de información
+                </h5>
+                <mat-slide-toggle
+                  class="slider-style"
+                  [aria-label]="notificaciones"
+                  [checked]="notificationButton"
+                  (change)="notificationSliderHandler(notificationButton)"
+                  color="primary"
+                >
+                </mat-slide-toggle>
+                <h5 class="subtittle-style">
+                  Enviar periodicamente recordatorios por correo cuando quede
+                  poco tiempo para aportar
+                </h5>
+                <mat-slide-toggle
+                  class="slider-style"
+                  [aria-label]="recordatorios"
+                  [checked]="reminderButton"
+                  (change)="reminderSliderHandler(reminderButton)"
+                  color="primary"
+                >
+                </mat-slide-toggle>
+              </div>
+              <div class="tittle-container">
+                <button class="button-style" (click)="createSetting()" cButton>
+                  Guardar
+                </button>
+              </div>
             </div>
           </div>
         </form>
@@ -55,3 +85,19 @@
     </c-card>
   </c-col>
 </c-row>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

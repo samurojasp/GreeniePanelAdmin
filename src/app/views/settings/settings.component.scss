@@ -15,6 +15,7 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .root-div {
@@ -41,4 +42,10 @@
 
 .slider-style {
   transform: scale(1);
+  margin-bottom: 20px;
+}
+
+.button-style {
+  font-size: 20px;
+  width: 300px;
 }
