@@ -32,6 +32,7 @@ export class ContributionsService {
       .map((file) => JSON.stringify(file))
       .join(',');
 
+    console.log(stringifiedFiles);
     postContributionFormData.append('file', stringifiedFiles);
 
     body.files.forEach((file) => {

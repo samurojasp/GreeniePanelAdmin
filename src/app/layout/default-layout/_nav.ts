@@ -1,10 +1,12 @@
 import { INavData } from '@coreui/angular';
 
-export const navItems: INavData[] = [
+const role = localStorage.getItem('role');
+
+const adminNavBarItems = [
   {
     name: 'Matriz',
     url: '/matrix',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: { name: 'cil-home' },
   },
   {
     title: true,
@@ -14,7 +16,7 @@ export const navItems: INavData[] = [
   {
     name: 'Departamentos',
     url: '/departments',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPeople' },
     children: [
       {
         name: 'Listado',
@@ -48,7 +50,7 @@ export const navItems: INavData[] = [
   {
     name: 'Criterios',
     url: '/criteria',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPaperclip' },
     children: [
       {
         name: 'Listado',
@@ -81,7 +83,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Usuarios',
-    iconComponent: { name: 'cilPeople' },
+    iconComponent: { name: 'cilUser' },
     url: '/users',
     children: [
       {
@@ -98,7 +100,51 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Aportes',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilTask' },
     url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
   },
 ];
+
+const departmentNavBarItems = [
+  {
+    name: 'Matriz',
+    url: '/matrix',
+    iconComponent: { name: 'cil-speedometer' },
+  },
+  {
+    title: true,
+    name: 'Gestión',
+    class: 'mt-auto text-white',
+  },
+  {
+    name: 'Aportes',
+    iconComponent: { name: 'cil-star' },
+    url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
+  },
+];
+
+export const navItems: INavData[] = adminNavBarItems;

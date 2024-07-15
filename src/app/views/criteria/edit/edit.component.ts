@@ -18,11 +18,11 @@ import {
   ToastBodyComponent,
   ToastComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { GetCriterionByIdService } from 'src/app/services/criteria/get-criterion-by-id.service';
 import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
 import { EditCriterionService } from 'src/app/services/criteria/edit-criterion.service';
@@ -52,7 +52,7 @@ import { Indicator } from 'src/app/types';
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToasterComponent
+    ToasterComponent,
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
@@ -60,16 +60,17 @@ import { Indicator } from 'src/app/types';
 export class EditComponent {
   currentId = 0;
   name = '';
+  englishName = '';
   description = '';
   index = 0;
   indicatorID = 0;
-  departmentId= 0;
-  role= "";
+  departmentId = 0;
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
 
   indicators: Indicator[] = [];
 
@@ -83,9 +84,15 @@ export class EditComponent {
 
   getIndicators(): void {
     this.getIndicatorsService.getAllIndicators().subscribe({
-      next:  (response) => {
+      next: (response) => {
         this.indicators = response.data;
-       },
+      },
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -93,11 +100,17 @@ export class EditComponent {
     this.getCriterionByIdService.getCriterionById(id).subscribe({
       next: (response) => {
         this.name = response.name;
+        this.englishName = response.englishName;
         this.description = response.description;
         this.indicatorID = response.indicator.id;
         this.index = response.index;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -105,6 +118,7 @@ export class EditComponent {
     this.editCriterionService
       .patchCriterion(this.currentId, {
         name: this.name,
+        englishName: this.englishName,
         description: this.description,
         indicatorID: this.indicatorID,
         index: this.index,
@@ -113,12 +127,14 @@ export class EditComponent {
         next: () => {
           this.toggleToast('Se ha editado el criterio correctamente', true); // Mostrar toast de éxito
           setTimeout(() => {
-            this.router.navigate([`criteria`]); 
-          },1500)
+            this.router.navigate([`criteria`]);
+          }, 1500);
         },
         error: (error) => {
-          this.toggleToast(error.message, false); 
-          console.log(error);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -134,16 +150,16 @@ export class EditComponent {
       this.toastClass = 'toast-error';
     }
   }
-  
+
   onVisibleChange($event: boolean) {
     this.visible = $event;
     this.percentage = !this.visible ? 0 : this.percentage;
   }
-  
+
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }
-  
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.currentId = params['id'];
@@ -151,5 +167,4 @@ export class EditComponent {
     this.getIndicators();
     this.getCriterionById(this.currentId);
   }
-
 }

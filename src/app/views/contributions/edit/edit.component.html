@@ -63,15 +63,16 @@
                         (change)="handleFileChange($event, i)"
                         style="display: none"
                       />
-                      <label for="fileinput{{ i }}" class="file-input">{{
-                        "Selecciona un Archivo"
-                      }}</label>
-                      <div *ngIf="newFiles[i]; else elseBlock">
+                      <div *ngIf="file.get('id')!.value === 0">
+                        <label for="fileinput{{ i }}" class="file-input"
+                          >Selecciona un Archivo</label
+                        >
+                      </div>
+                      <div *ngIf="file.value.name != ''">
                         <label class="file-input-label">{{
-                          newFiles[i].name
+                          file.value.name
                         }}</label>
                       </div>
-                      <ng-template #elseBlock> </ng-template>
                     </div>
 
                     <button
@@ -84,12 +85,6 @@
                     </button>
                   </div>
 
-                  <input
-                    cFormControl
-                    placeholder="Nombre"
-                    type="text"
-                    formControlName="name"
-                  />
                   <textarea
                     cFormControl
                     placeholder="Descripción"

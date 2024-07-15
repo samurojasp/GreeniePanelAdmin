@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute,Router, RouterLink } from '@angular/router';
 import { CardBodyComponent,
-   CardComponent,
-    FormDirective,
-     FormLabelDirective,
-      FormSelectDirective,
+       CardComponent,
+       FormDirective,
+       FormLabelDirective,
+       FormSelectDirective,
        FormControlDirective,
        ButtonDirective,
        ButtonGroupComponent,
        ButtonCloseDirective,
-       CardHeaderComponent,
        TextColorDirective,
        ProgressBarComponent,
        ProgressBarDirective,
@@ -25,7 +24,8 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
 @Component({
   selector: 'app-edit-indicator',
   standalone: true,
-  imports: [CardBodyComponent,
+  imports: [
+    CardBodyComponent,
     CardComponent,
     FormsModule,
     FormDirective,
@@ -47,45 +47,52 @@ import { IndicatorsService } from 'src/app/services/indicators/indicators.servic
     ToastBodyComponent,
     ToastComponent,
     ToastHeaderComponent,
-    ToasterComponent],
+    ToasterComponent,
+  ],
   templateUrl: './edit-indicator.component.html',
-  styleUrl: './edit-indicator.component.scss'
+  styleUrl: './edit-indicator.component.scss',
 })
 export class EditIndicatorComponent {
-
   currentId = 0;
   currentName = '';
-  departmentId= 0;
-  role= "";
+  departmentId = 0;
+  role = '';
   position = 'top-end';
   visible = false;
   percentage = 0;
-  toastMessage = ''; 
-  toastClass: string = ''; 
+  toastMessage = '';
+  toastClass: string = '';
 
   name= "";
+  englishName= "";
   index = 1;
-  description = "";
+  description = '';
   constructor(
     private indicatorsService: IndicatorsService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   getIndicatorById(id: number): void {
     this.indicatorsService.getIndicatorById(id).subscribe({
       next: (response) => {
         this.name = response.name;
+        this.englishName = response.englishName;
         this.index = response.index;
         this.description = response.description;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
   editIndicator(): void {
     this.indicatorsService.editIndicator( this.currentId,
-       { name: this.name, index: this.index, description: this.description }).subscribe({
+       { name: this.name, englishName: this.englishName, index: this.index, description: this.description }).subscribe({
      next: () => {
       this.toggleToast('Indicador editado exitosamente', true);
       setTimeout(() => {
@@ -93,39 +100,40 @@ export class EditIndicatorComponent {
       },1500)
      },
      error: (error) => {
-      this.toggleToast(error.message, false); 
-      console.log(error);
-     },
+      if (error.error.error.message && error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.detail[0].message, false);
+      if (error.error.error.message && !error.error.error.detail[0].message)
+        this.toggleToast(error.error.error.message, false);
+    },
    });
  }
 
- ngOnInit(): void {
-  this.route.params.subscribe((params) => {
-    this.currentId = params['id'];
-    this.currentName = params['name'];
-  });
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+      this.currentName = params['name'];
+    });
 
-  this.getIndicatorById(this.currentId);
-}
-toggleToast(message: string, success: boolean): void {
-  this.visible = true;
-  this.percentage = 100;
-  if (success) {
-    this.toastMessage = message;
-    this.toastClass = 'toast-success';
-  } else {
-    this.toastMessage = message;
-    this.toastClass = 'toast-error';
+    this.getIndicatorById(this.currentId);
   }
-}
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
 
-onVisibleChange($event: boolean) {
-  this.visible = $event;
-  this.percentage = !this.visible ? 0 : this.percentage;
-}
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
 
-onTimerChange($event: number) {
-  this.percentage = $event * 100;
-}
-
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
+  }
 }
