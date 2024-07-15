@@ -19,7 +19,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}categories`, {
+    return this.http.get(`${this.apiUrl}/categories`, {
       headers,
     });
   }
@@ -30,7 +30,7 @@ export class CategoriesService {
       Authorization: `Bearer ${this.token}`,
     });
     return this.http.get(
-      `${this.apiUrl}categories/paginated?page=${page}&take=${take}`,
+      `${this.apiUrl}/categories/paginated?page=${page}&take=${take}`,
       {
         headers,
       }

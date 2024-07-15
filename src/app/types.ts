@@ -118,6 +118,17 @@ export interface contribution {
   };
 }
 
+export interface Matrix {
+  departmentName: string;
+  categories: [
+    {
+      id: number;
+      potencially: boolean;
+      quantity: number;
+    }
+  ];
+}
+
 export interface BackendError {
   error: {
     status: number;

@@ -10,29 +10,7 @@ import {
   TableModule,
   UtilitiesModule,
 } from '@coreui/angular';
-import { Indicator } from 'src/app/types';
-
-interface Department {
-  id: number;
-  name: string;
-}
-
-interface Categorie {
-  id: number;
-  name: string;
-  indicator: Indicator;
-}
-
-interface Matrix {
-  departmentName: string;
-  categories: [
-    {
-      id: number;
-      potencially: boolean;
-      quantity: number;
-    }
-  ];
-}
+import { Indicator, Matrix, Category, Department} from 'src/app/types';
 
 @Component({
   selector: 'app-matrix',
@@ -62,7 +40,7 @@ export class MatrixComponent {
 
   matrix: Matrix[] = [];
   departments: Department[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
 
   headers = [
     { color: '#74b72e' },
