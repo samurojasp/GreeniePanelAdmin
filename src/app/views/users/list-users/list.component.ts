@@ -132,6 +132,9 @@ export class ListComponent implements OnInit {
           this.pagination = response.meta;
         },
         error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
           if (error.error.error.message && error.error.error.detail[0].message)
             this.toggleToast(error.error.error.detail[0].message, false);
           if (error.error.error.message && !error.error.error.detail[0].message)
@@ -148,6 +151,9 @@ export class ListComponent implements OnInit {
         this.toggleToast('Usuario eliminado exitosamente', true); // Mostrar toast de éxito después de eliminar
       },
       error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
         if (error.error.error.message && error.error.error.detail[0].message)
           this.toggleToast(error.error.error.detail[0].message, false);
         if (error.error.error.message && !error.error.error.detail[0].message)
