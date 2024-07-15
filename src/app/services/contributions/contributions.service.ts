@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PatchContributionBody, PostContributionBody } from './types';
+import { getBaseUrl } from '../config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContributionsService {
-  private apiUrl =
-    'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
@@ -76,7 +76,7 @@ export class ContributionsService {
       Authorization: `Bearer ${this.token}`,
     });
     const formData = this.transformPostBodyToFormData(body);
-    return this.http.post(`${this.apiUrl}contributions`, formData, {
+    return this.http.post(`${this.apiUrl}/contributions`, formData, {
       headers,
     });
   }
@@ -89,7 +89,7 @@ export class ContributionsService {
       Authorization: `Bearer ${this.token}`,
     });
     const formData = this.transformPatchBodyToFormData(body);
-    return this.http.patch(`${this.apiUrl}contributions/${uuid}`, formData, {
+    return this.http.patch(`${this.apiUrl}/contributions/${uuid}`, formData, {
       headers,
     });
   }
@@ -108,9 +108,9 @@ export class ContributionsService {
       Authorization: `Bearer ${this.token}`,
     });
 
-    let URL = `${this.apiUrl}contributions?page=${page}&take=${take}`;
+    let URL = `${this.apiUrl}/contributions?page=${page}&take=${take}`;
     if (this.role === 'dpto') {
-      URL = `${this.apiUrl}contributions/my-contribution?page=${page}&take=${take}`;
+      URL = `${this.apiUrl}/contributions/my-contribution?page=${page}&take=${take}`;
     }
 
     if (categoryFilter !== 0 && categoryFilter) {
@@ -132,7 +132,7 @@ export class ContributionsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.delete(`${this.apiUrl}contributions/${id}`, {
+    return this.http.delete(`${this.apiUrl}/contributions/${id}`, {
       headers,
     });
   }
@@ -142,7 +142,7 @@ export class ContributionsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}dptos`, {
+    return this.http.get(`${this.apiUrl}/dptos`, {
       headers,
     });
   }
@@ -152,7 +152,7 @@ export class ContributionsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}contributions/${contributionId}`, {
+    return this.http.get(`${this.apiUrl}/contributions/${contributionId}`, {
       headers,
     });
   }

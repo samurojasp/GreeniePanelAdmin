@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IndicatorBody } from './types';
-
+import { getBaseUrl } from '../config';
 @Injectable({
   providedIn: 'root',
 })
 export class IndicatorsService {
-  private apiUrl =
-    'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +18,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}indicators?page=${page}&take=${take}`, {
+    return this.http.get(`${this.apiUrl}/indicators?page=${page}&take=${take}`, {
       headers,
     });
   }
@@ -29,7 +28,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}indicators/${id}`, {
+    return this.http.get(`${this.apiUrl}/indicators/${id}`, {
       headers,
     });
   }
@@ -39,7 +38,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}indicators/notPag`, {
+    return this.http.get(`${this.apiUrl}/indicators/notPag`, {
       headers,
     });
   }
@@ -49,7 +48,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.patch(`${this.apiUrl}indicators/${id}`, body, {
+    return this.http.patch(`${this.apiUrl}/indicators/${id}`, body, {
       headers,
     });
   }
@@ -59,7 +58,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.delete(`${this.apiUrl}indicators/${id}`, {
+    return this.http.delete(`${this.apiUrl}/indicators/${id}`, {
       headers,
     });
   }
@@ -69,7 +68,7 @@ export class IndicatorsService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.post(`${this.apiUrl}indicators`, body, {
+    return this.http.post(`${this.apiUrl}/indicators`, body, {
       headers,
     });
   }
