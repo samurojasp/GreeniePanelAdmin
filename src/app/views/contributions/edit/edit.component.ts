@@ -190,7 +190,13 @@ export class EditComponent {
         this.indicatorOptions = response.data;
       },
       error: (error) => {
-        this.toggleToast(error.message, false);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -201,7 +207,13 @@ export class EditComponent {
         this.categoryOptions = response.data;
       },
       error: (error) => {
-        this.toggleToast(error.message, false);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }

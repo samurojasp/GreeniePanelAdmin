@@ -97,7 +97,14 @@ export class EditComponent {
           (category: Category) => category.id
         );
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);},
     });
   }
 

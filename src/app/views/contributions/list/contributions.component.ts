@@ -182,7 +182,13 @@ export class ContributionsComponent {
           this.pagination = response.meta;
         },
         error: (error) => {
-          console.log(error);
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -193,7 +199,13 @@ export class ContributionsComponent {
         this.categories = response.data;
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -204,7 +216,13 @@ export class ContributionsComponent {
         this.departments = response.data;
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -215,7 +233,13 @@ export class ContributionsComponent {
         this.indicators = response.data;
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -227,7 +251,13 @@ export class ContributionsComponent {
         this.getPaginatedContributions();
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
