@@ -22,6 +22,7 @@ export class CreateCriterionService {
 
 export interface CreateCriterionBody {
   name: string;
+  englishName: string;
   index: number;
   description: string;
   indicatorID: number;

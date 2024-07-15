@@ -22,6 +22,7 @@ export class EditCriterionService {
 
 export interface EditCriterionBody {
   name: string;
+  englishName: string;
   index: number;
   description: string;
   indicatorID: number;

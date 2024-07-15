@@ -17,6 +17,16 @@
         />
       </div>
       <div>
+        <label cLabel for="exampleFormControlInput1">Nombre en inglés</label>
+        <input cFormControl
+               id="exampleFormControlInput1"
+               type="text"
+               [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="englishName"
+               value="{{ englishName }}"
+        />
+      </div>
+      <div>
         <label cLabel for="exampleFormControlInput1">Indice</label>
         <input cFormControl
                id="exampleFormControlInput1"

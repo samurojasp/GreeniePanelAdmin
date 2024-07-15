@@ -57,6 +57,7 @@ import { Indicator } from 'src/app/types';
 })
 export class CreateComponent {
   name = '';
+  englishName = '';
   description = '';
   index = 0;
   indicatorID = 0;
@@ -105,6 +106,7 @@ export class CreateComponent {
     this.createCriterionService
       .postCriterion({
         name: this.name,
+        englishName: this.englishName,
         description: this.description,
         index: this.index,
         indicatorID: Number(this.indicatorID), 

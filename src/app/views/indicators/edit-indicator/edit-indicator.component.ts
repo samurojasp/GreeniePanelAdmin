@@ -9,7 +9,6 @@ import { CardBodyComponent,
        ButtonDirective,
        ButtonGroupComponent,
        ButtonCloseDirective,
-       CardHeaderComponent,
        TextColorDirective,
        ProgressBarComponent,
        ProgressBarDirective,
@@ -64,6 +63,7 @@ export class EditIndicatorComponent {
   toastClass: string = ''; 
 
   name= "";
+  englishName= "";
   index = 1;
   description = "";
   constructor(
@@ -76,6 +76,7 @@ export class EditIndicatorComponent {
     this.indicatorsService.getIndicatorById(id).subscribe({
       next: (response) => {
         this.name = response.name;
+        this.englishName = response.englishName;
         this.index = response.index;
         this.description = response.description;
       },
@@ -85,7 +86,7 @@ export class EditIndicatorComponent {
 
   editIndicator(): void {
     this.indicatorsService.editIndicator( this.currentId,
-       { name: this.name, index: this.index, description: this.description }).subscribe({
+       { name: this.name, englishName: this.englishName, index: this.index, description: this.description }).subscribe({
      next: () => {
       this.toggleToast('Indicador editado exitosamente', true);
       setTimeout(() => {

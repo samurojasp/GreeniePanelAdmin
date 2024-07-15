@@ -65,6 +65,7 @@ export class AddIndicatorComponent {
   ) {}
 
   name = '';
+  englishName = '';
   index = 1;
   description = '';
   position = 'top-end';
@@ -75,7 +76,7 @@ export class AddIndicatorComponent {
 
 
   addIndicator(): void {
-    this.indicatorsService.addIndicator({ name: this.name, index: this.index, description: this.description }).subscribe({
+    this.indicatorsService.addIndicator({ name: this.name, englishName: this.englishName , index: this.index, description: this.description }).subscribe({
      next: () => {
        this.toggleToast('El indicador se ha creado exitosamente', true); 
        setTimeout(() => {

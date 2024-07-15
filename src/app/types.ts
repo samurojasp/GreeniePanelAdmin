@@ -22,6 +22,7 @@ export interface Department {
 export interface Indicator {
   id: number;
   name: string;
+  englishName: string;
   index: number;
   description: string;
 }
@@ -29,6 +30,7 @@ export interface Indicator {
 export interface Criterion {
   id: number;
   name: string;
+  englishName: string;
   index: number;
   description: string;
   indicator: Indicator;

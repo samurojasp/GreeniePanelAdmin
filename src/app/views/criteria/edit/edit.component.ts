@@ -60,6 +60,7 @@ import { Indicator } from 'src/app/types';
 export class EditComponent {
   currentId = 0;
   name = '';
+  englishName = '';
   description = '';
   index = 0;
   indicatorID = 0;
@@ -93,6 +94,7 @@ export class EditComponent {
     this.getCriterionByIdService.getCriterionById(id).subscribe({
       next: (response) => {
         this.name = response.name;
+        this.englishName = response.englishName;
         this.description = response.description;
         this.indicatorID = response.indicator.id;
         this.index = response.index;
@@ -105,6 +107,7 @@ export class EditComponent {
     this.editCriterionService
       .patchCriterion(this.currentId, {
         name: this.name,
+        englishName: this.englishName,
         description: this.description,
         indicatorID: this.indicatorID,
         index: this.index,

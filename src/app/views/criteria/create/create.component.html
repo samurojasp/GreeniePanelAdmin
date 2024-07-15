@@ -9,9 +9,7 @@
           <div class="form-container">
             <div class="two-inputs-container">
               <div class="input-container">
-                <label cLabel for="exampleFormControlInput1"
-                  >Nombre del criterio</label
-                >
+                <label cLabel for="exampleFormControlInput1">Nombre del criterio</label>
                 <input
                   cFormControl
                   id="name"
@@ -20,6 +18,18 @@
                   name="name"
                   [(ngModel)]="name"
                   value="{{ name }}"
+                />
+              </div>
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Nombre en inglés</label>
+                <input
+                  cFormControl
+                  id="name"
+                  placeholder="Nombre del criterio"
+                  type="text"
+                  name="englishName"
+                  [(ngModel)]="englishName"
+                  value="{{ englishName }}"
                 />
               </div>
               <div class="input-container">
@@ -47,6 +57,7 @@
                   id="index"
                   placeholder="Índice"
                   type="number"
+                  min="1"
                   name="index"
                   [(ngModel)]="index"
                   value="{{ index }}"
