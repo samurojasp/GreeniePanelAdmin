@@ -22,9 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Categorie } from 'src/app/types';
+import { Category, Indicator, Criterion } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Indicator, Criteria } from '../types';
 
 @Component({
   selector: 'app-edit-user',
@@ -66,7 +65,7 @@ export class EditCategorieComponent {
     private route: ActivatedRoute
   ) {}
 
-  public categories: Categorie[] = [];
+  categories: Category[] = [];
 
   id = 0;
   name = '';
@@ -81,7 +80,7 @@ export class EditCategorieComponent {
   currentId = 0;
 
   indicators: Indicator[] = [];
-  criteria: Criteria[] = [];
+  criteria: Criterion[] = [];
 
   getCategorieById(id: number): void {
     this.categoriesService.getCategorieById(id).subscribe({

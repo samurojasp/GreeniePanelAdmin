@@ -23,9 +23,8 @@ import { IconDirective } from '@coreui/icons-angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Categorie } from 'src/app/types';
+import { Category, Indicator, Criterion } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Indicator, Criteria } from '../types';
 
 @Component({
   selector: 'app-add-user',
@@ -73,9 +72,9 @@ export class AddCategorieComponent {
   toastMessage = '';
   toastClass: string = '';
   criteriaID: number[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
   indicators: Indicator[] = [];
-  criteria: Criteria[] = [];
+  criteria: Criterion[] = [];
 
   getIndicators(): void {
     this.categoriesService.getAllIndicators().subscribe({

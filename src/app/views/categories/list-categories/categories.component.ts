@@ -30,7 +30,7 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { Categorie } from 'src/app/types';
+import { Category } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -79,7 +79,7 @@ export class CategoriesComponent {
     private categoriesService: CategoriesService
   ) {}
 
-  public categories: Categorie[] = [];
+  public categories: Category[] = [];
 
   currentId = 0;
   pagination = {

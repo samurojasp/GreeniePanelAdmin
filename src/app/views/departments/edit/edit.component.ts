@@ -25,7 +25,7 @@ import { IconDirective } from '@coreui/icons-angular';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetDepartmentByIdService } from 'src/app/services/departments/get-department-by-id.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Categorie } from 'src/app/types';
+import { Category } from 'src/app/types';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgFor } from '@angular/common';
@@ -72,7 +72,7 @@ export class EditComponent {
   toastMessage = '';
   toastClass: string = '';
   categoryId: number[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
   pagination = {
     page: 1,
     take: 10,
@@ -95,7 +95,7 @@ export class EditComponent {
         this.name = response.name;
         console.log(response.categories);
         this.categoryId = response.categories.map(
-          (category: Categorie) => category.id
+          (category: Category) => category.id
         );
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -164,7 +164,7 @@ export class EditComponent {
     this.percentage = $event * 100;
   }
 
-  trackById(index: number, cate: Categorie): number {
+  trackById(index: number, cate: Category): number {
     return cate.id;
   }
 

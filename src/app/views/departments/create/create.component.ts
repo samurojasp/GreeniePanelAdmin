@@ -25,7 +25,7 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Categorie } from 'src/app/types';
+import { Category } from 'src/app/types';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
@@ -80,7 +80,7 @@ export class CreateComponent {
   toastMessage = '';
   toastClass: string = '';
   categoryId: number[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
 
   constructor(
     private createDepartmentService: CreateDepartmentService,

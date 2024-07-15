@@ -16,7 +16,7 @@ export interface Department {
   name: string;
   director: string;
   membersQuantity: number;
-  categories: Categorie[];
+  categories: Category[];
 }
 
 export interface Indicator {
@@ -34,16 +34,6 @@ export interface Criterion {
   index: number;
   description: string;
   indicator: Indicator;
-}
-
-export interface Categorie {
-  id: number;
-  name: string;
-  indicator: {
-    id: number;
-    name: string;
-  };
-  description: string;
 }
 
 export interface ContributionLink {

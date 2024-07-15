@@ -42,7 +42,7 @@ import {
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { Categorie, Department, Indicator, contribution } from 'src/app/types';
+import { Category, Department, Indicator, contribution } from 'src/app/types';
 import { ContributionsService } from 'src/app/services/contributions/contributions.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { GetAllIndicatorsService } from 'src/app/services/indicators/get-all-indicators.service';
@@ -101,7 +101,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 })
 export class ContributionsComponent {
   contributions: contribution[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
   departments: Department[] = [];
   indicators: Indicator[] = [];
   role = localStorage.getItem('role');
