@@ -77,7 +77,6 @@ export class MatrixComponent {
   getDepartments() {
     this.matrixService.getDepartments().subscribe({
       next: (response) => {
-        console.log(response);
         this.departments = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -87,7 +86,6 @@ export class MatrixComponent {
   getCategories() {
     this.matrixService.getAllCategories().subscribe({
       next: (response) => {
-        console.log(response);
         this.categories = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),

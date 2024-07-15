@@ -6,7 +6,7 @@ const adminNavBarItems = [
   {
     name: 'Matriz',
     url: '/matrix',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: { name: 'cil-home' },
   },
   {
     title: true,
@@ -16,7 +16,7 @@ const adminNavBarItems = [
   {
     name: 'Departamentos',
     url: '/departments',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPeople' },
     children: [
       {
         name: 'Listado',
@@ -50,7 +50,7 @@ const adminNavBarItems = [
   {
     name: 'Criterios',
     url: '/criteria',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPaperclip' },
     children: [
       {
         name: 'Listado',
@@ -83,7 +83,7 @@ const adminNavBarItems = [
   },
   {
     name: 'Usuarios',
-    iconComponent: { name: 'cilPeople' },
+    iconComponent: { name: 'cilUser' },
     url: '/users',
     children: [
       {
@@ -100,7 +100,7 @@ const adminNavBarItems = [
   },
   {
     name: 'Aportes',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilTask' },
     url: '/contributions',
     children: [
       {
