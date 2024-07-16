@@ -23,6 +23,7 @@
           [ngModelOptions]="{ standalone: true }"
           [(ngModel)]="indicatorID"
           cSelect
+          (change)="onIndicatorChange($event.target!)"
         >
           @for (ind of indicators; track ind.id) {
           <option value="{{ ind.id }}">{{ ind.id }} {{ ind.name }}</option>

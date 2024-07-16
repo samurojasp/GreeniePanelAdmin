@@ -9,7 +9,9 @@
           <div class="form-container">
             <div class="two-inputs-container">
               <div class="input-container">
-                <label cLabel for="exampleFormControlInput1">Nombre del criterio</label>
+                <label cLabel for="exampleFormControlInput1"
+                  >Nombre del criterio</label
+                >
                 <input
                   cFormControl
                   id="name"
@@ -21,7 +23,9 @@
                 />
               </div>
               <div class="input-container">
-                <label cLabel for="exampleFormControlInput1">Nombre en inglés</label>
+                <label cLabel for="exampleFormControlInput1"
+                  >Nombre en inglés</label
+                >
                 <input
                   cFormControl
                   id="name"
@@ -89,7 +93,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>
@@ -99,7 +104,11 @@
   </c-toast>
 </c-toaster>
 
-<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-  <p style="color: white" >Cargando... </p>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
 </ngx-spinner>
-

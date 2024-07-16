@@ -94,6 +94,7 @@ export class EditCategorieComponent {
         this.criteriaID = response.criteria.map(
           (criteria: Criterion) => criteria.id
         );
+        console.log(response);
       },
       error: (error) => {
         if (error.message) this.toggleToast(error.message, false);
@@ -127,7 +128,12 @@ export class EditCategorieComponent {
   getCriteria(): void {
     this.categoriesService.getAllCriteria().subscribe({
       next: (response) => {
-        this.criteria = response.data;
+        if (this.indicatorID == 0) this.criteria = response.data;
+        if (this.indicatorID != 0) {
+          this.criteria = response.data.filter(
+            (criterion: Criterion) => criterion.indicator.id == this.indicatorID
+          );
+        }
       },
       error: (error) => {
         if (error.message) this.toggleToast(error.message, false);
@@ -170,6 +176,11 @@ export class EditCategorieComponent {
             this.toggleToast(error.error.error.message, false);
         },
       });
+  }
+
+  onIndicatorChange(target: any): void {
+    this.indicatorID = parseInt(target.value);
+    this.getCriteria();
   }
 
   toggleToast(message: string, success: boolean): void {

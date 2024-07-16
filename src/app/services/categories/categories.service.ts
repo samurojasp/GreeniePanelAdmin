@@ -82,7 +82,7 @@ export class CategoriesService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}/criteria`, {
+    return this.http.get(`${this.apiUrl}/criteria/notPag`, {
       headers,
     });
   }

@@ -96,7 +96,12 @@ export class AddCategorieComponent {
   getCriteria(): void {
     this.categoriesService.getAllCriteria().subscribe({
       next: (response) => {
-        this.criteria = response.data;
+        if (this.indicatorID == 0) this.criteria = response.data;
+        if (this.indicatorID != 0) {
+          this.criteria = response.data.filter(
+            (criterion: Criterion) => criterion.indicator.id == this.indicatorID
+          );
+        }
       },
       error: (error) => {
         if (error.message) this.toggleToast(error.message, false);
@@ -139,6 +144,11 @@ export class AddCategorieComponent {
             this.toggleToast(error.error.error.message, false);
         },
       });
+  }
+
+  onIndicatorChange(target: any): void {
+    this.indicatorID = parseInt(target.value);
+    this.getCriteria();
   }
 
   toggleToast(message: string, success: boolean): void {

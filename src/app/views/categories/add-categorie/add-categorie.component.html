@@ -17,12 +17,13 @@
         />
       </div>
       <div class="input-container">
-        <label cLabel for="exampleFormControlInput1">Indicador</label>
+        <label cLabel>Indicador</label>
         <select
           [ngModelOptions]="{ standalone: true }"
           [(ngModel)]="indicatorID"
           value="{{ indicatorID }}"
           cSelect
+          (change)="onIndicatorChange($event.target!)"
         >
           @for (ind of indicators; track ind.id) {
           <option value="{{ ind.id }}">{{ ind.id }} - {{ ind.name }}</option>
