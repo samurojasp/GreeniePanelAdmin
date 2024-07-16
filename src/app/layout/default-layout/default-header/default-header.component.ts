@@ -65,7 +65,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
   readonly colorMode = this.#colorModeService.colorMode;
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
 
-  readonly colorModes = [{ name: 'light', text: 'Light', icon: 'cilSun' }];
+  readonly colorModes = [
+    { name: 'light', text: 'Light', icon: 'cilSun' },
+    { name: 'dark', text: 'Dark', icon: 'cilMoon' },
+    { name: 'auto', text: 'Auto', icon: 'cilContrast' },
+  ];
 
   readonly icons = computed(() => {
     const currentMode = this.colorMode();
@@ -211,9 +215,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
   ];
 
   logout(): void {
-    console.log(localStorage.getItem('token'));
-    localStorage.clear();
-    console.log(localStorage.getItem('token'));
-    console.log(localStorage.getItem('role'));
+    localStorage.clear();  
   }
 }

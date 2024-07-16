@@ -17,7 +17,6 @@ const adminNavBarItems = [
   {
     title: true,
     name: 'Gestión',
-    class: 'mt-auto text-white',
   },
   {
     name: 'Departamentos',
@@ -136,8 +135,7 @@ const departmentNavBarItems = [
   },
   {
     title: true,
-    name: 'Gestión',
-    class: 'mt-auto text-white',
+    name: '',
   },
   {
     name: 'Aportes',
