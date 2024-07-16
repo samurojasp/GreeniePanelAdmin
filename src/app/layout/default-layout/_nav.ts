@@ -132,7 +132,7 @@ const departmentNavBarItems = [
   {
     name: 'Matriz',
     url: '/matrix',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: { name: 'cil-home' },
   },
   {
     title: true,
@@ -141,7 +141,7 @@ const departmentNavBarItems = [
   },
   {
     name: 'Aportes',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilTask' },
     url: '/contributions',
     children: [
       {
