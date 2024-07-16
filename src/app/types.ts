@@ -138,3 +138,13 @@ export interface BackendError {
     detail: [message: string] | string;
   };
 }
+
+export interface SettingBody {
+  key: string;
+  contributionSettings: {
+    initDate: Date;
+    endDate: Date;
+    getNotificationForContribution: boolean;
+    recordatory: boolean;
+  };
+}

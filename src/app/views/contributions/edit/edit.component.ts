@@ -36,12 +36,14 @@ import {
   ContributionFile,
   ContributionLink,
   Indicator,
+  SettingBody,
 } from 'src/app/types';
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { v4 as uuidv4 } from 'uuid';
 import { NgFor, NgIf } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { GetSettingService } from 'src/app/services/settings/get-settings.service';
 
 @Component({
   selector: 'app-create',
@@ -87,19 +89,35 @@ export class EditComponent {
   toastMessage = '';
   toastClass: string = '';
 
+  setting: SettingBody = {
+    key: '',
+    contributionSettings: {
+      initDate: new Date(),
+      endDate: new Date(),
+      getNotificationForContribution: false,
+      recordatory: true,
+    },
+  };
+
+  isLate: boolean = false;
+  isDisabled: boolean = false;
+  remainingTime: number = 0;
+  message: string = '';
+
   newFiles: File[] = [];
 
   constructor(
     private contributionsService: ContributionsService,
     private indicatorsService: IndicatorsService,
     private categoriesService: CategoriesService,
+    private getSettingService: GetSettingService,
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
   ) {
     this.contributionForm = this.formBuilder.group({
       uuid: [''],
-      description: [''],
+      description: ['', this.isDisabled],
       categoryId: [0],
       indicatorId: [0],
       links: this.formBuilder.array([]),
@@ -261,9 +279,13 @@ export class EditComponent {
           this.router.navigate([`contributions`]);
         },
         error: (error) => {
-          console.log(this.newFiles);
-          console.log(error);
-          this.toggleToast(error.message, false);
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -288,6 +310,63 @@ export class EditComponent {
   onTimerChange($event: number) {
     this.percentage = $event * 100;
   }
+
+  getSettings(): void {
+    this.getSettingService
+      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
+      .subscribe({
+        next: (response) => {
+          this.setting = response;
+          this.calculateTime();
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
+  }
+
+  calculateTime(): void {
+    const tiempoLimite =
+      (new Date(this.setting.contributionSettings.endDate).getTime() -
+        new Date(this.setting.contributionSettings.initDate).getTime()) *
+      0.3;
+
+    this.remainingTime =
+      new Date(this.setting.contributionSettings.endDate).getTime() -
+      new Date().getTime();
+
+    if (tiempoLimite >= this.remainingTime) {
+      this.isLate = true;
+      this.remainingTime = Math.ceil(
+        this.remainingTime / (1000 * 60 * 60 * 24)
+      );
+
+      if (this.remainingTime == 1) {
+        this.message = `Advertencia, queda apróximadamente ${this.remainingTime} día para realizar aportes`;
+      } else {
+        this.message = `Advertencia, quedan apróximadamente ${this.remainingTime} días para realizar aportes`;
+      }
+    } else {
+      this.isLate = false;
+    }
+
+    if (this.remainingTime <= 0) this.isDisabled = true;
+
+    this.isDisabled = true;
+    console.log(this.isDisabled);
+    if (this.isDisabled) {
+      this.contributionForm.disable();
+    } else {
+      this.contributionForm.enable();
+    }
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.currentId = params['id'];
@@ -295,5 +374,7 @@ export class EditComponent {
     this.getIndicators();
     this.getCategories();
     this.getContribution();
+    this.getSettings();
+    this.calculateTime();
   }
 }

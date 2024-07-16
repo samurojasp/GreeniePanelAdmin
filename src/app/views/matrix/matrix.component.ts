@@ -21,28 +21,7 @@ import {
   ToastHeaderComponent,
   ToasterComponent,
 } from '@coreui/angular';
-import { Category, Department } from 'src/app/types';
-
-interface SettingBody {
-  key: string;
-  contributionSettings: {
-    initDate: Date;
-    endDate: Date;
-    getNotificationForContribution: boolean;
-    recordatory: boolean;
-  };
-}
-
-interface Matrix {
-  departmentName: string;
-  categories: [
-    {
-      id: number;
-      potencially: boolean;
-      quantity: number;
-    }
-  ];
-}
+import { Category, Department, Matrix, SettingBody } from 'src/app/types';
 
 @Component({
   selector: 'app-matrix',

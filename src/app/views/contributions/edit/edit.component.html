@@ -1,150 +1,166 @@
-<c-row>
-  <c-col xs>
-    <c-card class="mb-4">
+<div class="table-responsive">
+  <div *ngIf="isLate">
+    <c-card class="mb-4" color="warning">
       <c-card-body>
-        <form [formGroup]="contributionForm" cForm>
-          <div class="d-flex justify-content-between align-items-center">
-            <h4 class="card-title" id="users">Editar aporte de información</h4>
-          </div>
-          <div class="form-container">
-            <div class="input-container">
-              <label cLabel for="exampleFormControlInput1">Resumen</label>
-              <input
-                cFormControl
-                placeholder="Resumen"
-                type="text"
-                formControlName="description"
-              />
+        <h5 class="text-center">
+          {{ message }}
+        </h5></c-card-body
+      >
+    </c-card>
+  </div>
+  <c-row>
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-body>
+          <form [formGroup]="contributionForm" cForm>
+            <div class="d-flex justify-content-between align-items-center">
+              <h4 class="card-title" id="users">
+                Editar aporte de información
+              </h4>
             </div>
+            <div class="form-container">
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Resumen</label>
+                <input
+                  cFormControl
+                  placeholder="Resumen"
+                  type="text"
+                  formControlName="description"
+                />
+              </div>
 
-            <div class="input-container">
-              <label cLabel for="exampleFormControlInput1">Indicador</label>
-              <select
-                aria-label="indicatorId select"
-                formControlName="indicatorId"
-                cSelect
-                (change)="onIndicatorChange($event.target!)"
-              >
-                @for (indicator of indicatorOptions; track indicator.id) {
-                <option value="{{ indicator.id }}">
-                  {{ indicator.id }} {{ indicator.name }}
-                </option>
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Indicador</label>
+                <select
+                  aria-label="indicatorId select"
+                  formControlName="indicatorId"
+                  cSelect
+                  (change)="onIndicatorChange($event.target!)"
+                >
+                  @for (indicator of indicatorOptions; track indicator.id) {
+                  <option value="{{ indicator.id }}">
+                    {{ indicator.id }} {{ indicator.name }}
+                  </option>
+                  }
+                </select>
+              </div>
+
+              <div class="input-container">
+                <label cLabel for="exampleFormControlInput1">Categoría</label>
+                <select
+                  aria-label="category select"
+                  formControlName="categoryId"
+                  cSelect
+                >
+                  @for (category of categoryOptions; track category.id) {
+                  <option value="{{ category.id }}">
+                    {{ category.id }} {{ category.name }}
+                  </option>
+                  }
+                </select>
+              </div>
+
+              <label cLabel>Archivos</label>
+
+              <div class="files-container" formGroupName="files">
+                @if (files.length === 0) {
+                <h6>No se han agregado archivos todavía.</h6>
                 }
-              </select>
-            </div>
-
-            <div class="input-container">
-              <label cLabel for="exampleFormControlInput1">Categoría</label>
-              <select
-                aria-label="category select"
-                formControlName="categoryId"
-                cSelect
-              >
-                @for (category of categoryOptions; track category.id) {
-                <option value="{{ category.id }}">
-                  {{ category.id }} {{ category.name }}
-                </option>
-                }
-              </select>
-            </div>
-
-            <label cLabel>Archivos</label>
-
-            <div class="files-container" formGroupName="files">
-              @if (files.length === 0) {
-              <h6>No se han agregado archivos todavía.</h6>
-              }
-              <div *ngFor="let file of files.controls; let i = index">
-                <div class="file-form" formGroupName="{{ i }}">
-                  <div class="two-inputs-container">
-                    <div class="file-input-container">
-                      <input
-                        type="file"
-                        id="fileinput{{ i }}"
-                        (change)="handleFileChange($event, i)"
-                        style="display: none"
-                      />
-                      <div *ngIf="file.get('id')!.value === 0">
-                        <label for="fileinput{{ i }}" class="file-input"
-                          >Selecciona un Archivo</label
-                        >
+                <div *ngFor="let file of files.controls; let i = index">
+                  <div class="file-form" formGroupName="{{ i }}">
+                    <div class="two-inputs-container">
+                      <div class="file-input-container">
+                        <input
+                          type="file"
+                          id="fileinput{{ i }}"
+                          (change)="handleFileChange($event, i)"
+                          style="display: none"
+                        />
+                        <div *ngIf="file.get('id')!.value === 0">
+                          <label for="fileinput{{ i }}" class="file-input"
+                            >Selecciona un Archivo</label
+                          >
+                        </div>
+                        <div *ngIf="file.value.name != ''">
+                          <label class="file-input-label">{{
+                            file.value.name
+                          }}</label>
+                        </div>
                       </div>
-                      <div *ngIf="file.value.name != ''">
-                        <label class="file-input-label">{{
-                          file.value.name
-                        }}</label>
-                      </div>
+
+                      <button
+                        class="erase-file-button"
+                        cButton
+                        color="danger"
+                        (click)="removeFile(i)"
+                      >
+                        Eliminar Archivo
+                      </button>
                     </div>
 
-                    <button
-                      class="erase-file-button"
-                      cButton
-                      color="danger"
-                      (click)="removeFile(i)"
-                    >
-                      Eliminar Archivo
-                    </button>
+                    <textarea
+                      cFormControl
+                      placeholder="Descripción"
+                      type="text"
+                      formControlName="description"
+                    ></textarea>
                   </div>
+                </div>
 
-                  <textarea
-                    cFormControl
-                    placeholder="Descripción"
-                    type="text"
-                    formControlName="description"
-                  ></textarea>
+                <div class="new-file-button-container">
+                  <button class="" (click)="addFiles()" cButton>
+                    Agregar otro archivo
+                  </button>
                 </div>
               </div>
 
-              <div class="new-file-button-container">
-                <button class="" (click)="addFiles()" cButton>
-                  Agregar otro archivo
-                </button>
-              </div>
-            </div>
+              <label cLabel>Links</label>
+              <div class="links-container" formGroupName="links">
+                @if (links.length === 0) {
+                <h6>No se han agregado links todavía.</h6>
+                }
+                <div *ngFor="let link of links.controls; let i = index">
+                  <div class="link-container" formGroupName="{{ i }}">
+                    <input
+                      cFormControl
+                      placeholder="URL"
+                      formControlName="URL"
+                    />
+                    <textarea
+                      placeholder="Descripción"
+                      cFormControl
+                      class="textarea"
+                      formControlName="description"
+                    ></textarea>
 
-            <label cLabel>Links</label>
-            <div class="links-container" formGroupName="links">
-              @if (links.length === 0) {
-              <h6>No se han agregado links todavía.</h6>
-              }
-              <div *ngFor="let link of links.controls; let i = index">
-                <div class="link-container" formGroupName="{{ i }}">
-                  <input cFormControl placeholder="URL" formControlName="URL" />
-                  <textarea
-                    placeholder="Descripción"
-                    cFormControl
-                    class="textarea"
-                    formControlName="description"
-                  ></textarea>
-
-                  <div class="erase-link-button-container">
-                    <button
-                      color="danger"
-                      class="erase-link-button"
-                      cButton
-                      (click)="removeLink(i)"
-                    >
-                      Eliminar link
-                    </button>
+                    <div class="erase-link-button-container">
+                      <button
+                        color="danger"
+                        class="erase-link-button"
+                        cButton
+                        (click)="removeLink(i)"
+                      >
+                        Eliminar link
+                      </button>
+                    </div>
                   </div>
                 </div>
+                <div class="new-link-button-container">
+                  <button class="" (click)="addLinks()" cButton>
+                    Agregar otro link
+                  </button>
+                </div>
               </div>
-              <div class="new-link-button-container">
-                <button class="" (click)="addLinks()" cButton>
-                  Agregar otro link
-                </button>
+              <div class="button-container">
+                <button (click)="patchContribution()" cButton>Guardar</button>
               </div>
             </div>
-            <div class="button-container">
-              <button (click)="patchContribution()" cButton>Guardar</button>
-            </div>
-          </div>
-        </form>
-      </c-card-body>
-    </c-card>
-  </c-col>
-</c-row>
-
+          </form>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</div>
 <c-toaster [placement]="position" class="p-3" position="fixed">
   <c-toast
     (timer)="onTimerChange($event)"
