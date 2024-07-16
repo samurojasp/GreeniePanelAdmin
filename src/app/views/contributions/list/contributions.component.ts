@@ -336,6 +336,7 @@ export class ContributionsComponent {
     this.route.paramMap.subscribe((params) => {
       const categoryId = params.get('CategoryID');
       const indicatorId = params.get('IndicatorID');
+      const departmentId = params.get('DepartmentID');
 
       if (categoryId) {
         this.categoryFilter = Number(categoryId);
@@ -343,6 +344,10 @@ export class ContributionsComponent {
 
       if (indicatorId) {
         this.indicatorFilter = Number(indicatorId);
+      }
+
+      if (departmentId) {
+        this.departmentFilter = Number(departmentId);
       }
       this.getPaginatedContributions();
       this.getAllCategories();
