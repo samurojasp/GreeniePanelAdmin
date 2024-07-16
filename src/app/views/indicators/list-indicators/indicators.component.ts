@@ -35,16 +35,9 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { Indicator } from 'src/app/types';
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-
-interface indicator {
-  id: number;
-  name: string;
-  index: number;
-  description: string;
-}
 
 @Component({
   selector: 'app-indicators',
@@ -113,7 +106,7 @@ export class IndicatorsComponent {
     hasNextPage: true,
   };
 
-  public indicators: indicator[] = [];
+  public indicators: Indicator[] = [];
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
