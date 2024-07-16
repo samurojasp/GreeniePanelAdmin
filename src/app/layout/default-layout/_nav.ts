@@ -1,8 +1,14 @@
-import { INavData } from '@coreui/angular';
-
-const role = localStorage.getItem('role');
-
 const adminNavBarItems = [
+  {
+    name: 'Dashboard',
+    url: 'https://app.powerbi.com/links/ggDtE660sI?ctid=29a18182-402d-4ca9-a51f-2a356c6efdb7&pbi_source=linkShare',
+    target: '_blank',
+    badge: {
+      text: 'PowerBI',
+      color: '#1e4034',
+    },
+    iconComponent: { name: 'cil-home' },
+  },
   {
     name: 'Matriz',
     url: '/matrix',
@@ -147,4 +153,7 @@ const departmentNavBarItems = [
   },
 ];
 
-export const navItems: INavData[] = adminNavBarItems;
+export const navItemsByRole = {
+  admin: adminNavBarItems,
+  dpto: departmentNavBarItems,
+};

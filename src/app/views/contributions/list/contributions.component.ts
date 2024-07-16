@@ -268,7 +268,7 @@ export class ContributionsComponent {
   }
 
   setIndicatorFilter(indicatorId: number): void {
-    this.categoryFilter = 0;  
+    this.categoryFilter = 0;
     this.departmentFilter = 0;
     this.indicatorFilter = indicatorId;
     this.getPaginatedContributions();
@@ -314,8 +314,6 @@ export class ContributionsComponent {
       if (indicatorId) {
         this.indicatorFilter = Number(indicatorId);
       }
-      console.log(categoryId);
-      console.log(indicatorId);
       this.getPaginatedContributions();
       this.getAllCategories();
       this.getAllDepartments();

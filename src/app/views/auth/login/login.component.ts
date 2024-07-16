@@ -110,6 +110,7 @@ export class LoginComponent {
           localStorage.setItem('email', response.email);
           localStorage.setItem('role', response.role);
           this.router.navigate(['/matrix']);
+          console.log(localStorage.getItem('role'));
         },
         error: (error) => {
           if (error.error.error.message && error.error.error.detail[0].message)
