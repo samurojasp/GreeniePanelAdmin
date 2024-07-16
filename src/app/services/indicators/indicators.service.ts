@@ -2,55 +2,73 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IndicatorBody } from './types';
-
+import { getBaseUrl } from '../config';
 @Injectable({
   providedIn: 'root',
 })
 export class IndicatorsService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1/';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
   token = localStorage.getItem('token');
 
-  getPaginatedIndicator(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.get(`${this.apiUrl}indicators`, {
+  getPaginatedIndicator(page: number, take: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.get(`${this.apiUrl}/indicators?page=${page}&take=${take}`, {
       headers,
     });
   }
 
   getIndicatorById(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.get(`${this.apiUrl}indicators/${id}`, {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.get(`${this.apiUrl}/indicators/${id}`, {
       headers,
     });
   }
 
   getAllIndicators(): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.get(`${this.apiUrl}indicators/notPag`, {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.get(`${this.apiUrl}/indicators/notPag`, {
       headers,
     });
   }
 
   editIndicator(id: number, body: IndicatorBody): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.patch(`${this.apiUrl}indicators/${id}`, body, {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.patch(`${this.apiUrl}/indicators/${id}`, body, {
       headers,
     });
   }
 
   deleteIndicator(id: number): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.delete(`${this.apiUrl}indicators/${id}`, {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.delete(`${this.apiUrl}/indicators/${id}`, {
       headers,
     });
   }
 
   addIndicator(body: IndicatorBody): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: `Bearer ${this.token}` });
-    return this.http.post(`${this.apiUrl}indicators`, body, {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    return this.http.post(`${this.apiUrl}/indicators`, body, {
       headers,
     });
   }

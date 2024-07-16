@@ -1,66 +1,104 @@
 <c-card class="mb-4">
-    <c-card-body>
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="card-title" id="users">Agregar Categoría</h4>     
+  <c-card-body>
+    <div class="d-flex justify-content-between align-items-center">
+      <h4 class="card-title" id="users">Agregar Categoría</h4>
+    </div>
+
+    <form cForm>
+      <div>
+        <label cLabel for="exampleFormControlInput1">Nombre</label>
+        <input
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="name"
+          value="{{ name }}"
+        />
       </div>
-  
-      <form cForm>    
-        <div>
-            <label cLabel for="exampleFormControlInput1">Nombre</label>
-            <input cFormControl
-                   id="exampleFormControlInput1"
-                   type="text"
-                   [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="name"
-                   value="{{ name }}"
-            />
-          </div> 
-          <div class="input-container">
-            <label cLabel for="exampleFormControlInput1">Indicador</label>
-            <select
-              [ngModelOptions]="{standalone: true}"
-              [(ngModel)]="indicatorID"
-              value="{{ indicatorID }}"
-              cSelect
-            >
-              @for (ind of indicators; track ind.id) {
-              <option value="{{ ind.id }}">
-                {{ ind.id }} - {{ ind.name }}
-              </option>
-              }
-            </select>
-          </div>
-          <div class="input-container">
-            <label cLabel for="exampleFormControlInput1">Criterios</label>
-            <mat-select class="text-white"
-             cSelect
-             [(ngModel)]="criteriaID"
-             [ngModelOptions]="{standalone: true}"
-             multiple
-            >
-              @for (crite of criteria; track crite.id) {
-                <mat-option value="{{ crite.id }}">
-                  {{ crite.id }} - {{ crite.name }}
-                </mat-option>
-              }
-            </mat-select>
-          </div>
-          <div>
-            <label cLabel for="exampleFormControlInput1">Descripción</label>
-            <textarea cFormControl
-                   id="exampleFormControlInput1"
-                   type="text"
-                   [ngModelOptions]="{standalone: true}"
-                   [(ngModel)]="description"
-                   value="{{ description }}"
-            ></textarea>
-          </div>       
-        <a cButton style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;" (click)="createCategorie()" color="success" class="text-white ms-md-2 mb-3">
-          Guardar
-        </a>
-      </form>
-    </c-card-body>
-  </c-card>
-  <ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-    <p style="color: white" > Cargando... </p>
-  </ngx-spinner>
+      <div class="input-container">
+        <label cLabel for="exampleFormControlInput1">Indicador</label>
+        <select
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="indicatorID"
+          value="{{ indicatorID }}"
+          cSelect
+        >
+          @for (ind of indicators; track ind.id) {
+          <option value="{{ ind.id }}">{{ ind.id }} - {{ ind.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="input-container">
+        <label cLabel for="exampleFormControlInput1">Criterios</label>
+        <mat-form-field
+          ><mat-select
+            cSelect
+            [(ngModel)]="criteriaID"
+            [ngModelOptions]="{ standalone: true }"
+            multiple
+          >
+            @for (crite of criteria; track crite.id) {
+            <mat-option value="{{ crite.id }}">
+              {{ crite.id }} - {{ crite.name }}
+            </mat-option>
+            }
+          </mat-select></mat-form-field
+        >
+      </div>
+      <div>
+        <label cLabel for="exampleFormControlInput1">Descripción</label>
+        <textarea
+          cFormControl
+          id="exampleFormControlInput1"
+          type="text"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="description"
+          value="{{ description }}"
+        ></textarea>
+      </div>
+      <a
+        cButton
+        style="
+          background-color: #5a835a;
+          color: white;
+          border: 1px solid #5a835a;
+          border-radius: 5px;
+          padding: 8px 16px;
+          display: inline-block;
+          text-decoration: none;
+        "
+        (click)="createCategorie()"
+        color="success"
+        class="text-white ms-md-2 mb-3"
+      >
+        Guardar
+      </a>
+    </form>
+  </c-card-body>
+</c-card>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
+</ngx-spinner>

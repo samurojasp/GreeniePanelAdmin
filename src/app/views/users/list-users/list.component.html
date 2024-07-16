@@ -2,30 +2,16 @@
   <c-col xs>
     <c-card class="mb-4">
       <c-card-body>
-        <h4 class="card-title text-start" id="users">Gestión de Usuarios</h4>
         <div class="d-flex justify-content-between align-items-center">
-          <input type="text" class="form-control w-25  ms-md-2 mb-3" placeholder="Buscar...">
-          <!-- <c-dropdown>
-            <button cButton cDropdownToggle class="form-control  ms-md-2 mb-3" color="auto">Filtrado por departamento</button>
-            <ul cDropdownMenu auto>
-              <li><button cDropdownItem>Departamento 1</button></li>
-              <li><button cDropdownItem>Departamento 2</button></li>
-              <li><button cDropdownItem>Departamento 3</button></li>
-            </ul>
-          </c-dropdown>
-          <c-dropdown>
-            <button cButton cDropdownToggle class="form-control  ms-md-2 mb-3" color="auto">Filtrado por roles</button>
-            <ul cDropdownMenu auto>
-              <li><button cDropdownItem>Rol 1</button></li>
-              <li><button cDropdownItem>Rol 2</button></li>
-              <li><button cDropdownItem>Rol 3</button></li>
-            </ul>
-          </c-dropdown> -->
+          <h4 class="card-title text-start" id="users">Gestión de Usuarios</h4>
           <a
             cButton
             routerLink="/addusers"
             routerLinkActive="active"
-            style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A'
+            }"
             class="text-white ms-md-2 mb-3"
           >
             Agregar Usuario
@@ -49,19 +35,25 @@
             </tr>
           </thead>
           <tbody>
-            @for (user of users; track user.id; let i = $index) {
+            @for (user of users | paginate: { itemsPerPage: pagination.take,
+            currentPage: pagination.page, totalItems: pagination.itemCount};
+            track user.id; let i = $index) {
             <tr>
               <td class="text-center">
                 {{ user.name }}
               </td>
-              <td class="text-center">              
-                  {{user.department.name ? user.department.name : 'No se le ha asignado un departamento'}}
+              <td class="text-center">
+                {{
+                  user.department.name
+                    ? user.department.name
+                    : "No se le ha asignado un departamento"
+                }}
               </td>
               <td class="text-center">
-                    {{ user.email }}
+                {{ user.email }}
               </td>
               <td class="text-center">
-                    {{ user.role }}
+                {{ user.role }}
               </td>
               <td class="text-center">
                 <div class="fw-semibold text-nowrap">
@@ -91,23 +83,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>
@@ -127,18 +111,17 @@
   </c-modal-header>
   <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
   <c-modal-footer>
-    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="white">
       Cerrar
     </button>
     <button
-  cButton
-  (click)="deleteUser()"
-  [cModalToggle]="staticBackdropModal.id"
-  color="primary"
->
-  Aceptar
-</button>
-
+      cButton
+      (click)="deleteUser()"
+      [cModalToggle]="staticBackdropModal.id"
+      class="accept-button"
+    >
+      Aceptar
+    </button>
   </c-modal-footer>
 </c-modal>
 
@@ -147,7 +130,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>
@@ -156,6 +140,11 @@
     </c-toast-body>
   </c-toast>
 </c-toaster>
-<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-  <p style="color: white" > Loading... </p>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>

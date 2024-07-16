@@ -1,14 +1,28 @@
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  birthdate: string;
+  role: string;
+  department: {
+    id: number;
+    name: string;
+  };
+}
+
 export interface Department {
   id: number;
   name: string;
   director: string;
   membersQuantity: number;
-  categories: Categorie[];
+  categories: Category[];
 }
 
 export interface Indicator {
   id: number;
   name: string;
+  englishName: string;
   index: number;
   description: string;
 }
@@ -16,19 +30,10 @@ export interface Indicator {
 export interface Criterion {
   id: number;
   name: string;
+  englishName: string;
   index: number;
   description: string;
   indicator: Indicator;
-}
-
-export interface Categorie {
-  id: number;
-  name: string;
-  indicator: {
-    id: number;
-    name: string;
-  };
-  description: string;
 }
 
 export interface ContributionLink {
@@ -110,5 +115,26 @@ export interface contribution {
         description: string;
       }
     ];
+  };
+}
+
+export interface Matrix {
+  departmentName: string;
+  categories: [
+    {
+      id: number;
+      potencially: boolean;
+      quantity: number;
+    }
+  ];
+}
+
+export interface BackendError {
+  error: {
+    status: number;
+    instance: string;
+    code: string;
+    message: string;
+    detail: [message: string] | string;
   };
 }

@@ -3,10 +3,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
-
 import { IconDirective } from '@coreui/icons-angular';
 import {
   ContainerComponent,
+  INavData,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
   SidebarComponent,
@@ -14,11 +14,12 @@ import {
   SidebarHeaderComponent,
   SidebarNavComponent,
   SidebarToggleDirective,
-  SidebarTogglerDirective
+  SidebarTogglerDirective,
 } from '@coreui/angular';
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
+import { navItemsByRole } from './_nav';
+import { LoginService } from 'src/app/services/auth/login.service';
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -47,22 +48,27 @@ function isOverflown(element: HTMLElement) {
     ShadowOnScrollDirective,
     ContainerComponent,
     RouterOutlet,
-    DefaultFooterComponent
-  ]
+    DefaultFooterComponent,
+  ],
 })
 export class DefaultLayoutComponent {
-  public navItems = navItems;
-  sidebarColor = '#1E4034'; 
+  navItems: INavData[] = [];
+
+  constructor(private loginService: LoginService) {}
+
+  ngOnInit(): void {
+    const userRole = this.loginService.getUserRole();
+    this.navItems = navItemsByRole[userRole as keyof typeof navItemsByRole];
+  }
+  sidebarColor = '#1E4034';
 
   onScrollbarUpdate($event: any) {
     // if ($event.verticalUsed) {
     // console.log('verticalUsed', $event.verticalUsed);
     // }
   }
-  "styles": [
-  "src/styles.css"
-   ]
-   onMouseEnterSidebar() {
+  'styles': ['src/styles.css'];
+  onMouseEnterSidebar() {
     this.sidebarColor = 'rgba(30, 64, 52, 0.8)'; // Color más transparente
   }
 
@@ -70,5 +76,4 @@ export class DefaultLayoutComponent {
   onMouseLeaveSidebar() {
     this.sidebarColor = '#1E4034'; // Color de fondo original
   }
-
 }

@@ -2,15 +2,10 @@
   <c-col xs>
     <c-card class="mb-4">
       <c-card-body>
-        <h4 class="card-title text-center" id="users">
-          Aportes de Información
-        </h4>
         <div class="d-flex justify-content-between align-items-center">
-          <input
-            type="text"
-            class="form-control w-25 ms-md-2 mb-3"
-            placeholder="Buscar..."
-          />
+          <h4 class="card-title text-center" id="users">
+            Aportes de Información
+          </h4>
           <c-dropdown *ngIf="role === 'admin'">
             <button
               cButton
@@ -19,16 +14,24 @@
               color="auto"
               size="sm"
             >
-              Filtrado por departamento
+              {{ getDepartmentFilterTitle(departmentFilter) }}
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setDepartmentFilter(0)" cDropdownItem>
+                  Todos los departamentos
+                </button>
+              </li>
               @for (department of departments; track department.id){
               <li>
-                <button (click)="setDepartmentFilter(department.id)" cDropdownItem>
+                <button
+                  (click)="setDepartmentFilter(department.id)"
+                  cDropdownItem
+                >
                   {{ department.id }} - {{ department.name }}
-                </button >
+                </button>
               </li>
-            }
+              }
             </ul>
           </c-dropdown>
           <c-dropdown>
@@ -39,16 +42,21 @@
               color="auto"
               size="sm"
             >
-              Filtrado por Categoría
+              {{ getCategoryFilterTitle(categoryFilter) }}
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setCategoryFilter(0)" cDropdownItem>
+                  Todas las categorías
+                </button>
+              </li>
               @for (ctg of categories; track ctg.id){
               <li>
                 <button (click)="setCategoryFilter(ctg.id)" cDropdownItem>
                   {{ ctg.id }} - {{ ctg.name }}
-                </button >
+                </button>
               </li>
-            }
+              }
             </ul>
           </c-dropdown>
           <c-dropdown>
@@ -59,26 +67,34 @@
               color="auto"
               size="sm"
             >
-              Filtrado por Indicadores
+              {{ getIndicatorFilterTitle(indicatorFilter) }}
             </button>
             <ul cDropdownMenu auto>
+              <li>
+                <button (click)="setIndicatorFilter(0)" cDropdownItem>
+                  Todos los indicadores
+                </button>
+              </li>
               @for (ind of indicators; track ind.id){
               <li>
                 <button (click)="setIndicatorFilter(ind.id)" cDropdownItem>
                   {{ ind.id }} - {{ ind.name }}
-                </button >
+                </button>
               </li>
-            }
+              }
             </ul>
-          </c-dropdown>       
+          </c-dropdown>
           <a
             cButton
             routerLinkActive="active"
-            style="background-color: #5A835A; color: white; border: 1px solid #5A835A; border-radius: 5px; padding: 8px 16px; display: inline-block; text-decoration: none;"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A'
+            }"
             class="text-white ms-md-2 mb-3"
             (click)="goToCreate()"
           >
-            Agregar
+            Agregar aporte
           </a>
         </div>
         <table
@@ -91,7 +107,9 @@
         >
           <thead class="text-nowrap text-truncate">
             <tr>
-              <th *ngIf="role === 'admin'" class="bg-body-tertiary text-center">Departamento</th>
+              <th *ngIf="role === 'admin'" class="bg-body-tertiary text-center">
+                Departamento
+              </th>
               <th class="bg-body-tertiary text-center">Indicador</th>
               <th class="bg-body-tertiary text-center">Categoría</th>
               <th class="bg-body-tertiary text-center">Fecha</th>
@@ -99,8 +117,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (contribution of contributions; track contribution.id; let i =
-            $index) {
+            @for (contribution of contributions | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page, totalItems:
+            pagination.itemCount}; track contribution.id; let i = $index) {
             <tr>
               <td *ngIf="role === 'admin'" class="text-center">
                 {{ contribution.user.department.name }}
@@ -116,9 +135,15 @@
               </td>
               <td class="text-center">
                 <div class="fw-semibold text-nowrap">
-                  <a cButton color="warning" variant="outline" class="mx-1">
+                  <button
+                    cButton
+                    color="warning"
+                    variant="outline"
+                    class="mx-1"
+                    (click)="goToEdit(contribution.id)"
+                  >
                     <svg cIcon class="icon icon-lg" name="cilPencil"></svg>
-                  </a>
+                  </button>
                   <button
                     cButton
                     [cModalToggle]="staticBackdropModal.id"
@@ -136,23 +161,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <a cPageLink>Previous</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>1</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>2</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>3</a>
-          </li>
-          <li cPageItem>
-            <a cPageLink>Next</a>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>
@@ -172,14 +189,14 @@
   </c-modal-header>
   <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
   <c-modal-footer>
-    <button [cModalToggle]="staticBackdropModal.id" cButton color="secondary">
+    <button [cModalToggle]="staticBackdropModal.id" cButton color="white">
       Cerrar
     </button>
     <button
       cButton
       (click)="deleteContribution()"
       [cModalToggle]="staticBackdropModal.id"
-      color="primary"
+      class="accept-button"
     >
       Aceptar
     </button>
@@ -202,6 +219,11 @@
   </c-toast>
 </c-toaster>
 
-<ngx-spinner bdColor = "rgba(0,0,0,0.65)" size ="large" color = "rgb(60, 179, 113)" type="ball-scale-multiple">  
-  <p style="color: white" > Cargando... </p>
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
 </ngx-spinner>

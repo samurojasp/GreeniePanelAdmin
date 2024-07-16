@@ -48,6 +48,7 @@ import { DeleteDepartmentService } from '../../../services/departments/delete-de
 import { Router } from '@angular/router';
 
 import { Department } from '../../../types';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   templateUrl: 'departments.component.html',
@@ -94,6 +95,7 @@ import { Department } from '../../../types';
     ProgressBarComponent,
     NgIf,
     NgxSpinnerModule,
+    NgxPaginationModule,
   ],
 })
 export class DepartmentsComponent implements OnInit {
@@ -108,7 +110,7 @@ export class DepartmentsComponent implements OnInit {
 
   pagination = {
     page: 1,
-    take: 1,
+    take: 10,
     itemCount: 0,
     pageCount: 0,
     hasPreviousPage: false,
@@ -130,26 +132,41 @@ export class DepartmentsComponent implements OnInit {
     this.visibleModal = event;
   }
 
-  getPaginatedDepartments(page: number, take: number): void {
-    this.departmentsService.getPaginatedDepartments(page, take).subscribe({
-      next: (response) => {
-        this.departments = response.data;
-        this.pagination = response.meta;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+  getPaginatedDepartments(): void {
+    this.departmentsService
+      .getPaginatedDepartments(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.departments = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   deleteDepartment(): void {
     this.deleteDepartmentService.deleteDepartment(this.currentId).subscribe({
       next: () => {
-        this.getPaginatedDepartments(this.pagination.page, 10);
+        this.getPaginatedDepartments();
         this.visibleModal = false;
         this.toggleToast('El departamento se ha eliminado exitosamente', true);
       },
       error: (error) => {
-        this.toggleToast(error.message, false);
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -160,7 +177,7 @@ export class DepartmentsComponent implements OnInit {
     }
     this.pagination.page = page;
 
-    this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
+    this.getPaginatedDepartments();
   }
 
   redirectToEdit(id: number): void {
@@ -168,7 +185,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPaginatedDepartments(this.pagination.page, this.pagination.take);
+    this.getPaginatedDepartments();
   }
 
   toggleToast(message: string, success: boolean): void {

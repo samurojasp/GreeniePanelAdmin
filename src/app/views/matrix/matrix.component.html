@@ -35,7 +35,23 @@
           *ngFor="let category of categories; let i = index"
         >
           <ng-container *ngIf="matrix.categories[i].quantity > 0">
-            <p>Aportado: {{ matrix.categories[i].quantity }}</p>
+            <p
+              (click)="
+                navigateToContributions(
+                  matrix.categories[i].id,
+                  category.indicator.id
+                )
+              "
+              style="cursor: pointer"
+            >
+              <svg
+                cIcon
+                name="cil-check"
+                size="lg"
+                [ngStyle]="{ color: headers[i + 1].color }"
+              ></svg>
+              {{ matrix.categories[i].quantity }}
+            </p>
           </ng-container>
           <ng-container
             *ngIf="
@@ -43,10 +59,29 @@
               matrix.categories[i].potencially
             "
           >
-            <c-spinner [ngStyle]="{ color: headers[i + 1].color }"></c-spinner>
+            <c-spinner
+              [ngStyle]="{ color: headers[i + 1].color }"
+              variant="grow"
+            ></c-spinner>
           </ng-container>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<c-toaster [placement]="position" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible"
+    [class]="toastClass"
+  >
+    <c-toast-body>
+      <p>{{ toastMessage }}</p>
+      <c-progress thin>
+        <c-progress-bar [value]="percentage"></c-progress-bar>
+      </c-progress>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

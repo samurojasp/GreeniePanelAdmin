@@ -1,20 +1,28 @@
-import { INavData } from '@coreui/angular';
-
-export const navItems: INavData[] = [
+const adminNavBarItems = [
+  {
+    name: 'Dashboard',
+    url: 'https://app.powerbi.com/links/ggDtE660sI?ctid=29a18182-402d-4ca9-a51f-2a356c6efdb7&pbi_source=linkShare',
+    target: '_blank',
+    badge: {
+      text: 'PowerBI',
+      color: '#1e4034',
+    },
+    iconComponent: { name: 'cil-home' },
+  },
   {
     name: 'Matriz',
     url: '/matrix',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: { name: 'cil-home' },
   },
   {
     title: true,
     name: 'Gestión',
-    class: 'mt-auto',
+    class: 'mt-auto text-white',
   },
   {
     name: 'Departamentos',
     url: '/departments',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPeople' },
     children: [
       {
         name: 'Listado',
@@ -48,7 +56,7 @@ export const navItems: INavData[] = [
   {
     name: 'Criterios',
     url: '/criteria',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilPaperclip' },
     children: [
       {
         name: 'Listado',
@@ -81,7 +89,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Usuarios',
-    iconComponent: { name: 'cilPeople' },
+    iconComponent: { name: 'cilUser' },
     url: '/users',
     children: [
       {
@@ -98,8 +106,20 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Aportes',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilTask' },
     url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
   },
   {
     name: 'Ajustes',
@@ -107,3 +127,38 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-settings' },
   },
 ];
+
+const departmentNavBarItems = [
+  {
+    name: 'Matriz',
+    url: '/matrix',
+    iconComponent: { name: 'cil-speedometer' },
+  },
+  {
+    title: true,
+    name: 'Gestión',
+    class: 'mt-auto text-white',
+  },
+  {
+    name: 'Aportes',
+    iconComponent: { name: 'cil-star' },
+    url: '/contributions',
+    children: [
+      {
+        name: 'Listado',
+        url: '/contributions',
+        icon: 'nav-icon-bullet',
+      },
+      {
+        name: 'Añadir',
+        url: '/create-contribution',
+        icon: 'nav-icon-bullet',
+      },
+    ],
+  },
+];
+
+export const navItemsByRole = {
+  admin: adminNavBarItems,
+  dpto: departmentNavBarItems,
+};

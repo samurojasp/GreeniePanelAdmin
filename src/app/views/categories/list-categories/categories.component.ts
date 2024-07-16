@@ -25,18 +25,20 @@ import {
   TextColorDirective,
   PageLinkDirective,
   PaginationComponent,
-  PageItemDirective
+  PageItemDirective,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
-import { NgxSpinnerModule } from "ngx-spinner";
-import { Categorie } from 'src/app/types';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { Category } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [ TextColorDirective,
+  imports: [
+    TextColorDirective,
     CardComponent,
     CardBodyComponent,
     RowComponent,
@@ -65,31 +67,55 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
     PaginationComponent,
     IconDirective,
     RouterLink,
-    NgxSpinnerModule],
+    NgxSpinnerModule,
+    NgxPaginationModule,
+  ],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-
   constructor(
     private router: Router,
     private categoriesService: CategoriesService
-  ) { }
+  ) {}
 
-  public categories: Categorie[] = []
+  public categories: Category[] = [];
 
   currentId = 0;
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
+  position = 'top-end';
+  percentage = 0;
+  toastMessage = '';
+  toastClass = '';
+  visibleModal = false;
+
   public visible = false;
 
-
   getPaginatedCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.categories = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+    this.categoriesService
+      .getPaginatedCategories(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.categories = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   deleteCategorie(): void {
@@ -99,9 +125,36 @@ export class CategoriesComponent {
         this.visible = !this.visible;
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 34;
   }
 
   redirectToEdit(id: number): void {
@@ -110,14 +163,22 @@ export class CategoriesComponent {
 
   toggleLiveDemo(id: number) {
     this.currentId = id;
-    this.visible = !this.visible;
+    this.visibleModal = !this.visibleModal;
   }
 
   handleLiveDemoChange(event: any) {
-    this.visible = event;
+    this.visibleModal = event;
   }
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.getPaginatedCategories();
   }
 
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
+
+    this.getPaginatedCategories();
+  }
 }

@@ -22,12 +22,13 @@ import {
   ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetDepartmentByIdService } from 'src/app/services/departments/get-department-by-id.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Categorie } from 'src/app/types';
+import { Category } from 'src/app/types';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgFor } from '@angular/common';
 @Component({
   selector: 'app-edit',
   standalone: true,
@@ -54,6 +55,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ToasterComponent,
     MatSelectModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
+    NgFor,
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
@@ -69,8 +72,15 @@ export class EditComponent {
   toastMessage = '';
   toastClass: string = '';
   categoryId: number[] = [];
-  categories: Categorie[] = [];
-
+  categories: Category[] = [];
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
   constructor(
     private editDepartmentService: EditDepartmentService,
     private getDepartmentByIdService: GetDepartmentByIdService,
@@ -83,21 +93,38 @@ export class EditComponent {
     this.getDepartmentByIdService.getDepartmentById(id).subscribe({
       next: (response) => {
         this.name = response.name;
+        this.categoryId = response.categories.map(
+          (category: Category) => category.id
+        );
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);},
     });
   }
 
   getCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
-      next: (response) => {
-        this.categories = response.data;
-      },
-      error: (error) => {
-        this.toggleToast(error.message, false);
-        console.log(error);
-      },
-    });
+    this.categoriesService
+      .getPaginatedCategories(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.categories = response.data;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   editDepartment(): void {
@@ -110,15 +137,20 @@ export class EditComponent {
         categoriesIDs: categoryIdNumbers,
       })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.toggleToast('Departamento editado exitosamente', true);
           setTimeout(() => {
             this.router.navigate([`departments`]);
           }, 1500);
         },
         error: (error) => {
-          this.toggleToast(error.message, false);
-          console.log(error);
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
@@ -142,6 +174,10 @@ export class EditComponent {
 
   onTimerChange($event: number) {
     this.percentage = $event * 100;
+  }
+
+  trackById(index: number, cate: Category): number {
+    return cate.id;
   }
 
   ngOnInit(): void {

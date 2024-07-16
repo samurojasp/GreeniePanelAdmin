@@ -57,6 +57,7 @@ import { Indicator } from 'src/app/types';
 })
 export class CreateComponent {
   name = '';
+  englishName = '';
   description = '';
   index = 0;
   indicatorID = 0;
@@ -96,7 +97,13 @@ export class CreateComponent {
         this.indicators = response.data;
       },
       error: (error) => {
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -105,6 +112,7 @@ export class CreateComponent {
     this.createCriterionService
       .postCriterion({
         name: this.name,
+        englishName: this.englishName,
         description: this.description,
         index: this.index,
         indicatorID: Number(this.indicatorID), 
@@ -117,8 +125,13 @@ export class CreateComponent {
           },1500)
         },
         error: (error) => {
-          this.toggleToast(error.message, false); 
-          console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
         },
       });
   }

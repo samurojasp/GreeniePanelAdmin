@@ -6,7 +6,107 @@
     --scrollbar-thumb-hover-color: var(--cui-gray-400, #999);
     --scrollbar-hover-size: calc(var(--scrollbar-size) * 1.5);
   }
+
+  .nav-icon-bullet {
+    color: #fff; // Color blanco por defecto
+    transition: color 0.3s ease; // Transición suave del color al pasar el mouse
+
+    &:hover {
+      color: #fff; // Color negro al pasar el mouse
+    }
+  }
 }
+
+// ::ng-deep .sidebar,
+// ::ng-deep .sidebar a,
+// ::ng-deep .sidebar .nav-link,
+// ::ng-deep .sidebar .nav-dropdown-toggle,
+// ::ng-deep .sidebar .nav-dropdown-item {
+//   color: #ffffff; 
+// }
+
+::ng-deep .sidebar .nav-link
+{
+
+  &:hover {
+    background-color: #ffffff; 
+
+    .nav-icon {
+      color: rgba(8, 10, 12, 0.71); // Color negro del icono al pasar el mouse
+    }
+  }
+  
+}
+
+::ng-deep .sidebar .nav-link
+{
+
+  &:hover {
+    color: rgba(8, 10, 12, 0.71);
+  }
+
+  &.active {
+    color: rgba(8, 10, 12, 0.71);
+    background-color: #ffffff; 
+
+    .nav-icon {
+      color: rgba(8, 10, 12, 0.71);
+    }
+  }
+  
+}
+
+::ng-deep .sidebar .nav-icon
+{
+
+  color: #ffffff;
+
+  &.active {
+    color: rgba(8, 10, 12, 0.71);
+  }
+  
+}
+
+::ng-deep .sidebar .nav-group .nav-link
+{
+
+  color: #ffffff;
+
+  &:hover {
+    color: rgba(8, 10, 12, 0.71);
+  }
+  
+}
+
+::ng-deep .sidebar .nav-group .nav-group-items .nav-link
+{
+
+  color: #ffffff;
+
+  &:hover {
+    color: rgba(8, 10, 12, 0.71);
+  }
+
+  &.active {
+    color: rgba(8, 10, 12, 0.71);
+  }
+  
+}
+
+
+::ng-deep .sidebar .nav-icon-bullet {
+  color: rgba(8, 10, 12, 0.71);
+}
+
+::ng-deep .nav-icon {
+  color: #ffffff; /* Color blanco por defecto */
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+::ng-deep .nav-icon:hover {
+  color: #000000; /* Cambio a negro al pasar el mouse */
+}
+
 
 // ng-scrollbar css variables
 //.cui-scrollbar {
@@ -25,11 +125,11 @@
 
 /* Elimina estas reglas CSS si estaban cambiando el color de fondo */
 ::ng-deep .ng-scrollbar-track {
-  background-color: #1E4034 !important; /* Color de fondo de la pista de la barra */
+  background-color: #ffffff !important; /* Color de fondo de la pista de la barra */
 }
 
 ::ng-deep .ng-scrollbar-thumb {
-  background-color: #1E4034 !important; /* Color del pulgar de la barra */
+  background-color: #ffffff !important; /* Color del pulgar de la barra */
 }
 
 /* Cambia el color de fondo de la pista de la barra de desplazamiento */
@@ -45,4 +145,13 @@
 .sidebar {
   background-color: #1E4034;
   transition: background-color 0.7s ease;
+}
+
+
+.sidebar:hover {
+  background-color: rgba(255, 255, 255, 0.4); /* Resaltado blanco del 40% al pasar el mouse */
+}
+
+img{
+  width: 100%;
 }

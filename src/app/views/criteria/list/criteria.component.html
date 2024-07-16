@@ -8,7 +8,10 @@
             cButton
             [routerLink]="['/create-criterion']"
             routerLinkActive="active"
-            color="success"
+            [ngStyle]="{
+              'background-color': '#5A835A',
+              border: '1px solid #5A835A'
+            }"
             class="text-white ms-md-2 mb-3"
           >
             Agregar Criterio
@@ -31,7 +34,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (criterion of criteria; track criterion.id; let i = $index) {
+            @for (criterion of criteria | paginate: { itemsPerPage:
+            pagination.take, currentPage: pagination.page, totalItems:
+            pagination.itemCount}; track criterion.id; let i = $index) {
             <tr>
               <td class="text-center">
                 {{ criterion.name }}
@@ -83,19 +88,15 @@
           </tbody>
         </table>
 
-        <c-pagination aria-label="Pagination" class="ms-md-2">
-          <li cPageItem>
-            <button cPageLink (click)="setPage(pagination.page - 1)">
-              Previous
-            </button>
-          </li>
-
-          <li cPageItem>
-            <button cPageLink (click)="setPage(pagination.page + 1)">
-              Next
-            </button>
-          </li>
-        </c-pagination>
+        <div class="pagination-container">
+          <pagination-controls
+            (pageChange)="setPage($event)"
+            (pageBoundsCorrection)="setPage($event)"
+            previousLabel=""
+            nextLabel=""
+          >
+          </pagination-controls>
+        </div>
       </c-card-body>
     </c-card>
   </c-col>
@@ -117,10 +118,12 @@
   </c-modal-header>
   <c-modal-body>Una vez eliminado no podra ser recuperado</c-modal-body>
   <c-modal-footer>
-    <button cButton (click)="toggleModal(0)" cButton color="secundary">
+    <button cButton (click)="toggleModal(0)" cButton color="white">
       Cancelar
     </button>
-    <button (click)="deleteCriterion()" cButton color="primary">Aceptar</button>
+    <button (click)="deleteCriterion()" cButton class="accept-button">
+      Aceptar
+    </button>
   </c-modal-footer>
 </c-modal>
 
@@ -129,7 +132,8 @@
     (timer)="onTimerChange($event)"
     (visibleChange)="onVisibleChange($event)"
     [visible]="visible"
-    [class]="toastClass">
+    [class]="toastClass"
+  >
     <c-toast-body>
       <p>{{ toastMessage }}</p>
       <c-progress thin>

@@ -30,13 +30,14 @@ import {
   PageLinkDirective,
   PaginationComponent,
   ToastHeaderComponent,
-  ToasterComponent
+  ToasterComponent,
 } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 interface indicator {
   id: number;
@@ -83,7 +84,8 @@ interface indicator {
     ToastComponent,
     ToastHeaderComponent,
     ToasterComponent,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPaginationModule,
   ],
   templateUrl: './indicators.component.html',
   styleUrl: './indicators.component.scss',
@@ -104,7 +106,7 @@ export class IndicatorsComponent {
 
   pagination = {
     page: 1,
-    take: 1,
+    take: 10,
     itemCount: 0,
     pageCount: 0,
     hasPreviousPage: false,
@@ -123,25 +125,40 @@ export class IndicatorsComponent {
   }
 
   getPaginatedIndicator(): void {
-    this.indicatorsService.getPaginatedIndicator().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.indicators = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+    this.indicatorsService
+      .getPaginatedIndicator(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.indicators = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   deleteIndicator(): void {
     this.indicatorsService.deleteIndicator(this.currentId).subscribe({
-      next:  () => {
+      next: () => {
         this.getPaginatedIndicator();
         this.visible = false;
-        this.toggleToast('El indicador se ha eliminado exitosamente', true); 
+        this.toggleToast('El indicador se ha eliminado exitosamente', true);
       },
       error: (error) => {
-        this.toggleToast(error.message, false); 
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
@@ -150,29 +167,37 @@ export class IndicatorsComponent {
     this.router.navigate([`editIndicators/${id}`]);
   }
 
-toggleToast(message: string, success: boolean): void {
-  this.visible = true;
-  this.percentage = 100;
-  if (success) {
-    this.toastMessage = message;
-    this.toastClass = 'toast-success';
-  } else {
-    this.toastMessage = message;
-    this.toastClass = 'toast-error';
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
   }
-}
 
-onVisibleChange($event: boolean) {
-  this.visible = $event;
-  this.percentage = !this.visible ? 0 : this.percentage;
-}
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
 
-onTimerChange($event: number) {
-  this.percentage = $event * 34;
-}
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
 
-ngOnInit(): void {
-  this.getPaginatedIndicator();
-}
-  
+    this.getPaginatedIndicator();
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 34;
+  }
+
+  ngOnInit(): void {
+    this.getPaginatedIndicator();
+  }
 }

@@ -20,12 +20,11 @@ import {
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Categorie } from 'src/app/types';
+import { Category, Indicator, Criterion } from 'src/app/types';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Indicator, Criteria } from '../types';
 
 @Component({
   selector: 'app-add-user',
@@ -53,7 +52,7 @@ import { Indicator, Criteria } from '../types';
     ToasterComponent,
     MatFormFieldModule,
     MatSelectModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   templateUrl: './add-categorie.component.html',
   styleUrl: './add-categorie.component.scss',
@@ -67,17 +66,30 @@ export class AddCategorieComponent {
   name = '';
   description = '';
   indicatorID = 0;
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  toastMessage = '';
+  toastClass: string = '';
   criteriaID: number[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
   indicators: Indicator[] = [];
-  criteria: Criteria[] = [];
+  criteria: Criterion[] = [];
 
   getIndicators(): void {
     this.categoriesService.getAllIndicators().subscribe({
       next: (response) => {
         this.indicators = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -86,7 +98,15 @@ export class AddCategorieComponent {
       next: (response) => {
         this.criteria = response.data;
       },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
@@ -104,12 +124,42 @@ export class AddCategorieComponent {
       })
       .subscribe({
         next: () => {
-          this.router.navigate([`categories`]);
+          this.toggleToast('Se ha creado la categoría exitosamente', true);
+          setTimeout(() => {
+            this.router.navigate([`categories`]);
+          }, 1500);
         },
         error: (error) => {
-          console.log(error);
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
+  }
+
+  toggleToast(message: string, success: boolean): void {
+    this.visible = true;
+    this.percentage = 100;
+    if (success) {
+      this.toastMessage = message;
+      this.toastClass = 'toast-success';
+    } else {
+      this.toastMessage = message;
+      this.toastClass = 'toast-error';
+    }
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
   }
 
   ngOnInit(): void {

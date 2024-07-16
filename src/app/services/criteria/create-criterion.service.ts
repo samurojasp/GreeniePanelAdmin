@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { getBaseUrl } from '../config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreateCriterionService {
-  private apiUrl = 'https://greeniemetric-backend.sustentabilidadtech.lat/api/v1';
+  private apiUrl = getBaseUrl();
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +23,7 @@ export class CreateCriterionService {
 
 export interface CreateCriterionBody {
   name: string;
+  englishName: string;
   index: number;
   description: string;
   indicatorID: number;

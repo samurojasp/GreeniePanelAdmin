@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import {
   ButtonDirective,
@@ -35,25 +35,14 @@ import {
   ToastComponent,
   ToastHeaderComponent,
   ToasterComponent,
-  ModalModule
+  ModalModule,
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
 import { NgStyle, CommonModule } from '@angular/common';
+import { User } from 'src/app/types';
 import { UsersService } from 'src/app/services/users/users.service';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  birthdate: string;
-  role: string;
-  department: {
-    id: number;
-    name: string;
-  };
-}
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-users',
@@ -98,7 +87,8 @@ export interface User {
     ToastHeaderComponent,
     ToasterComponent,
     RouterLink,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPaginationModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -111,11 +101,16 @@ export class ListComponent implements OnInit {
   toastClass = '';
   visibleModal = false;
   visible = false;
+  pagination = {
+    page: 1,
+    take: 10,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
 
-  constructor(
-    private usersService: UsersService,
-    private router: Router
-  ) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
   public users: User[] = [];
 
@@ -129,12 +124,23 @@ export class ListComponent implements OnInit {
   }
 
   getPaginatedUser(): void {
-    this.usersService.getPaginatedUser().subscribe({
-      next: (response) => {
-        this.users = response.data;
-      },
-      error: (error) => console.error('Error al realizar la solicitud:', error),
-    });
+    this.usersService
+      .getPaginatedUser(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.users = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   deleteUser(): void {
@@ -145,12 +151,16 @@ export class ListComponent implements OnInit {
         this.toggleToast('Usuario eliminado exitosamente', true); // Mostrar toast de éxito después de eliminar
       },
       error: (error) => {
-        this.toggleToast(error.message, false); // Mostrar toast de error
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
-  
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
@@ -175,6 +185,15 @@ export class ListComponent implements OnInit {
 
   onTimerChange($event: number) {
     this.percentage = $event * 34;
+  }
+
+  setPage(page: number): void {
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
+    this.pagination.page = page;
+
+    this.getPaginatedUser();
   }
 
   ngOnInit(): void {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CreateDepartmentService } from '../../../services/departments/create-department.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   ButtonDirective,
   CardBodyComponent,
@@ -24,7 +25,7 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { Categorie } from 'src/app/types';
+import { Category } from 'src/app/types';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
@@ -53,6 +54,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ProgressComponent,
     MatSelectModule,
     MatFormFieldModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
@@ -63,6 +65,14 @@ export class CreateComponent {
   password = '';
   birthdate = '';
   departmentId = 0;
+  pagination = {
+    page: 1,
+    take: 1,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: true,
+  };
   role = '';
   position = 'top-end';
   visible = false;
@@ -70,7 +80,7 @@ export class CreateComponent {
   toastMessage = '';
   toastClass: string = '';
   categoryId: number[] = [];
-  categories: Categorie[] = [];
+  categories: Category[] = [];
 
   constructor(
     private createDepartmentService: CreateDepartmentService,
@@ -92,22 +102,34 @@ export class CreateComponent {
           }, 1500);
         },
         error: (error) => {
-          this.toggleToast(error.message, false);
-          console.log(error);
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
         },
       });
   }
 
   getCategories(): void {
-    this.categoriesService.getPaginatedCategories().subscribe({
-      next: (response) => {
-        this.categories = response.data;
-      },
-      error: (error) => {
-        this.toggleToast(error.message, false);
-        console.log(error);
-      },
-    });
+    this.categoriesService
+      .getPaginatedCategories(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.categories = response.data;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   toggleToast(message: string, success: boolean): void {

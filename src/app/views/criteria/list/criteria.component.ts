@@ -34,7 +34,7 @@ import {
   ToastHeaderComponent,
   ToasterComponent,
   ModalModule,
-  ProgressBarComponent
+  ProgressBarComponent,
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
@@ -86,7 +86,7 @@ import { GetDocumentByCriterionIdService } from '../../../services/criteria/get-
     ToasterComponent,
     ModalModule,
     ProgressBarComponent,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
 })
 export class CriteriaComponent implements OnInit {
@@ -121,19 +121,29 @@ export class CriteriaComponent implements OnInit {
     private GetDocumentService: GetDocumentByCriterionIdService
   ) {}
 
-  getPaginatedCriteria(page: number, take: number): void {
-    this.criteriaService.getPaginatedCriteria(page, take).subscribe({
-      next: (response) => {
-        this.criteria = response.data;
-      },
-      error: (error) => console.error(error),
-    });
+  getPaginatedCriteria(): void {
+    this.criteriaService
+      .getPaginatedCriteria(this.pagination.page, this.pagination.take)
+      .subscribe({
+        next: (response) => {
+          this.criteria = response.data;
+          this.pagination = response.meta;
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   redirectToEdit(id: number): void {
     this.router.navigate([`edit-criterion/${id}`]);
   }
-
 
   toggleModal(id: number) {
     this.visibleModal = !this.visibleModal;
@@ -146,26 +156,31 @@ export class CriteriaComponent implements OnInit {
 
   deleteCriterion(): void {
     this.deleteCriterionService.deleteCriterion(this.currentId).subscribe({
-      next:  () => {
-        this.getPaginatedCriteria(this.pagination.page, 10);
+      next: () => {
+        this.getPaginatedCriteria();
         this.visibleModal = false;
-        this.toggleToast('El Criterio se ha eliminado exitosamente', true); 
+        this.toggleToast('El Criterio se ha eliminado exitosamente', true);
       },
       error: (error) => {
-        this.toggleToast(error.message, false); 
-        console.log(error);
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
       },
     });
   }
 
   setPage(page: number): void {
-    if (page < 1 || page > this.pagination.pageCount) return;
+    if (page < 1 || page > this.pagination.pageCount) {
+      return;
+    }
     this.pagination.page = page;
-  }
-  ngOnInit(): void {
-    this.getPaginatedCriteria(this.pagination.page, 10);
-  }
 
+    this.getPaginatedCriteria();
+  }
 
   toggleToast(message: string, success: boolean): void {
     this.visible = true;
@@ -198,5 +213,9 @@ export class CriteriaComponent implements OnInit {
       },
       error: (error) => console.error(error),
     });
+  }
+
+  ngOnInit(): void {
+    this.getPaginatedCriteria();
   }
 }

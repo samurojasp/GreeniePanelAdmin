@@ -33,6 +33,7 @@
                   aria-label="indicatorId select"
                   formControlName="indicatorId"
                   cSelect
+                  (change)="onIndicatorChange($event.target!)"
                 >
                   @for (indicator of indicatorOptions; track indicator.id) {
                   <option value="{{ indicator.id }}">
@@ -67,12 +68,21 @@
                   <div class="file-form" formGroupName="{{ i }}">
                     <div class="two-inputs-container">
                       <div class="file-input-container">
-                        <label cLabel>Sube tu archivo</label>
                         <input
                           type="file"
+                          id="fileinput{{ i }}"
                           (change)="handleFileChange($event, i)"
-                          class="file-input"
+                          style="display: none"
                         />
+                        <label for="fileinput{{ i }}" class="file-input">{{
+                          "Selecciona un Archivo"
+                        }}</label>
+                        <div *ngIf="newFiles[i]; else elseBlock">
+                          <label class="file-input-label">{{
+                            newFiles[i].name
+                          }}</label>
+                        </div>
+                        <ng-template #elseBlock> </ng-template>
                       </div>
 
                       <button
@@ -85,12 +95,6 @@
                       </button>
                     </div>
 
-                    <input
-                      cFormControl
-                      placeholder="Nombre"
-                      type="text"
-                      formControlName="name"
-                    />
                     <textarea
                       cFormControl
                       placeholder="Descripción"

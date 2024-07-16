@@ -23,20 +23,21 @@
                 />
               </div>
               <div class="input-container" style="margin-top: 10px">
-                <label cLabel for="exampleFormControlInput1">Categorias</label>
-                <mat-select
-                  class="text-white"
-                  cSelect
-                  [(ngModel)]="categoryId"
-                  [ngModelOptions]="{ standalone: true }"
-                  multiple
+                <label cLabel>Categorias</label>
+                <mat-form-field>
+                  <mat-select
+                    cSelect
+                    [(ngModel)]="categoryId"
+                    [ngModelOptions]="{ standalone: true }"
+                    multiple
+                  >
+                    @for (cate of categories; track cate.id) {
+                    <mat-option value="{{ cate.id }}">
+                      {{ cate.id }} - {{ cate.name }}
+                    </mat-option>
+                    }
+                  </mat-select></mat-form-field
                 >
-                  @for (cate of categories; track cate.id) {
-                  <mat-option value="{{ cate.id }}">
-                    {{ cate.id }} - {{ cate.name }}
-                  </mat-option>
-                  }
-                </mat-select>
               </div>
             </div>
             <div class="button-container">
@@ -78,3 +79,12 @@
     </c-toast-body>
   </c-toast>
 </c-toaster>
+
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.65)"
+  size="large"
+  color="rgb(60, 179, 113)"
+  type="ball-scale-multiple"
+>
+  <p style="color: white">Cargando...</p>
+</ngx-spinner>

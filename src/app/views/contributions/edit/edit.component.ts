@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ContributionsService } from '../../../services/contributions/contributions.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ButtonDirective,
   CardBodyComponent,
@@ -28,6 +28,7 @@ import {
   FormsModule,
   FormGroup,
   FormArray,
+  FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
@@ -41,17 +42,6 @@ import { CategoriesService } from 'src/app/services/categories/categories.servic
 import { v4 as uuidv4 } from 'uuid';
 import { NgFor, NgIf } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { GetSettingService } from '../../../services/settings/get-settings.service';
-
-interface SettingBody {
-  key: string;
-  contributionSettings: {
-    initDate: Date;
-    endDate: Date;
-    getNotificationForContribution: boolean;
-    recordatory: boolean;
-  };
-}
 
 @Component({
   selector: 'app-create',
@@ -73,7 +63,6 @@ interface SettingBody {
     ImgDirective,
     ReactiveFormsModule,
     NgFor,
-    NgIf,
     NgxSpinnerModule,
     ToastBodyComponent,
     ToastComponent,
@@ -82,23 +71,21 @@ interface SettingBody {
     ProgressBarComponent,
     ProgressBarDirective,
     ProgressComponent,
+    NgIf,
   ],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.scss',
+  templateUrl: './edit.component.html',
+  styleUrl: './edit.component.scss',
 })
-export class CreateComponent {
+export class EditComponent {
   categoryOptions: Category[] = [];
   indicatorOptions: Indicator[] = [];
-
+  indicatorId = 0;
+  currentId = 0;
   position = 'top-end';
   visible = false;
   percentage = 0;
   toastMessage = '';
   toastClass: string = '';
-  isLate: boolean = false;
-  remainingTime: number = 0;
-  message: string = '';
-  indicatorId = 0;
 
   newFiles: File[] = [];
 
@@ -108,7 +95,7 @@ export class CreateComponent {
     private categoriesService: CategoriesService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private getSettingService: GetSettingService
+    private route: ActivatedRoute
   ) {
     this.contributionForm = this.formBuilder.group({
       uuid: [''],
@@ -120,20 +107,11 @@ export class CreateComponent {
     });
   }
 
-  setting: SettingBody = {
-    key: '',
-    contributionSettings: {
-      initDate: new Date(),
-      endDate: new Date(),
-      getNotificationForContribution: false,
-      recordatory: true,
-    },
-  };
-
   contributionForm: FormGroup;
 
   createFileFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id: 0,
       name: [''],
       description: [''],
     });
@@ -171,9 +149,45 @@ export class CreateComponent {
     this.newFiles.splice(index, 1);
   }
 
+  getContribution(): void {
+    this.contributionsService.getContributionById(this.currentId).subscribe({
+      next: (response) => {
+        this.indicatorId = response.category.indicator.id;
+        this.contributionForm = this.formBuilder.group({
+          uuid: [response.uuid],
+          description: [response.description],
+          categoryId: [response.category.id],
+          indicatorId: [response.category.indicator.id],
+          links: this.formBuilder.array([]),
+          files: this.formBuilder.array([]),
+        });
+
+        response.link.map((link: ContributionLink) =>
+          this.links.push(
+            this.formBuilder.group({
+              URL: [link.URL],
+              description: [link.description],
+            })
+          )
+        );
+        response.files.map((file: any) => {
+          const fileFormGroup = this.createFileFormGroup();
+          fileFormGroup.patchValue({
+            id: file.id,
+            name: file.name,
+            description: file.description,
+          });
+          this.files.push(fileFormGroup);
+          console.log(this.files.controls[0].value.name);
+        });
+      },
+    });
+  }
+
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
       next: (response) => {
+        console.log('Indicadores =>', response.data);
         this.indicatorOptions = response.data;
       },
       error: (error) => {
@@ -186,6 +200,11 @@ export class CreateComponent {
           this.toggleToast(error.error.error.message, false);
       },
     });
+  }
+
+  onIndicatorChange(target: any): void {
+    this.indicatorId = parseInt(target.value);
+    this.getCategories();
   }
 
   getCategories(): void {
@@ -210,62 +229,15 @@ export class CreateComponent {
     });
   }
 
-  getSettings(): void {
-    this.getSettingService
-      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
-      .subscribe({
-        next: (response) => {
-          this.setting = response;
-          this.calculateTime();
-        },
-        error: (error) =>
-          console.error('Error al realizar la solicitud:', error),
-      });
-  }
-
-  calculateTime(): void {
-    const tiempoLimite =
-      (new Date(this.setting.contributionSettings.endDate).getTime() -
-        new Date(this.setting.contributionSettings.initDate).getTime()) *
-      0.3;
-
-    this.remainingTime =
-      new Date(this.setting.contributionSettings.endDate).getTime() -
-      new Date().getTime();
-
-    if (tiempoLimite >= this.remainingTime) {
-      this.isLate = true;
-      this.remainingTime = Math.ceil(
-        this.remainingTime / (1000 * 60 * 60 * 24)
-      );
-      if (this.remainingTime == 1) {
-        this.message = `Advertencia, queda apróximadamente ${this.remainingTime} día para realizar aportes`;
-      } else {
-        this.message = `Advertencia, quedan apróximadamente ${this.remainingTime} días para realizar aportes`;
-      }
-    } else {
-      this.isLate = false;
-    }
-  }
-
   handleFileChange(event: any, index: number): void {
     this.newFiles[index] = event.target.files[0];
     this.files.at(index).patchValue({ name: event.target.files[0].name });
   }
 
-  onIndicatorChange(target: any): void {
-    this.indicatorId = parseInt(target.value);
-    this.getCategories();
-  }
-
-  addLink(): void {
-    this.files.push(this.createFileFormGroup());
-  }
-
-  postContribution(): void {
+  patchContribution(): void {
     this.contributionsService
       .postContribution({
-        uuid: uuidv4(),
+        uuid: this.contributionForm.value.uuid,
         description: this.contributionForm.value.description,
         categoryId: this.contributionForm.value.categoryId,
         indicatorID: this.contributionForm.value.indicatorId,
@@ -277,16 +249,21 @@ export class CreateComponent {
         next: () => {
           this.toggleToast('El aporte se ha creado exitosamente', true);
           setTimeout(() => {}, 1500);
+          console.log({
+            uuid: this.contributionForm.value.uuid,
+            description: this.contributionForm.value.description,
+            categoryId: this.contributionForm.value.categoryId,
+            indicatorID: this.contributionForm.value.indicatorId,
+            links: this.contributionForm.value.links,
+            file: this.contributionForm.value.files,
+            files: this.newFiles,
+          });
           this.router.navigate([`contributions`]);
         },
         error: (error) => {
-          if (error.message) this.toggleToast(error.message, false);
-          if (error.error.error.message && !error.error.error.detail)
-            this.toggleToast(error.error.error.message, false);
-          if (error.error.error.message && error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.detail[0].message, false);
-          if (error.error.error.message && !error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.message, false);
+          console.log(this.newFiles);
+          console.log(error);
+          this.toggleToast(error.message, false);
         },
       });
   }
@@ -312,8 +289,11 @@ export class CreateComponent {
     this.percentage = $event * 100;
   }
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.currentId = params['id'];
+    });
     this.getIndicators();
     this.getCategories();
-    this.getSettings();
+    this.getContribution();
   }
 }
