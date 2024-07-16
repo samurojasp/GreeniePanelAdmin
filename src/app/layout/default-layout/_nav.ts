@@ -1,5 +1,10 @@
 const adminNavBarItems = [
   {
+    name: 'Matriz',
+    url: '/matrix',
+    iconComponent: { name: 'cil-home' },
+  },
+  {
     name: 'Dashboard',
     url: 'https://app.powerbi.com/links/ggDtE660sI?ctid=29a18182-402d-4ca9-a51f-2a356c6efdb7&pbi_source=linkShare',
     target: '_blank',
@@ -8,11 +13,6 @@ const adminNavBarItems = [
       color: '#1e4034',
     },
     iconComponent: { name: 'cilSpeedometer' },
-  },
-  {
-    name: 'Matriz',
-    url: '/matrix',
-    iconComponent: { name: 'cil-home' },
   },
   {
     title: true,
