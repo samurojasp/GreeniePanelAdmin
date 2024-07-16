@@ -96,7 +96,7 @@ export class AddUserComponent implements OnInit {
         email: this.email,
         password: this.password,
         birthdate: this.birthdate,
-        departmentId: Number(this.departmentId),
+        departmentId: this.departmentId,
         role: this.role,
       })
       .subscribe({
