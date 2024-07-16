@@ -358,10 +358,8 @@ export class EditComponent {
 
     if (this.remainingTime <= 0) this.isDisabled = true;
 
-    this.isDisabled = true;
-    console.log(this.isDisabled);
     if (this.isDisabled) {
-      this.contributionForm.disable();
+      //this.contributionForm.disable();
     } else {
       this.contributionForm.enable();
     }

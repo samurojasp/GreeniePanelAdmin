@@ -104,27 +104,26 @@ export class EditComponent {
         if (error.error.error.message && error.error.error.detail[0].message)
           this.toggleToast(error.error.error.detail[0].message, false);
         if (error.error.error.message && !error.error.error.detail[0].message)
-          this.toggleToast(error.error.error.message, false);},
+          this.toggleToast(error.error.error.message, false);
+      },
     });
   }
 
   getCategories(): void {
-    this.categoriesService
-      .getPaginatedCategories(this.pagination.page, this.pagination.take)
-      .subscribe({
-        next: (response) => {
-          this.categories = response.data;
-        },
-        error: (error) => {
-          if (error.message) this.toggleToast(error.message, false);
-          if (error.error.error.message && !error.error.error.detail)
-            this.toggleToast(error.error.error.message, false);
-          if (error.error.error.message && error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.detail[0].message, false);
-          if (error.error.error.message && !error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.message, false);
-        },
-      });
+    this.categoriesService.getAllCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data;
+      },
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
+    });
   }
 
   editDepartment(): void {

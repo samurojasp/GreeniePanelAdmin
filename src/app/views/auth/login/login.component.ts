@@ -33,7 +33,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackendError } from 'src/app/types';
 
 @Component({
   selector: 'app-login',
@@ -109,8 +108,8 @@ export class LoginComponent {
           localStorage.setItem('id', response.id);
           localStorage.setItem('email', response.email);
           localStorage.setItem('role', response.role);
-          this.router.navigate(['/matrix']);
           console.log(localStorage.getItem('role'));
+          this.router.navigate(['/matrix']);
         },
         error: (error) => {
           if (error.error.error.message && error.error.error.detail[0].message)

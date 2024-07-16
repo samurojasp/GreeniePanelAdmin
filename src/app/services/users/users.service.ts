@@ -79,7 +79,7 @@ export class UsersService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
-    return this.http.get(`${this.apiUrl}/dptos`, {
+    return this.http.get(`${this.apiUrl}/dptos/notPag`, {
       headers,
     });
   }
