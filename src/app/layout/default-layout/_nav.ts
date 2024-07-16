@@ -7,7 +7,7 @@ const adminNavBarItems = [
       text: 'PowerBI',
       color: '#1e4034',
     },
-    iconComponent: { name: 'cil-home' },
+    iconComponent: { name: 'cilSpeedometer' },
   },
   {
     name: 'Matriz',

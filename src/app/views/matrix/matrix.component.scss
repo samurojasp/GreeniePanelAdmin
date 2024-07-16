@@ -1,23 +1,34 @@
 /* Estilos personalizados para la tabla */
 .custom-table {
-    border-collapse: collapse; /* Para colapsar los bordes de las celdas */
-    width: 100%; /* Ancho completo de la tabla */
-  }
-  
-  .custom-table th,
-  .custom-table td {
-    border: 1px solid #dee2e6; /* Borde de 1px sólido */
-    padding: 8px; /* Espaciado interno de las celdas */
-  }
-  
-  .border-cell {
-    border: 1px solid #dee2e6; /* Añade borde a cada celda */
-  }
+  border-collapse: collapse; /* Para colapsar los bordes de las celdas */
+  width: 100%; /* Ancho completo de la tabla */
+}
 
- .table-responsive{
+.custom-table th,
+.custom-table td {
+  border: 1px solid #dee2e6; /* Borde de 1px sólido */
+  padding: 8px; /* Espaciado interno de las celdas */
+}
+
+.border-cell {
+  border: 1px solid #dee2e6; /* Añade borde a cada celda */
+}
+
+.table-responsive {
   tr > th:first-child,
   tr > td:first-child {
-  position: sticky;
-  left: 0;
+    position: sticky;
+    left: 0;
   }
+}
+
+.card-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
+
+.card-text {
+  text-align: center;
 }
