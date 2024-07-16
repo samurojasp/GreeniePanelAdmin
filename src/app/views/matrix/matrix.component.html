@@ -48,15 +48,19 @@
                   category.indicator.id
                 )
               "
-              style="cursor: pointer"
+              style="cursor: pointer;
+               display: flex;
+               font-size: large;
+               font-weight: bold;
+               justify-content: center;"
             >
+            {{ matrix.categories[i].quantity }}
               <svg
                 cIcon
                 name="cil-check"
-                size="lg"
-                [ngStyle]="{ color: headers[i + 1].color }"
+                size="xl"
               ></svg>
-              {{ matrix.categories[i].quantity }}
+             
             </p>
           </ng-container>
         </td>
