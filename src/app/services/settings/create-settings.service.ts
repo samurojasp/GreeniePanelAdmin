@@ -19,6 +19,7 @@ export class CreateSettingService {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
     });
+    console.log(body);
     return this.http.post(`${this.apiUrl}/settings`, body, {
       headers,
     });

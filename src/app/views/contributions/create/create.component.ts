@@ -40,8 +40,19 @@ import {
 import { IndicatorsService } from 'src/app/services/indicators/indicators.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { v4 as uuidv4 } from 'uuid';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { GetSettingService } from '../../../services/settings/get-settings.service';
+
+interface SettingBody {
+  key: string;
+  contributionSettings: {
+    initDate: Date;
+    endDate: Date;
+    getNotificationForContribution: boolean;
+    recordatory: boolean;
+  };
+}
 
 @Component({
   selector: 'app-create',
@@ -63,6 +74,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ImgDirective,
     ReactiveFormsModule,
     NgFor,
+    NgIf,
     NgxSpinnerModule,
     ToastBodyComponent,
     ToastComponent,
@@ -84,6 +96,9 @@ export class CreateComponent {
   percentage = 0;
   toastMessage = '';
   toastClass: string = '';
+  isLate: boolean = false;
+  remainingTime: number = 0;
+  message: string = '';
 
   newFiles: File[] = [];
 
@@ -92,7 +107,8 @@ export class CreateComponent {
     private indicatorsService: IndicatorsService,
     private categoriesService: CategoriesService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private getSettingService: GetSettingService
   ) {
     this.contributionForm = this.formBuilder.group({
       uuid: [''],
@@ -103,6 +119,16 @@ export class CreateComponent {
       files: this.formBuilder.array([]),
     });
   }
+
+  setting: SettingBody = {
+    key: '',
+    contributionSettings: {
+      initDate: new Date(),
+      endDate: new Date(),
+      getNotificationForContribution: false,
+      recordatory: true,
+    },
+  };
 
   contributionForm: FormGroup;
 
@@ -167,6 +193,44 @@ export class CreateComponent {
     });
   }
 
+  getSettings(): void {
+    this.getSettingService
+      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
+      .subscribe({
+        next: (response) => {
+          this.setting = response;
+          this.calculateTime();
+        },
+        error: (error) =>
+          console.error('Error al realizar la solicitud:', error),
+      });
+  }
+
+  calculateTime(): void {
+    const tiempoLimite =
+      (new Date(this.setting.contributionSettings.endDate).getTime() -
+        new Date(this.setting.contributionSettings.initDate).getTime()) *
+      0.3;
+
+    this.remainingTime =
+      new Date(this.setting.contributionSettings.endDate).getTime() -
+      new Date().getTime();
+
+    if (tiempoLimite >= this.remainingTime) {
+      this.isLate = true;
+      this.remainingTime = Math.ceil(
+        this.remainingTime / (1000 * 60 * 60 * 24)
+      );
+      if (this.remainingTime == 1) {
+        this.message = `Advertencia, queda apróximadamente ${this.remainingTime} día para realizar aportes`;
+      } else {
+        this.message = `Advertencia, quedan apróximadamente ${this.remainingTime} días para realizar aportes`;
+      }
+    } else {
+      this.isLate = false;
+    }
+  }
+
   handleFileChange(event: any, index: number): void {
     this.newFiles[index] = event.target.files[0];
   }
@@ -222,5 +286,6 @@ export class CreateComponent {
   ngOnInit(): void {
     this.getIndicators();
     this.getCategories();
+    this.getSettings();
   }
 }

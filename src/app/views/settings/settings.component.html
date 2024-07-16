@@ -11,12 +11,14 @@
               <h5 class="subtittle-style">
                 Periodo valido para subir aportes de información
               </h5>
+
               <div class="settings-container">
                 <div class="left-date-container">
                   <h6 class="subtittle-style">Fecha de inicio</h6>
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
                     <input
+                      value="fechaIni"
                       matInput
                       [matDatepicker]="picker"
                       (dateChange)="setInitDate($event.value)"
@@ -32,19 +34,21 @@
 
                 <div class="right-date-container">
                   <h6 class="subtittle-style">Fecha de fin</h6>
+
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
                     <input
+                      value="fechaFin"
                       matInput
-                      [matDatepicker]="picker"
+                      [matDatepicker]="picker2"
                       (dateChange)="setEndDate($event.value)"
                     />
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle
                       matIconSuffix
-                      [for]="picker"
+                      [for]="picker2"
                     ></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
                 </div>
               </div>

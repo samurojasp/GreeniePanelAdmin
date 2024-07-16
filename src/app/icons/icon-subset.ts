@@ -24,6 +24,7 @@ import {
   cilArrowBottom,
   cilArrowRight,
   cilArrowTop,
+  cilArrowThickBottom,
   cilBasket,
   cilBell,
   cilBold,
@@ -95,7 +96,7 @@ import {
   cilUserFollow,
   cilUserUnfollow,
   cilPlus,
-  cilArrowThickBottom,
+  cilWarning,
 } from '@coreui/icons';
 
 import { signet } from './signet';
@@ -201,6 +202,7 @@ export const iconSubset = {
   logo,
   signet,
   cilPlus,
+  cilWarning,
 };
 
 export enum IconSubset {

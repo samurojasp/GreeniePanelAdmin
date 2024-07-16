@@ -75,8 +75,8 @@ export class MatrixComponent {
   };
 
   isLate: boolean = false;
-  todayDate: Date = new Date();
   remainingTime: number = 0;
+  message: string = '';
 
   headers = [
     { color: '#74b72e' },
@@ -88,22 +88,9 @@ export class MatrixComponent {
     { color: '#c4adeb' },
   ];
 
-  getSettings(): void {
-    this.getSettingService
-      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
-      .subscribe({
-        next: (response) => {
-          this.setting = response.data;
-        },
-        error: (error) =>
-          console.error('Error al realizar la solicitud:', error),
-      });
-  }
-
   getDepartments() {
     this.matrixService.getDepartments().subscribe({
       next: (response) => {
-        console.log(response);
         this.departments = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -113,7 +100,6 @@ export class MatrixComponent {
   getCategories() {
     this.matrixService.getAllCategories().subscribe({
       next: (response) => {
-        console.log(response);
         this.categories = response.data;
       },
       error: (error) => console.error('Error al realizar la solicitud:', error),
@@ -130,20 +116,39 @@ export class MatrixComponent {
     });
   }
 
+  getSettings(): void {
+    this.getSettingService
+      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
+      .subscribe({
+        next: (response) => {
+          this.setting = response;
+          this.calculateTime();
+        },
+        error: (error) =>
+          console.error('Error al realizar la solicitud:', error),
+      });
+  }
+
   calculateTime(): void {
-    const fechaIni = new Date(
-      this.setting.contributionSettings.initDate
-    ).valueOf();
-    const fechaFin = new Date(
-      this.setting.contributionSettings.endDate
-    ).valueOf();
-    const fechaActual = new Date(this.todayDate).valueOf();
+    const tiempoLimite =
+      (new Date(this.setting.contributionSettings.endDate).getTime() -
+        new Date(this.setting.contributionSettings.initDate).getTime()) *
+      0.3;
 
-    const tiempoLimite = (fechaFin - fechaIni) * 0.3;
-    this.remainingTime = fechaFin - fechaActual;
+    this.remainingTime =
+      new Date(this.setting.contributionSettings.endDate).getTime() -
+      new Date().getTime();
 
-    if (tiempoLimite < this.remainingTime) {
+    if (tiempoLimite >= this.remainingTime) {
       this.isLate = true;
+      this.remainingTime = Math.ceil(
+        this.remainingTime / (1000 * 60 * 60 * 24)
+      );
+      if (this.remainingTime == 1) {
+        this.message = `Advertencia, queda apróximadamente ${this.remainingTime} día para realizar aportes`;
+      } else {
+        this.message = `Advertencia, quedan apróximadamente ${this.remainingTime} días para realizar aportes`;
+      }
     } else {
       this.isLate = false;
     }
@@ -154,6 +159,5 @@ export class MatrixComponent {
     this.getDepartments();
     this.getCategories();
     this.getSettings();
-    this.calculateTime();
   }
 }
