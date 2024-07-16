@@ -269,18 +269,10 @@ export class EditComponent {
       })
       .subscribe({
         next: () => {
-          this.toggleToast('El aporte se ha creado exitosamente', true);
-          setTimeout(() => {}, 1500);
-          console.log({
-            uuid: this.contributionForm.value.uuid,
-            description: this.contributionForm.value.description,
-            categoryId: this.contributionForm.value.categoryId,
-            indicatorID: this.contributionForm.value.indicatorId,
-            links: this.contributionForm.value.links,
-            file: this.contributionForm.value.files,
-            files: this.newFiles,
-          });
-          this.router.navigate([`contributions`]);
+          this.toggleToast('El aporte se ha editado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`contributions`]);
+          }, 1500);
         },
         error: (error) => {
           if (error.message) this.toggleToast(error.message, false);

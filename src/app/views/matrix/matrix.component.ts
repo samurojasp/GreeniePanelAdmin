@@ -72,6 +72,7 @@ export class MatrixComponent {
       recordatory: true,
     },
   };
+  isDisabled = false;
 
   isLate: boolean = false;
   remainingTime: number = 0;
@@ -241,6 +242,11 @@ export class MatrixComponent {
       }
     } else {
       this.isLate = false;
+    }
+    if (this.remainingTime <= 0) {
+      this.isDisabled = true;
+    } else {
+      this.isDisabled = false;
     }
   }
 

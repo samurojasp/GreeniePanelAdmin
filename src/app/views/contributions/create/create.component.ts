@@ -280,9 +280,10 @@ export class CreateComponent {
       })
       .subscribe({
         next: () => {
-          this.toggleToast('El aporte se ha creado exitosamente', true);
-          setTimeout(() => {}, 1500);
-          this.router.navigate([`contributions`]);
+          this.toggleToast('El aporte se ha creado exitosamente', true); // Mostrar toast de éxito
+          setTimeout(() => {
+            this.router.navigate([`contributions`]);
+          }, 1500);
         },
         error: (error) => {
           if (error.message) this.toggleToast(error.message, false);
