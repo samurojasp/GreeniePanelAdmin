@@ -205,7 +205,6 @@ export class EditComponent {
   getIndicators(): void {
     this.indicatorsService.getAllIndicators().subscribe({
       next: (response) => {
-        console.log('Indicadores =>', response.data);
         this.indicatorOptions = response.data;
       },
       error: (error) => {
@@ -233,6 +232,11 @@ export class EditComponent {
           this.categoryOptions = response.data.filter(
             (category: Category) => category.indicator.id === this.indicatorId
           );
+          if (this.categoryOptions[0]) {
+            this.contributionForm
+              .get('categoryId')!
+              .patchValue(this.categoryOptions[0].id);
+          }
         }
       },
       error: (error) => {
@@ -355,13 +359,11 @@ export class EditComponent {
     } else {
       this.isLate = false;
     }
-
-    if (this.remainingTime <= 0) this.isDisabled = true;
-
-    if (this.isDisabled) {
-      //this.contributionForm.disable();
+    console.log(this.remainingTime);
+    if (this.remainingTime <= 0) {
+      this.isDisabled = true;
     } else {
-      this.contributionForm.enable();
+      this.isDisabled = false;
     }
   }
 

@@ -18,8 +18,9 @@
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
                     <input
-                      value="fechaIni"
+                      [(ngModel)]="fechaIni"
                       matInput
+                      name="fechaIni"
                       [matDatepicker]="picker"
                       (dateChange)="setInitDate($event.value)"
                     />
@@ -38,8 +39,9 @@
                   <mat-form-field style="width: 100%">
                     <mat-label>Introduzca fecha</mat-label>
                     <input
-                      value="fechaFin"
+                      [(ngModel)]="fechaFin"
                       matInput
+                      name="fechaFin"
                       [matDatepicker]="picker2"
                       (dateChange)="setEndDate($event.value)"
                     />

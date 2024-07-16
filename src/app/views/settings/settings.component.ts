@@ -43,7 +43,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { CreateSettingService } from '../../services/settings/create-settings.service';
-import { Router } from '@angular/router';
+import { GetSettingService } from 'src/app/services/settings/get-settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -111,7 +111,10 @@ export class SettingsComponent {
   fechaIni: Date = new Date();
   fechaFin: Date = new Date();
 
-  constructor(private createSettingService: CreateSettingService) {}
+  constructor(
+    private createSettingService: CreateSettingService,
+    private getSettingService: GetSettingService
+  ) {}
 
   notificationSliderHandler(answer: boolean): void {
     this.notificationButton = !answer;
@@ -127,6 +130,28 @@ export class SettingsComponent {
 
   setEndDate(date: Date): void {
     this.fechaFin = date;
+    console.log('entro');
+  }
+
+  getSettings(): void {
+    this.getSettingService
+      .getSetting('81ed6231-5be6-4166-9118-d982038a2fc7')
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.setInitDate(new Date(response.contributionSettings.initDate));
+          this.setEndDate(new Date(response.contributionSettings.endDate));
+        },
+        error: (error) => {
+          if (error.message) this.toggleToast(error.message, false);
+          if (error.error.error.message && !error.error.error.detail)
+            this.toggleToast(error.error.error.message, false);
+          if (error.error.error.message && error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.detail[0].message, false);
+          if (error.error.error.message && !error.error.error.detail[0].message)
+            this.toggleToast(error.error.error.message, false);
+        },
+      });
   }
 
   createSetting(): void {
@@ -178,5 +203,9 @@ export class SettingsComponent {
 
   onTimerChange($event: number) {
     this.percentage = $event * 100;
+  }
+
+  ngOnInit(): void {
+    this.getSettings();
   }
 }

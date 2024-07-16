@@ -247,7 +247,7 @@ export class ContributionsComponent {
   deleteContribution(): void {
     this.contributionsService.deleteContribution(this.currentId).subscribe({
       next: () => {
-        alert('Contribución eliminada exitosamente');
+        this.toggleToast('Contribución eliminada exitosamente', true);
         this.getPaginatedContributions();
       },
       error: (error) => {

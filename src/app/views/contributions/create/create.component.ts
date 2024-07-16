@@ -196,6 +196,11 @@ export class CreateComponent {
           this.categoryOptions = response.data.filter(
             (category: Category) => category.indicator.id === this.indicatorId
           );
+          if (this.categoryOptions[0]) {
+            this.contributionForm
+              .get('categoryId')!
+              .patchValue(this.categoryOptions[0].id);
+          }
         }
       },
       error: (error) => {
