@@ -182,9 +182,9 @@ export class MatrixComponent {
     }
   }
 
-  navigateToContributions(categoryID: number, indicatorID: number): void {
+  navigateToContributions(categoryID: number, departmentID: number): void {
     this.router.navigate([
-      `/contributions/category/${categoryID}/indicator/${indicatorID}`,
+      `/contributions/category/${categoryID}/department/${departmentID}`,
     ]);
   }
 

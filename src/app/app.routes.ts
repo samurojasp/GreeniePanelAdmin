@@ -65,6 +65,11 @@ export const routes: Routes = [
         canActivate: [adminRoleGuard],
       },
       {
+        path: 'contributions/category/:CategoryID/department/:DepartmentID',
+        loadChildren: () =>
+          import('./views/contributions/list/routes').then((m) => m.routes),
+      },
+      {
         path: 'contributions/category/:CategoryID/indicator/:IndicatorID',
         loadChildren: () =>
           import('./views/contributions/list/routes').then((m) => m.routes),
