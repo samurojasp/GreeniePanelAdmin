@@ -59,6 +59,8 @@ export class MatrixComponent {
     private router: Router
   ) {}
 
+  role = localStorage.getItem('role');
+
   matrix: Matrix[] = [];
   departments: Department[] = [];
   setting: SettingBody = {
@@ -243,9 +245,14 @@ export class MatrixComponent {
   }
 
   navigateToContributions(categoryID: number, departmentID: number): void {
-    this.router.navigate([
-      `/contributions/category/${categoryID}/department/${departmentID}`,
-    ]);
+    console.log(departmentID);
+    if (this.role == 'dpto') {
+      this.router.navigate([`/contributions/category/${categoryID}`]);
+    } else {
+      this.router.navigate([
+        `/contributions/category/${categoryID}/department/${departmentID}`,
+      ]);
+    }
   }
 
   toggleToast(message: string, success: boolean): void {

@@ -65,14 +65,7 @@ export class CreateComponent {
   password = '';
   birthdate = '';
   departmentId = 0;
-  pagination = {
-    page: 1,
-    take: 1,
-    itemCount: 0,
-    pageCount: 0,
-    hasPreviousPage: false,
-    hasNextPage: true,
-  };
+
   role = '';
   position = 'top-end';
   visible = false;
@@ -114,22 +107,20 @@ export class CreateComponent {
   }
 
   getCategories(): void {
-    this.categoriesService
-      .getPaginatedCategories(this.pagination.page, this.pagination.take)
-      .subscribe({
-        next: (response) => {
-          this.categories = response.data;
-        },
-        error: (error) => {
-          if (error.message) this.toggleToast(error.message, false);
-          if (error.error.error.message && !error.error.error.detail)
-            this.toggleToast(error.error.error.message, false);
-          if (error.error.error.message && error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.detail[0].message, false);
-          if (error.error.error.message && !error.error.error.detail[0].message)
-            this.toggleToast(error.error.error.message, false);
-        },
-      });
+    this.categoriesService.getAllCategories().subscribe({
+      next: (response) => {
+        this.categories = response.data;
+      },
+      error: (error) => {
+        if (error.message) this.toggleToast(error.message, false);
+        if (error.error.error.message && !error.error.error.detail)
+          this.toggleToast(error.error.error.message, false);
+        if (error.error.error.message && error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.detail[0].message, false);
+        if (error.error.error.message && !error.error.error.detail[0].message)
+          this.toggleToast(error.error.error.message, false);
+      },
+    });
   }
 
   toggleToast(message: string, success: boolean): void {

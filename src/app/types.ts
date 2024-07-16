@@ -120,6 +120,7 @@ export interface contribution {
 
 export interface Matrix {
   departmentName: string;
+  departmentId: number;
   categories: [
     {
       id: number;
